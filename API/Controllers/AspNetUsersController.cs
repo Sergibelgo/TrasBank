@@ -82,7 +82,7 @@ namespace APITrassBank.Controllers
         }
         [HttpGet("GenerarBasicos")]
         [AllowAnonymous]
-        public async Task<IActionResult> borrar()
+        public async Task<IActionResult> Borrar()
         {
             if (!(await _contextDB.Roles.AnyAsync()))
             {
