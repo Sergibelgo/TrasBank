@@ -16,7 +16,7 @@ namespace APITrassBank.Controllers
         private readonly HttpContext _httpContext;
         private readonly IMessagesService _messagesService;
 
-        public MessagesController(IContextDB contextDB, IHttpContextAccessor httpContextAccessor, IMessagesService messagesService)
+        public MessagesController(IHttpContextAccessor httpContextAccessor, IMessagesService messagesService)
         {
             _httpContext = httpContextAccessor.HttpContext;
             _messagesService = messagesService;
@@ -28,17 +28,31 @@ namespace APITrassBank.Controllers
             var messages = await _messagesService.GetMessages(idSelf);
             return Ok(JsonConvert.SerializeObject(messages));
         }
-        [HttpPost("{id}")]
-        public async Task<IActionResult> Post(string id, [FromBody] MessageCreateDTO model)
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] MessageCreateDTO model)
         {
-            var idSelf = _httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;
             if (!ModelState.IsValid)
             {
                 return BadRequest(new { model, error = "The model is not valid" });
             }
-
-            await _messagesService.Create(idSelf, model);
-            return Ok();
+            var idSelf = _httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;
+            try
+            {
+                 await _messagesService.Create(idSelf, model);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(JsonConvert.SerializeObject(new { error = ex.Message }));
+            }
+            catch (OperationCanceledException ex)
+            {
+                return StatusCode(500, JsonConvert.SerializeObject(new { error = $"Error while trying to create a new message:{ex.Message}" }));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, JsonConvert.SerializeObject(new { error = ex.Message }));
+            }
+            return Ok(JsonConvert.SerializeObject(model));
         }
 
     }

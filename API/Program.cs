@@ -65,6 +65,7 @@ namespace APITrassBank
             //    builder.Configuration.GetConnectionString("MariaDbConnectionString"),
             //    new MariaDbServerVersion(new Version(10, 3, 27))
             //    ));
+            builder.Services.AddTransient<IUserService, UserService>();
             builder.Services.AddTransient<IContextDB, ContextDB>();
             builder.Services.AddTransient<IAuthUsersService, AuthUsersService>();
             builder.Services.AddTransient<IWorkerService, WorkerService>();
