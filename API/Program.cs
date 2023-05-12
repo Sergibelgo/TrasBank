@@ -71,6 +71,8 @@ namespace APITrassBank
             builder.Services.AddTransient<IWorkerService, WorkerService>();
             builder.Services.AddTransient<ICustomerService, CustomersService>();
             builder.Services.AddTransient<IMessagesService, MessagesService>();
+            builder.Services.AddTransient<ILoansService, LoansService>();
+            builder.Services.AddTransient<IEnumsService, EnumsService>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

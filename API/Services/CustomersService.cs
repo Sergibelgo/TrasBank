@@ -19,12 +19,14 @@ namespace APITrassBank.Services
     public class CustomersService : ICustomerService
     {
         private readonly ContextDB _contextDB;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IEnumsService _enums;
 
-        public CustomersService(ContextDB contextDB, UserManager<IdentityUser> userManager)
+        public CustomersService(ContextDB contextDB, UserManager<IdentityUser> userManager, IEnumsService enums)
         {
-            this._contextDB = contextDB;
-            this.userManager = userManager;
+            _contextDB = contextDB;
+            _userManager = userManager;
+            _enums = enums;
         }
         public async Task<IEnumerable<Customer>> GetCustomersAsync()
         {
@@ -47,8 +49,8 @@ namespace APITrassBank.Services
         }
         public async Task<Customer> CreateCustomer(CustomerRegisterDTO model)
         {
-            var worker = _contextDB.Workers.Where(worker => worker.Id.ToString() == model.WorkerId).FirstOrDefault();
-            var workingStatus = _contextDB.WorkingStates.Where(status => status.Id == model.WorkStatusId).FirstOrDefault();
+            var worker = await _contextDB.Workers.Where(worker => worker.Id.ToString() == model.WorkerId).FirstOrDefaultAsync();
+            var workingStatus = await _enums.GetCustomerWorkingStatusAsync(model.WorkStatusId);
             if (worker is null || workingStatus is null)
             {
                 return null;
@@ -61,10 +63,10 @@ namespace APITrassBank.Services
                     Email = model.Email,
                     UserName = model.Username
                 };
-                var response = await userManager.CreateAsync(newUser, password: model.Password);
+                var response = await _userManager.CreateAsync(newUser, password: model.Password);
                 if (response.Succeeded)
                 {
-                    var user = (await userManager.FindByEmailAsync(newUser.Email));
+                    var user = (await _userManager.FindByEmailAsync(newUser.Email));
                     Customer newCustomer = new()
                     {
                         FirstName = model.FirstName,
@@ -127,7 +129,7 @@ namespace APITrassBank.Services
             {
                 customer.AppUser.Email = model.Email;
                 customer.AppUser.UserName = model.Username;
-                await userManager.UpdateAsync(customer.AppUser);
+                await _userManager.UpdateAsync(customer.AppUser);
                 customer.FirstName = model.FirstName;
                 customer.LastName = model.LastName;
                 customer.Address = model.Address;
@@ -152,7 +154,7 @@ namespace APITrassBank.Services
             {
                 customer.AppUser.Email = model.Email;
                 customer.AppUser.UserName = model.Username;
-                await userManager.UpdateAsync(customer.AppUser);
+                await _userManager.UpdateAsync(customer.AppUser);
                 customer.Income = model.Income;
                 customer.Address = model.Address;
                 customer.Age = model.Age;
