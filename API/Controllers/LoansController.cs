@@ -17,7 +17,7 @@ namespace APITrassBank.Controllers
         private readonly ILoansService _loansService;
 
         private readonly HttpContext httpContext;
-        public LoansController(ILoansService loansService,IHttpContextAccessor httpContextAccessor)
+        public LoansController(ILoansService loansService, IHttpContextAccessor httpContextAccessor)
         {
             _loansService = loansService;
             httpContext = httpContextAccessor.HttpContext;
@@ -47,21 +47,17 @@ namespace APITrassBank.Controllers
             {
                 return BadRequest(JsonConvert.SerializeObject(model));
             }
-            bool isValid = _loansService.IsValidCreate(model, out string errores);
-            if (!isValid)
-            {
-                return BadRequest(JsonConvert.SerializeObject(new { model, error = errores }));
-            }
             Loan loan;
             var idSelf = httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;
-            try { 
-            loan = await _loansService.CreateLoan(model, idSelf);
-            }
-            catch(Exception ex) 
+            try
             {
-                return StatusCode(500, ex.Message);
+                loan = await _loansService.CreateLoan(model, idSelf);
             }
-            return Created($"api/[controller]/{loan.Id}",loan);
+            catch (Exception ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
+            return Created($"api/[controller]/{loan.Id}", loan);
         }
         [HttpGet("self")]
         public async Task<IActionResult> GetSelfLoans()
@@ -69,6 +65,30 @@ namespace APITrassBank.Controllers
             var idSelf = httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;
             IEnumerable<LoanResponseDTO> loans = await _loansService.GetByUserId(idSelf);
             return Ok(loans);
+        }
+        [HttpPost("Aprove")]
+        [Authorize(Roles = "Worker")]
+        public async Task<IActionResult> AproveLoan([FromBody] string id)
+        {
+            return Ok();
+        }
+        [HttpPost("Denied")]
+        [Authorize(Roles = "Worker")]
+        public async Task<IActionResult> DeniedLoan([FromBody] string id)
+        {
+            try
+            {
+                await _loansService.DenyLoan(id);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            return Ok();
         }
     }
 }

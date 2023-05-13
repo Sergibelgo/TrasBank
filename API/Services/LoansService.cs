@@ -8,26 +8,28 @@ namespace APITrassBank.Services
 {
     public interface ILoansService
     {
-        Task<Loan> CreateLoan(LoanCreateDTO model,string idSelf);
+        Task<Loan> CreateLoan(LoanCreateDTO model, string idSelf);
+        Task DenyLoan(string id);
         Task<IEnumerable<LoanResponseDTO>> GetAll();
         Task<LoanResponseDTO> GetById(string id);
         Task<IEnumerable<LoanResponseDTO>> GetByUserId(string idSelf);
-        bool IsValidCreate(LoanCreateDTO model,out string errores);
     }
     public class LoansService : ILoansService
     {
         private readonly ContextDB _contextDB;
         private readonly IMapper _mapper;
+        private readonly IEnumsService _enums;
 
-        public LoansService(ContextDB contextDB,IMapper mapper)
+        public LoansService(ContextDB contextDB, IMapper mapper, IEnumsService enums)
         {
             _contextDB = contextDB;
             _mapper = mapper;
+            _enums = enums;
         }
 
-        public async Task<Loan> CreateLoan(LoanCreateDTO model,string idSelf)
+        public async Task<Loan> CreateLoan(LoanCreateDTO model, string idSelf)
         {
-            var user=_contextDB.Customers.Where(c=>c.AppUser.Id.ToString() == idSelf).FirstOrDefault() ?? throw new Exception("User not valid");
+            var user = _contextDB.Customers.Where(c => c.AppUser.Id.ToString() == idSelf).FirstOrDefault() ?? throw new Exception("User not valid");
             var newLoan = new Loan()
             {
                 Ammount = model.Ammount,
@@ -39,7 +41,7 @@ namespace APITrassBank.Services
                 RemainingAmmount = model.Ammount,
                 TotalInstallments = model.TotalInstallments,
                 RemainingInstallments = model.TotalInstallments,
-                Customer=user
+                Customer = user
             };
             await _contextDB.Loans.AddAsync(newLoan);
             await _contextDB.SaveChangesAsync();
@@ -47,12 +49,20 @@ namespace APITrassBank.Services
 
         }
 
+        public async Task DenyLoan(string id)
+        {
+            Loan loan = await _contextDB.Loans.Where(x => x.Id.ToString() == id).FirstOrDefaultAsync()
+                        ?? throw new ArgumentOutOfRangeException();
+            loan.LoanStatusId = 3;
+            await _contextDB.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<LoanResponseDTO>> GetAll()
         {
             return await _contextDB.Loans
-                .Include(x=>x.Customer)
-                .Include(x=>x.LoanType)
-                .Include(x=>x.LoanStatus)
+                .Include(x => x.Customer)
+                .Include(x => x.LoanType)
+                .Include(x => x.LoanStatus)
                 .Select(x => _mapper.Map<LoanResponseDTO>(x)).ToListAsync();
         }
 
@@ -62,7 +72,7 @@ namespace APITrassBank.Services
                 .Include(x => x.Customer)
                 .Include(x => x.LoanType)
                 .Include(x => x.LoanStatus)
-                .Where(x=>x.Id.ToString()==id)
+                .Where(x => x.Id.ToString() == id)
                 .Select(x => _mapper.Map<LoanResponseDTO>(x)).FirstOrDefaultAsync();
         }
 
@@ -70,20 +80,12 @@ namespace APITrassBank.Services
         {
             return await _contextDB.Loans
                 .Include(x => x.Customer)
-                .ThenInclude(x=>x.AppUser)
+                .ThenInclude(x => x.AppUser)
                 .Include(x => x.LoanType)
                 .Include(x => x.LoanStatus)
-                .Where(x=>x.Customer.AppUser.Id.ToString()==idSelf)
+                .Where(x => x.Customer.AppUser.Id.ToString() == idSelf)
                 .Select(x => _mapper.Map<LoanResponseDTO>(x)).ToListAsync();
         }
 
-        public bool IsValidCreate(LoanCreateDTO model, out string errores)
-        {
-            errores = "";
-            if (model.InterestRate < 1)
-            {
-                errores = errores + "Invalid interest rate";
-            }
-        }
     }
 }

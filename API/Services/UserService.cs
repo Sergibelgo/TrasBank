@@ -61,11 +61,36 @@ namespace APITrassBank.Services
             }
             if (!(await _contextDB.WorkerStatuses.AnyAsync()))
             {
-                _contextDB.WorkerStatuses.Add(new WorkerStatus() { Name = "Alta" });
+                _contextDB.WorkerStatuses.Add(new WorkerStatus() { Name = "Up" });
+                _contextDB.WorkerStatuses.Add(new WorkerStatus() { Name = "Down" });
             }
             if (!(await _contextDB.WorkingStates.AnyAsync()))
             {
                 _contextDB.WorkingStates.Add(new CustomerWorkingStatus() { Name = "Working" });
+                _contextDB.WorkingStates.Add(new CustomerWorkingStatus() { Name = "Unemployed" });
+            }
+            if(!(await _contextDB.LoanStatuses.AnyAsync()))
+            {
+                _contextDB.LoanStatuses.Add(new LoanStatus() { Name = "Waiting" });
+                _contextDB.LoanStatuses.Add(new LoanStatus() { Name = "Aproved" });
+                _contextDB.LoanStatuses.Add(new LoanStatus() { Name = "Denied" });
+            }
+            if (!(await _contextDB.LoansTypes.AnyAsync()))
+            {
+                _contextDB.LoansTypes.Add(new LoanType() { Name = "Personal" });
+                _contextDB.LoansTypes.Add(new LoanType() { Name = "Buissness" });
+            }
+            if (!(await _contextDB.AccountStatuses.AnyAsync()))
+            {
+                _contextDB.AccountStatuses.Add(new AccountStatus() { Description = "Enabled" });
+                _contextDB.AccountStatuses.Add(new AccountStatus() { Description = "Blocked" });
+                _contextDB.AccountStatuses.Add(new AccountStatus() { Description = "Disabled" });
+            }
+            if (!(await _contextDB.TranssactionTypes.AnyAsync()))
+            {
+                _contextDB.TranssactionTypes.Add(new TranssactionType() { Name = "Add" });
+                _contextDB.TranssactionTypes.Add(new TranssactionType() { Name = "Draw" });
+                _contextDB.TranssactionTypes.Add(new TranssactionType() { Name = "Transfer" });
             }
             await _contextDB.SaveChangesAsync();
         }
