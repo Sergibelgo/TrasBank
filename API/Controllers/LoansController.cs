@@ -1,9 +1,12 @@
 ﻿using APITrassBank.Models;
 using APITrassBank.Services;
+using Entitys.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Net.Http;
+using System.Security.Claims;
 
 namespace APITrassBank.Controllers
 {
@@ -13,9 +16,11 @@ namespace APITrassBank.Controllers
     {
         private readonly ILoansService _loansService;
 
-        public LoansController(ILoansService loansService)
+        private readonly HttpContext httpContext;
+        public LoansController(ILoansService loansService,IHttpContextAccessor httpContextAccessor)
         {
             _loansService = loansService;
+            httpContext = httpContextAccessor.HttpContext;
         }
         [HttpGet]
         [Authorize(Roles = "Admin,Worker")]
@@ -47,7 +52,23 @@ namespace APITrassBank.Controllers
             {
                 return BadRequest(JsonConvert.SerializeObject(new { model, error = errores }));
             }
-            return Ok();
+            Loan loan;
+            var idSelf = httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;
+            try { 
+            loan = await _loansService.CreateLoan(model, idSelf);
+            }
+            catch(Exception ex) 
+            {
+                return StatusCode(500, ex.Message);
+            }
+            return Created($"api/[controller]/{loan.Id}",loan);
+        }
+        [HttpGet("self")]
+        public async Task<IActionResult> GetSelfLoans()
+        {
+            var idSelf = httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;
+            IEnumerable<LoanResponseDTO> loans = await _loansService.GetByUserId(idSelf);
+            return Ok(loans);
         }
     }
 }

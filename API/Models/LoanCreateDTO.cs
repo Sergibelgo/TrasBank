@@ -11,13 +11,14 @@ namespace APITrassBank
         [Required]
         public int InterestRate { get; set; }
         [Required]
+        [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
         [Required]
+        [DataType(DataType.Date)]
+        
         public DateTime EndDate { get; set; }
         [Required]
         public int TotalInstallments { get; set; }
-        [Required]
-        public int LoanStatusId { get; set; }
         [Required]
         public int LoanTypeId { get; set; }
     }
