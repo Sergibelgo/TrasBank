@@ -1,4 +1,5 @@
-﻿using Entitys.Entity;
+﻿using Entitys;
+using Entitys.Entity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +21,8 @@ namespace APITrassBank.Context
         DbSet<Scoring> Scoring { get; set; }
         DbSet<Account> Accounts { get; set; }
         DbSet<Payment> Payments { get; set; }
+        DbSet<AccountType> AccountTypes { get; set; }
+        DbSet<UtilsData> Resources { get; set; }
 
         int SaveChanges();
         Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);

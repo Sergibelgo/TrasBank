@@ -1,4 +1,5 @@
-﻿using Entitys.Entity;
+﻿using Entitys;
+using Entitys.Entity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +10,7 @@ namespace APITrassBank.Context
         public ContextDB(DbContextOptions<ContextDB> options) : base(options) { }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<CustomerWorkingStatus> WorkingStates { get; set; }
+        public DbSet<AccountType> AccountTypes { get; set; }
         public DbSet<AccountStatus> AccountStatuses { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
@@ -21,6 +23,7 @@ namespace APITrassBank.Context
         public DbSet<LoanStatus> LoanStatuses { get; set; }
         public DbSet<Scoring> Scoring { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<UtilsData> Resources { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
