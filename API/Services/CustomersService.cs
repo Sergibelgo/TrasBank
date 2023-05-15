@@ -21,12 +21,14 @@ namespace APITrassBank.Services
         private readonly ContextDB _contextDB;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IEnumsService _enums;
+        private readonly IAccountsService _accountsService;
 
-        public CustomersService(ContextDB contextDB, UserManager<IdentityUser> userManager, IEnumsService enums)
+        public CustomersService(ContextDB contextDB, UserManager<IdentityUser> userManager, IEnumsService enums,IAccountsService accountsService)
         {
             _contextDB = contextDB;
             _userManager = userManager;
             _enums = enums;
+            _accountsService = accountsService;
         }
         public async Task<IEnumerable<Customer>> GetCustomersAsync()
         {
@@ -81,6 +83,7 @@ namespace APITrassBank.Services
                     };
                     var customer = await _contextDB.Customers.AddAsync(newCustomer);
                     await _contextDB.SaveChangesAsync();
+                    await _accountsService.CreateMain(customer.Entity);
                     scope.Complete();
                     return customer.Entity;
                 }

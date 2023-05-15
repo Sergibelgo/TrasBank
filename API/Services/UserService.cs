@@ -79,6 +79,7 @@ namespace APITrassBank.Services
             {
                 _contextDB.LoansTypes.Add(new LoanType() { Name = "Personal" });
                 _contextDB.LoansTypes.Add(new LoanType() { Name = "Buissness" });
+                _contextDB.LoansTypes.Add(new LoanType() { Name = "Home" });
             }
             if (!(await _contextDB.AccountStatuses.AnyAsync()))
             {

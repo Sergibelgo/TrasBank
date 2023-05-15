@@ -10,7 +10,7 @@ namespace Entitys.Entity
         [Required]
         public decimal Ammount { get; set; }
         [Required]
-        public int InterestRate { get; set; }
+        public decimal InterestRate { get; set; }
         [Required]
         public DateTime StartDate { get; set; }
         [Required]

@@ -43,9 +43,10 @@ namespace APITrassBank.Controllers
         public async Task<IActionResult> GetAllSelf()
         {
             IEnumerable<AccountResponseDTO> list;
+            var idSelf = _httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;
             try
             {
-                list = await _accountsService.GetByUserId();
+                list = await _accountsService.GetByUserId(idSelf);
             }
             catch
             {
@@ -60,6 +61,7 @@ namespace APITrassBank.Controllers
         [Authorize(Roles = "Admin,Worker")]
         public async Task<IActionResult> GetById(string id)
         {
+
             AccountResponseDTO account;
             try
             {
@@ -125,16 +127,31 @@ namespace APITrassBank.Controllers
         }
 
         // PUT api/<AccountsController>/5
-        [HttpPut]
-        public async Task<IActionResult> Put(string id, [FromBody] string value)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(string id, [FromBody] string name)
         {
-            return Ok();
-        }
-
-        // DELETE api/<AccountsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            if (String.IsNullOrEmpty(name))
+            {
+                return BadRequest("Invalid name");
+            }
+            var idSelf = _httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;
+            try
+            {
+                await _accountsService.UpdateName(name, id, idSelf);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return NotFound();
+            }
+            catch (ArgumentException)
+            {
+                return Forbid();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            return Ok("Name changed");
         }
     }
 }

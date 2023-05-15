@@ -4,6 +4,7 @@ using APITrassBank.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APITrassBank.Migrations
 {
     [DbContext(typeof(ContextDB))]
-    partial class ContextDBModelSnapshot : ModelSnapshot
+    [Migration("20230515104945_ChangeIntToDecimal")]
+    partial class ChangeIntToDecimal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,7 +66,7 @@ namespace APITrassBank.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Accounts", (string)null);
+                    b.ToTable("Accounts");
                 });
 
             modelBuilder.Entity("Entitys.Entity.AccountStatus", b =>
@@ -80,7 +83,7 @@ namespace APITrassBank.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AccountStatuses", (string)null);
+                    b.ToTable("AccountStatuses");
                 });
 
             modelBuilder.Entity("Entitys.Entity.AccountType", b =>
@@ -97,7 +100,7 @@ namespace APITrassBank.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AccountTypes", (string)null);
+                    b.ToTable("AccountTypes");
                 });
 
             modelBuilder.Entity("Entitys.Entity.Customer", b =>
@@ -142,7 +145,7 @@ namespace APITrassBank.Migrations
 
                     b.HasIndex("WorkerId");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("Entitys.Entity.CustomerWorkingStatus", b =>
@@ -159,7 +162,7 @@ namespace APITrassBank.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WorkingStates", (string)null);
+                    b.ToTable("WorkingStates");
                 });
 
             modelBuilder.Entity("Entitys.Entity.Loan", b =>
@@ -209,7 +212,7 @@ namespace APITrassBank.Migrations
 
                     b.HasIndex("LoanTypeId");
 
-                    b.ToTable("Loans", (string)null);
+                    b.ToTable("Loans");
                 });
 
             modelBuilder.Entity("Entitys.Entity.LoanStatus", b =>
@@ -226,7 +229,7 @@ namespace APITrassBank.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LoanStatuses", (string)null);
+                    b.ToTable("LoanStatuses");
                 });
 
             modelBuilder.Entity("Entitys.Entity.LoanType", b =>
@@ -243,7 +246,7 @@ namespace APITrassBank.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LoansTypes", (string)null);
+                    b.ToTable("LoansTypes");
                 });
 
             modelBuilder.Entity("Entitys.Entity.Message", b =>
@@ -278,7 +281,7 @@ namespace APITrassBank.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Messages", (string)null);
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("Entitys.Entity.Payment", b =>
@@ -305,7 +308,7 @@ namespace APITrassBank.Migrations
 
                     b.HasIndex("LoanId");
 
-                    b.ToTable("Payments", (string)null);
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("Entitys.Entity.Scoring", b =>
@@ -332,7 +335,7 @@ namespace APITrassBank.Migrations
 
                     b.HasIndex("LoanId");
 
-                    b.ToTable("Scoring", (string)null);
+                    b.ToTable("Scoring");
                 });
 
             modelBuilder.Entity("Entitys.Entity.Transaction", b =>
@@ -365,7 +368,7 @@ namespace APITrassBank.Migrations
 
                     b.HasIndex("TransactionTypeId");
 
-                    b.ToTable("Transactions", (string)null);
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("Entitys.Entity.TranssactionType", b =>
@@ -382,7 +385,7 @@ namespace APITrassBank.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TranssactionTypes", (string)null);
+                    b.ToTable("TranssactionTypes");
                 });
 
             modelBuilder.Entity("Entitys.Entity.Worker", b =>
@@ -410,7 +413,7 @@ namespace APITrassBank.Migrations
 
                     b.HasIndex("WorkerStatusId");
 
-                    b.ToTable("Workers", (string)null);
+                    b.ToTable("Workers");
                 });
 
             modelBuilder.Entity("Entitys.Entity.WorkerStatus", b =>
@@ -427,7 +430,7 @@ namespace APITrassBank.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WorkerStatuses", (string)null);
+                    b.ToTable("WorkerStatuses");
                 });
 
             modelBuilder.Entity("Entitys.UtilsData", b =>
@@ -450,7 +453,7 @@ namespace APITrassBank.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Resources", (string)null);
+                    b.ToTable("Resources");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -41,17 +41,17 @@ namespace APITrassBank.Controllers
             return Ok(JsonConvert.SerializeObject(loan));
         }
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] LoanCreateDTO model)
+        [Authorize(Roles ="Admin,Worker")]
+        public async Task<IActionResult> Post([FromBody] LoanCreateWorkerDTO model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(JsonConvert.SerializeObject(model));
             }
             Loan loan;
-            var idSelf = httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;
             try
             {
-                loan = await _loansService.CreateLoan(model, idSelf);
+                loan = await _loansService.CreateLoan(model,model.InterestType);
             }
             catch (Exception ex)
             {
@@ -64,7 +64,9 @@ namespace APITrassBank.Controllers
         {
             var idSelf = httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;
             IEnumerable<LoanResponseDTO> loans = await _loansService.GetByUserId(idSelf);
-            return Ok(loans);
+            var response = JsonConvert.SerializeObject(loans);
+            return Ok(response);
+
         }
         [HttpPost("Aprove")]
         [Authorize(Roles = "Worker")]
