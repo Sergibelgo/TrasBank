@@ -111,12 +111,14 @@ namespace APITrassBank.Controllers
             try
             {
                 account = await _accountsService.Create(model, idSelf);
-            }catch (ArgumentOutOfRangeException)
+            }
+            catch (ArgumentOutOfRangeException)
             {
                 return Forbid();
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
-                return StatusCode(500,JsonConvert.SerializeObject(ex.Message));
+                return StatusCode(500, JsonConvert.SerializeObject(ex.Message));
             }
             var response = JsonConvert.SerializeObject(account);
             return Created("api/[controller]/self/ById", response);

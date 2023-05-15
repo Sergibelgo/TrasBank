@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Validators;
 
 namespace Entitys.Entity
 {

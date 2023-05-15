@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Validators\Validators.csproj" />
+  </ItemGroup>
+
 </Project>
