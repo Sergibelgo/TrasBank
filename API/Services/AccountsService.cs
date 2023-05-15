@@ -59,7 +59,7 @@ namespace APITrassBank.Services
                 AccountTypeId = 1,
                 Balance = 0,
                 SaveUntil = DateTime.Now,
-                Interest = await _resource.GetActualInterest()
+                Interest = 0
             };
             await _contextDB.Accounts.AddAsync(main);
             await _contextDB.SaveChangesAsync();

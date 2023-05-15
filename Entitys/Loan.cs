@@ -9,8 +9,11 @@ namespace Entitys.Entity
         public Customer Customer { get; set; }
         [Required]
         public decimal Ammount { get; set; }
+        
         [Required]
         public decimal InterestRate { get; set; }
+        [Required]
+        public decimal TotalAmmount { get; set; }
         [Required]
         public DateTime StartDate { get; set; }
         [Required]

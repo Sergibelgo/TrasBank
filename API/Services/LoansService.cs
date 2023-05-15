@@ -8,7 +8,8 @@ namespace APITrassBank.Services
 {
     public interface ILoansService
     {
-        Task<Loan> CreateLoan(LoanCreateWorkerDTO model,int typeInterest);
+        Task<Loan> CreateLoan(LoanCreateWorkerDTO model);
+        Task<Loan> CreateLoan(ScoringCreateDTO model, Customer user);
         Task DenyLoan(string id);
         Task<IEnumerable<LoanResponseDTO>> GetAll();
         Task<LoanResponseDTO> GetById(string id);
@@ -29,9 +30,30 @@ namespace APITrassBank.Services
             _resourcesService = resourcesService;
         }
 
-        public async Task<Loan> CreateLoan(LoanCreateWorkerDTO model,int typeInterest)
+        public async Task<Loan> CreateLoan(LoanCreateWorkerDTO model)
         {
             var user = _contextDB.Customers.Where(c => c.AppUser.Id == model.CustomerId).FirstOrDefault() ?? throw new Exception("User not valid");
+            var newLoan = new Loan()
+            {
+                InterestRate = (decimal)(model.TIN_TAE == 1 ? (await _enums.GetLoanTypeAsync(model.LoanTypeId)).TIN : (await _enums.GetLoanTypeAsync(model.LoanTypeId)).TAE),
+                Ammount = (decimal)model.Ammount,
+                StartDate = DateTime.Now,
+                LoanStatusId = 1,
+                LoanTypeId = model.LoanTypeId,
+                RemainingAmmount = (decimal)model.Ammount,
+                TotalInstallments = model.TotalInstallments,
+                RemainingInstallments = model.TotalInstallments,
+                Customer = user
+            };
+            newLoan.EndDate = newLoan.StartDate.AddMonths(model.TotalInstallments);
+            newLoan.TotalAmmount = newLoan.Ammount + newLoan.Ammount * newLoan.InterestRate / 100;
+            await _contextDB.Loans.AddAsync(newLoan);
+            await _contextDB.SaveChangesAsync();
+            return newLoan;
+
+        }
+        public async Task<Loan> CreateLoan(ScoringCreateDTO model,Customer user)
+        {
             var newLoan = new Loan()
             {
                 Ammount = (decimal)model.Ammount,
@@ -44,9 +66,16 @@ namespace APITrassBank.Services
                 Customer = user
             };
             newLoan.EndDate = newLoan.StartDate.AddMonths(model.TotalInstallments);
-            newLoan.InterestRate = await _resourcesService.GetResource(typeInterest);
+            newLoan.InterestRate = (decimal)(model.TIN_TAE == 1 ? (await _enums.GetLoanTypeAsync(model.LoanTypeId)).TIN : (await _enums.GetLoanTypeAsync(model.LoanTypeId)).TAE);
+            newLoan.TotalAmmount = newLoan.Ammount + (newLoan.Ammount * newLoan.InterestRate / 100);
             await _contextDB.Loans.AddAsync(newLoan);
+            try { 
             await _contextDB.SaveChangesAsync();
+            }
+            catch
+            {
+                throw new Exception();
+            }
             return newLoan;
 
         }

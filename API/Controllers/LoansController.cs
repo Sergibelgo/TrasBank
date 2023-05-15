@@ -51,7 +51,7 @@ namespace APITrassBank.Controllers
             Loan loan;
             try
             {
-                loan = await _loansService.CreateLoan(model,model.InterestType);
+                loan = await _loansService.CreateLoan(model);
             }
             catch (Exception ex)
             {

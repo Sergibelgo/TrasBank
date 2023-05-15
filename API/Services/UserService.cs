@@ -69,7 +69,7 @@ namespace APITrassBank.Services
                 _contextDB.WorkingStates.Add(new CustomerWorkingStatus() { Name = "Working" });
                 _contextDB.WorkingStates.Add(new CustomerWorkingStatus() { Name = "Unemployed" });
             }
-            if(!(await _contextDB.LoanStatuses.AnyAsync()))
+            if (!(await _contextDB.LoanStatuses.AnyAsync()))
             {
                 _contextDB.LoanStatuses.Add(new LoanStatus() { Name = "Waiting" });
                 _contextDB.LoanStatuses.Add(new LoanStatus() { Name = "Aproved" });
@@ -77,9 +77,9 @@ namespace APITrassBank.Services
             }
             if (!(await _contextDB.LoansTypes.AnyAsync()))
             {
-                _contextDB.LoansTypes.Add(new LoanType() { Name = "Personal" });
-                _contextDB.LoansTypes.Add(new LoanType() { Name = "Buissness" });
-                _contextDB.LoansTypes.Add(new LoanType() { Name = "Home" });
+                _contextDB.LoansTypes.Add(new LoanType() { Name = "Personal",Percentaje=20,TAE=2,TIN=1 });
+                _contextDB.LoansTypes.Add(new LoanType() { Name = "Buissness",Percentaje=30,TAE=2,TIN=1 });
+                _contextDB.LoansTypes.Add(new LoanType() { Name = "Home" ,Percentaje=40,TAE=3,TIN=1});
             }
             if (!(await _contextDB.AccountStatuses.AnyAsync()))
             {
@@ -87,11 +87,23 @@ namespace APITrassBank.Services
                 _contextDB.AccountStatuses.Add(new AccountStatus() { Description = "Blocked" });
                 _contextDB.AccountStatuses.Add(new AccountStatus() { Description = "Disabled" });
             }
+            if (!(await _contextDB.AccountTypes.AnyAsync()))
+            {
+                _contextDB.AccountTypes.Add(new AccountType()
+                {
+                    Name = "Normal"
+                });
+                _contextDB.AccountTypes.Add(new AccountType()
+                {
+                    Name = "Savings"
+                });
+            }
             if (!(await _contextDB.TranssactionTypes.AnyAsync()))
             {
                 _contextDB.TranssactionTypes.Add(new TranssactionType() { Name = "Add" });
                 _contextDB.TranssactionTypes.Add(new TranssactionType() { Name = "Draw" });
                 _contextDB.TranssactionTypes.Add(new TranssactionType() { Name = "Transfer" });
+                _contextDB.TranssactionTypes.Add(new TranssactionType() { Name = "Loan Approved" });
             }
             await _contextDB.SaveChangesAsync();
         }
@@ -110,14 +122,14 @@ namespace APITrassBank.Services
             {
                 throw new Exception();
             }
-            var tryLog=await _userManager.CheckPasswordAsync(user,model.Password);
+            var tryLog = await _userManager.CheckPasswordAsync(user, model.Password);
             if (!tryLog)
             {
                 throw new Exception();
             }
             return user;
         }
-        public async Task<bool> ChangePassword(UserPasswordDTO model,string id)
+        public async Task<bool> ChangePassword(UserPasswordDTO model, string id)
         {
             var user = await _userManager.FindByIdAsync(id);
             if (user is null)

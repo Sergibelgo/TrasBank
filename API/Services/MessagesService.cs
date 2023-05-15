@@ -53,13 +53,13 @@ namespace APITrassBank.Services
 
         public async Task<IEnumerable<MessageDTO>> GetMessages(string id)
         {
-            var messages = await _contextDB.Messages.Include(m => m.User).Where(m => m.User.Id == id).Select(m => new MessageDTO
+            var messages = await _contextDB.Messages.Include(m => m.User).Where(m => m.Reciver.Id == id).Select(m => new MessageDTO
             {
                 Body = m.Body,
                 Date = m.Date,
                 IsReaded = m.IsReaded,
-                ReciverName = m.Reciver.UserName,
-                RevicerId = m.Reciver.Id,
+                ReciverName = m.User.UserName,
+                RevicerId = m.User.Id,
                 Title = m.Title
             }).ToListAsync();
             return messages;

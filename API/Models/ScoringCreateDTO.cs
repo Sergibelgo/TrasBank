@@ -3,11 +3,18 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace APITrassBank
 {
-    public class ScoringCreateDTO:LoanCreateDTO
+    public class ScoringCreateDTO : LoanCreateDTO
     {
         [AllowNull]
-        public float Deposit { get;set; }
+        public float Deposit { get; set; }
         [Required]
-        public int Persons { get; set; }
+        public IEnumerable<Expenses> Expenses { get; set; }
+    }
+    public class Expenses
+    {
+        [Required]
+        public string Description { get; set; }
+        [Required]
+        public float Spend { get; set; }
     }
 }

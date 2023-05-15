@@ -32,8 +32,11 @@ namespace APITrassBank.Context
             modelBuilder.Entity<Loan>().Property(x => x.Ammount).HasPrecision(30, 2);
             modelBuilder.Entity<Loan>().Property(x => x.RemainingAmmount).HasPrecision(30, 2);
             modelBuilder.Entity<Loan>().Property(x => x.InterestRate).HasPrecision(30, 2);
+            modelBuilder.Entity<Loan>().Property(x => x.TotalAmmount).HasPrecision(30, 2);
             modelBuilder.Entity<Scoring>().Property(x => x.Deposit).HasPrecision(30, 2);
-            modelBuilder.Entity<Scoring>().Property(x => x.FIN).HasPrecision(30, 2);
+            modelBuilder.Entity<Scoring>().Property(x => x.Spens).HasPrecision(30, 2);
+            modelBuilder.Entity<Scoring>().Property(x => x.Salary).HasPrecision(30, 2);
+            modelBuilder.Entity<Scoring>().Property(x => x.Deposit).HasPrecision(30, 2);
             modelBuilder.Entity<Customer>().Property(x => x.Income).HasPrecision(30, 2);
             modelBuilder.Entity<Transaction>().Property(x => x.Ammount).HasPrecision(30, 2);
             modelBuilder.Entity<Payment>().Property(x => x.Ammount).HasPrecision(30, 2);

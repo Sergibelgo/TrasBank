@@ -1,40 +1,81 @@
 ﻿using APITrassBank.Context;
+using APITrassBank.Models;
+using APITrassBank.Services;
+using AutoMapper;
 using Entitys.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace APITrassBank
 {
     public interface IScoringsService
     {
-        Task<ScoringResponseDTO> GetScoring(ScoringCreateDTO model, string id);
+        Task<LoanResponseDTO> ConfirmScore(ScoringCreateDTO model, string idSelf);
+        Task<bool> GetScoring(ScoringCreateDTO model, string id);
     }
     public class ScoringsService : IScoringsService
     {
         private readonly ContextDB _contextDB;
-        private readonly IResourcesService _resourcesService;
+        private readonly IEnumsService _enumsService;
+        private readonly ILoansService _loansService;
+        private readonly IMapper _mapper;
+        private readonly IMessagesService _messagesService;
 
-        public ScoringsService(ContextDB contextDB, IResourcesService resourcesService)
+        public ScoringsService(ContextDB contextDB, IEnumsService enumsService, ILoansService loansService, IMapper mapper, IMessagesService messagesService)
         {
             _contextDB = contextDB;
-            _resourcesService = resourcesService;
+            _enumsService = enumsService;
+            _loansService = loansService;
+            _mapper = mapper;
+            _messagesService = messagesService;
         }
 
-        public async Task<ScoringResponseDTO> GetScoring(ScoringCreateDTO model, string id)
+        public async Task<LoanResponseDTO> ConfirmScore(ScoringCreateDTO model, string idSelf)
         {
-            var user = _contextDB.Customers.Where(x => x.AppUser.Id == id).FirstOrDefault() ?? throw new ArgumentOutOfRangeException();
-            decimal score = 100;
-            var anualExtra = await AnualSpend(user, model);
-            throw new NotImplementedException();
+            var user = _contextDB.Customers.Include(x => x.Worker).ThenInclude(x => x.AppUser).Where(c => c.AppUser.Id == idSelf).FirstOrDefault() ?? throw new Exception("User not valid");
+            var loan = await _loansService.CreateLoan(model, user);
+            var scoring = new Scoring()
+            {
+                DateTime = DateTime.Now,
+                Salary = user.Income,
+                Spens = (decimal)Spends(model.Expenses),
+                Loan = loan,
+                Deposit = (decimal)model.Deposit
+            };
+            var newScor = await _contextDB.Scoring.AddAsync(scoring);
+            await _contextDB.SaveChangesAsync();
+            await _messagesService.Create(idSelf, new MessageCreateDTO() { Title = "New loan pending", Body = $"There is a new loan by {user.FirstName} {user.LastName}, please check it", ReciverId = user.Worker.AppUser.Id });
+            return _mapper.Map<LoanResponseDTO>(loan);
         }
 
-        private async Task<decimal> AnualSpend(Customer user, ScoringCreateDTO model)
+        public async Task<bool> GetScoring(ScoringCreateDTO model, string id)
         {
-            /*
-             * Cambiar paradigma para que sea un porcentaje segun el tipo del prestamo y tus gastos
-             * es decir el usuario me da sus gastos y si la resta de sus gastos en su importe mensual 
-             * no supera el x porciento de su sueldo se le deja seguir si no no
-             * el porcentaje lo sacamos de la db segun el tipo de prestamo
-             */
-            throw new NotImplementedException();
+            var user = await _contextDB.Customers.Where(x => x.AppUser.Id == id).FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
+            var percentaje = await _enumsService.GetLoanTypeAsync(model.LoanTypeId) ?? throw new ArgumentOutOfRangeException();
+            var salary = user.Income;
+            var expenses = Spends(model.Expenses);
+            var avalible = (float)salary - expenses;
+            var totalAmmount = model.Ammount + (model.Ammount * (model.TIN_TAE == 1 ? percentaje.TIN : percentaje.TAE) / 100);
+            var mensual = totalAmmount / model.TotalInstallments;
+            if (avalible < mensual)
+            {
+                return false;
+            }
+            var minimalAvalible = avalible - (avalible * percentaje.Percentaje / 100);
+            if (minimalAvalible < mensual)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private float Spends(IEnumerable<Expenses> expenses)
+        {
+            var total = 0f;
+            foreach (var expense in expenses)
+            {
+                total += expense.Spend;
+            }
+            return total;
         }
     }
 }

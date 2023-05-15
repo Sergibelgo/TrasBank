@@ -13,12 +13,14 @@ namespace APITrassBank
         public int TotalInstallments { get; set; }
         [Required]
         public int LoanTypeId { get; set; }
+        [Required]
+        [LoanTypeValidator]
+        public int TIN_TAE { get; set; }
     }
     public class LoanCreateWorkerDTO : LoanCreateDTO
     {
         [Required]
         public string CustomerId { get; set; }
-        [Required]
-        public int InterestType { get;set; }
+        
     }
 }
