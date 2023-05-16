@@ -55,7 +55,7 @@ namespace APITrassBank.Controllers
             {
                 return NotFound();
             }
-            return Ok(self);
+            return Ok(JsonConvert.SerializeObject(self));
         }
 
         // POST api/<CustomersController>

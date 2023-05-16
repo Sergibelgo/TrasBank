@@ -47,6 +47,10 @@ namespace APITrassBank.Services
                 {
                     Name = "Worker"
                 });
+                await _roleManager.CreateAsync(new IdentityRole
+                {
+                    Name = "ATM"
+                });
             }
             if (!(await _userManager.Users.AnyAsync()))
             {

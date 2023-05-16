@@ -65,7 +65,7 @@ namespace APITrassBank.Controllers
             AccountResponseDTO account;
             try
             {
-                account = await _accountsService.GetById(id);
+                account = await _accountsService.GetById(id,null);
             }
             catch (ArgumentOutOfRangeException)
             {

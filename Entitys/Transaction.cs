@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Entitys.Entity
 {
@@ -11,6 +12,6 @@ namespace Entitys.Entity
         public decimal Ammount { get; set; }
         [Required]
         public DateTime Date { get; set; } = DateTime.Now;
-        public Account Sender_Account { get; set; }
+        public IdentityUser OtherInvolved { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace APITrassBank.Context
         DbSet<Account> Accounts { get; set; }
         DbSet<Payment> Payments { get; set; }
         DbSet<AccountType> AccountTypes { get; set; }
-        DbSet<UtilsData> Resources { get; set; }
+        DbSet<ATM> ATMS { get; set; }
 
         int SaveChanges();
         Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);

@@ -20,14 +20,12 @@ namespace APITrassBank.Services
         private readonly ContextDB _contextDB;
         private readonly IMapper _mapper;
         private readonly IEnumsService _enums;
-        private readonly IResourcesService _resourcesService;
 
-        public LoansService(ContextDB contextDB, IMapper mapper, IEnumsService enums,IResourcesService resourcesService)
+        public LoansService(ContextDB contextDB, IMapper mapper, IEnumsService enums)
         {
             _contextDB = contextDB;
             _mapper = mapper;
             _enums = enums;
-            _resourcesService = resourcesService;
         }
 
         public async Task<Loan> CreateLoan(LoanCreateWorkerDTO model)

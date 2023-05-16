@@ -14,21 +14,18 @@ namespace APITrassBank.Services
         Task<Account> CreateMain(Customer customer);
         Task<IEnumerable<AccountResponseDTO>> GetAll();
         Task<AccountResponseDTO> GetById(string id, string userId = null);
+        Task<Account> GetById(string id);
         Task<IEnumerable<AccountResponseDTO>> GetByUserId(string idSelf);
         Task UpdateName(string name, string id, string idSelf);
     }
     public class AccountsService : IAccountsService
     {
         private readonly ContextDB _contextDB;
-        private readonly IEnumsService _enums;
-        private readonly IResourcesService _resource;
         private readonly IMapper _mapper;
 
-        public AccountsService(ContextDB contextDB, IEnumsService enums, IResourcesService resource, IMapper mapper)
+        public AccountsService(ContextDB contextDB, IMapper mapper)
         {
             _contextDB = contextDB;
-            _enums = enums;
-            _resource = resource;
             _mapper = mapper;
         }
         public async Task<AccountResponseDTO> Create(AccountCreateDTO model, string idSelf)
@@ -42,7 +39,7 @@ namespace APITrassBank.Services
                 AccountTypeId = model.AccountType,
                 Balance = 0,
                 SaveUntil = model.SaveUntil,
-                Interest = await _resource.GetActualInterest()
+                Interest = 0
             };
             await _contextDB.Accounts.AddAsync(newAccount);
             await _contextDB.SaveChangesAsync();
@@ -101,6 +98,11 @@ namespace APITrassBank.Services
             }
             account.AccountName = name;
             await _contextDB.SaveChangesAsync();
+        }
+        public async Task<Account> GetById(string id)
+        {
+            var account = await _contextDB.Accounts.Where(x => x.Id.ToString() == id).FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
+            return account;
         }
     }
 }

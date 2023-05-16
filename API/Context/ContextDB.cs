@@ -23,7 +23,7 @@ namespace APITrassBank.Context
         public DbSet<LoanStatus> LoanStatuses { get; set; }
         public DbSet<Scoring> Scoring { get; set; }
         public DbSet<Payment> Payments { get; set; }
-        public DbSet<UtilsData> Resources { get; set; }
+        public DbSet<ATM> ATMS { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -40,7 +40,6 @@ namespace APITrassBank.Context
             modelBuilder.Entity<Customer>().Property(x => x.Income).HasPrecision(30, 2);
             modelBuilder.Entity<Transaction>().Property(x => x.Ammount).HasPrecision(30, 2);
             modelBuilder.Entity<Payment>().Property(x => x.Ammount).HasPrecision(30, 2);
-            modelBuilder.Entity<UtilsData>().Property(x => x.Value).HasPrecision(30, 2);
             base.OnModelCreating(modelBuilder);
             //modelBuilder.Entity<User>()
             //base.OnModelCreating(modelBuilder);
