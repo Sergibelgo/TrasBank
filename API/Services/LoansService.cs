@@ -8,6 +8,7 @@ namespace APITrassBank.Services
 {
     public interface ILoansService
     {
+        Task AproveLoan(string id, string idSelf);
         Task<Loan> CreateLoan(LoanCreateWorkerDTO model);
         Task<Loan> CreateLoan(ScoringCreateDTO model, Customer user);
         Task DenyLoan(string id);
@@ -20,12 +21,29 @@ namespace APITrassBank.Services
         private readonly ContextDB _contextDB;
         private readonly IMapper _mapper;
         private readonly IEnumsService _enums;
+        private readonly ITransactionsService _transactionsService;
 
-        public LoansService(ContextDB contextDB, IMapper mapper, IEnumsService enums)
+        public LoansService(ContextDB contextDB, IMapper mapper, IEnumsService enums, ITransactionsService transactionsService)
         {
             _contextDB = contextDB;
             _mapper = mapper;
             _enums = enums;
+            _transactionsService = transactionsService;
+        }
+
+        public async Task AproveLoan(string id, string idSelf)
+        {
+            var loan = await _contextDB.Loans.Include(x=>x.Customer).Where(x => x.Id.ToString() == id).FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
+            var user = await _contextDB.Users.Where(x => x.Id == idSelf).FirstOrDefaultAsync() ?? throw new ArgumentException();
+            var account= await _contextDB.Accounts.Where(x=>x.Customer.Id==loan.Customer.Id).FirstOrDefaultAsync()??throw new ArgumentException();
+            if (loan.LoanStatusId != 1)
+            {
+                throw new ArgumentException();
+            }
+
+            await _transactionsService.AddorRemoveMoney(loan.Ammount, idSelf, account.Id.ToString());
+            loan.LoanStatusId = 2;
+            await _contextDB.SaveChangesAsync();
         }
 
         public async Task<Loan> CreateLoan(LoanCreateWorkerDTO model)
@@ -38,19 +56,19 @@ namespace APITrassBank.Services
                 StartDate = DateTime.Now,
                 LoanStatusId = 1,
                 LoanTypeId = model.LoanTypeId,
-                RemainingAmmount = (decimal)model.Ammount,
                 TotalInstallments = model.TotalInstallments,
                 RemainingInstallments = model.TotalInstallments,
                 Customer = user
             };
             newLoan.EndDate = newLoan.StartDate.AddMonths(model.TotalInstallments);
             newLoan.TotalAmmount = newLoan.Ammount + newLoan.Ammount * newLoan.InterestRate / 100;
+            newLoan.RemainingAmmount = newLoan.TotalAmmount;
             await _contextDB.Loans.AddAsync(newLoan);
             await _contextDB.SaveChangesAsync();
             return newLoan;
 
         }
-        public async Task<Loan> CreateLoan(ScoringCreateDTO model,Customer user)
+        public async Task<Loan> CreateLoan(ScoringCreateDTO model, Customer user)
         {
             var newLoan = new Loan()
             {
@@ -67,8 +85,9 @@ namespace APITrassBank.Services
             newLoan.InterestRate = (decimal)(model.TIN_TAE == 1 ? (await _enums.GetLoanTypeAsync(model.LoanTypeId)).TIN : (await _enums.GetLoanTypeAsync(model.LoanTypeId)).TAE);
             newLoan.TotalAmmount = newLoan.Ammount + (newLoan.Ammount * newLoan.InterestRate / 100);
             await _contextDB.Loans.AddAsync(newLoan);
-            try { 
-            await _contextDB.SaveChangesAsync();
+            try
+            {
+                await _contextDB.SaveChangesAsync();
             }
             catch
             {
@@ -80,7 +99,7 @@ namespace APITrassBank.Services
 
         public async Task DenyLoan(string id)
         {
-            Loan loan = await _contextDB.Loans.Where(x => x.Id.ToString() == id).FirstOrDefaultAsync()
+            Loan loan = await _contextDB.Loans.Where(x => x.Id.ToString() == id && x.LoanStatusId == 1).FirstOrDefaultAsync()
                         ?? throw new ArgumentOutOfRangeException();
             loan.LoanStatusId = 3;
             await _contextDB.SaveChangesAsync();

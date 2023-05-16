@@ -53,7 +53,7 @@ namespace APITrassBank
             var percentaje = await _enumsService.GetLoanTypeAsync(model.LoanTypeId) ?? throw new ArgumentOutOfRangeException();
             var salary = user.Income;
             var expenses = Spends(model.Expenses);
-            var avalible = (float)salary - expenses;
+            var avalible = (float)salary - expenses + model.Deposit;
             var totalAmmount = model.Ammount + (model.Ammount * (model.TIN_TAE == 1 ? percentaje.TIN : percentaje.TAE) / 100);
             var mensual = totalAmmount / model.TotalInstallments;
             if (avalible < mensual)

@@ -41,7 +41,7 @@ namespace APITrassBank.Controllers
             return Ok(JsonConvert.SerializeObject(loan));
         }
         [HttpPost]
-        [Authorize(Roles ="Admin,Worker")]
+        [Authorize(Roles = "Admin,Worker")]
         public async Task<IActionResult> Post([FromBody] LoanCreateWorkerDTO model)
         {
             if (!ModelState.IsValid)
@@ -72,6 +72,27 @@ namespace APITrassBank.Controllers
         [Authorize(Roles = "Worker")]
         public async Task<IActionResult> AproveLoan([FromBody] string id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(id);
+            }
+            var idSelf = httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;
+            try
+            {
+                await _loansService.AproveLoan(id, idSelf);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return NotFound();
+            }
+            catch (ArgumentException)
+            {
+                return Forbid();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
             return Ok();
         }
         [HttpPost("Denied")]

@@ -50,11 +50,11 @@ namespace APITrassBank.Controllers
             }
             return Ok(JsonConvert.SerializeObject(result));
         }
-        [HttpPost("AddMoney{id}")]
+        [HttpPost("AddorRemoveMoney{id}")]
         [Authorize(Roles = "Worker,ATM")]
-        public async Task<IActionResult> AddMoney(string id, [FromBody] TransactionAddMoneyDTO model)
+        public async Task<IActionResult> AddorRemoveMoney(string id, [FromBody] TransactionAddMoneyDTO model)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || model.Quantity == 0)
             {
                 return BadRequest(JsonConvert.SerializeObject(model));
             }
@@ -62,11 +62,41 @@ namespace APITrassBank.Controllers
 
             try
             {
-                await _transactionsService.AddMoney(model.Quantity, idSelf,id);
+                await _transactionsService.AddorRemoveMoney(model.Quantity, idSelf, id);
             }
             catch (ArgumentOutOfRangeException)
             {
                 return NotFound();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            return Ok();
+        }
+        [HttpPost("Transfer")]
+        public async Task<IActionResult> TransferMoney([FromBody] TransferMoneyDTO model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(JsonConvert.SerializeObject(model));
+            }
+            var idSelf = _httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;
+            try
+            {
+                await _transactionsService.TransferTo(model, idSelf);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return NotFound();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

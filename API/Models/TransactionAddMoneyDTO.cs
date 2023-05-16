@@ -6,8 +6,16 @@ namespace APITrassBank
     public class TransactionAddMoneyDTO
     {
         [Required]
-        [GreaterThanInt(5)]
         [TransactionMoneyValidator]
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
+    }
+    public class TransferMoneyDTO 
+    {
+        [Required]
+        public decimal Quantity { get; set; }
+        [Required]
+        public string accountReciverId { get; set; }
+        [Required]
+        public string accountSenderId { get; set; }
     }
 }

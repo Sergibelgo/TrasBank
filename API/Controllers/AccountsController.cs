@@ -153,5 +153,27 @@ namespace APITrassBank.Controllers
             }
             return Ok("Name changed");
         }
+        [HttpPut("GetByUserName")]
+        public async Task<IActionResult> GetByUserName([FromBody] string username)
+        {
+            if (String.IsNullOrEmpty(username))
+            {
+                return BadRequest(username);
+            }
+            IEnumerable<AccountByUsernameDTO> result;
+            try
+            {
+                result = await _accountsService.GetByUserName(username);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            return Ok(JsonConvert.SerializeObject(result));
+        }
     }
 }

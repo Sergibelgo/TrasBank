@@ -20,7 +20,7 @@ namespace Validators
         }
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            int val = (int)value;
+            decimal val = (decimal)value;
             if (val % 5 != 0)
             {
                 return new ValidationResult(

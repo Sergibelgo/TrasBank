@@ -16,6 +16,7 @@ namespace APITrassBank.Services
         Task<AccountResponseDTO> GetById(string id, string userId = null);
         Task<Account> GetById(string id);
         Task<IEnumerable<AccountResponseDTO>> GetByUserId(string idSelf);
+        Task<IEnumerable<AccountByUsernameDTO>> GetByUserName(string username);
         Task UpdateName(string name, string id, string idSelf);
     }
     public class AccountsService : IAccountsService
@@ -103,6 +104,14 @@ namespace APITrassBank.Services
         {
             var account = await _contextDB.Accounts.Where(x => x.Id.ToString() == id).FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
             return account;
+        }
+
+        public async Task<IEnumerable<AccountByUsernameDTO>> GetByUserName(string username)
+        {
+            return await _contextDB.Accounts
+                .Where(x=>x.Customer.AppUser.UserName == username)
+                .Select(x=>_mapper.Map<AccountByUsernameDTO>(x))
+                .ToListAsync();
         }
     }
 }

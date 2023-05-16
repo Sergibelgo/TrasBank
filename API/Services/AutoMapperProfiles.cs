@@ -22,9 +22,11 @@ namespace APITrassBank.Services
                 .ForMember(dto => dto.Type, ent => ent.MapFrom(x => x.AccountType.Name));
             CreateMap<Transaction, TransactionResponseDTO>()
                 .ForMember(dto => dto.TipeTransaction, ent => ent.MapFrom(x => x.TransactionType.Name))
-                .ForMember(dto => dto.NameOther, ent => ent.MapFrom(x => (x.OtherInvolved == null) ? null : x.OtherInvolved.UserName))
-                .ForMember(dto => dto.AccountOtherId, ent => ent.MapFrom(x => x.OtherInvolved == null ? null : x.OtherInvolved.Id));
-            ;
+                .ForMember(dto => dto.NameOther, ent => ent.MapFrom(x => (x.OtherInvolved.UserName)))
+                .ForMember(dto => dto.AccountOtherId, ent => ent.MapFrom(x => x.OtherInvolved.Id))
+                ;
+            CreateMap<Account, AccountByUsernameDTO>();
+
         }
     }
 }

@@ -8,9 +8,10 @@ namespace APITrassBank
 {
     public interface ITransactionsService
     {
-        Task AddMoney(int quantity, string idSelf, string idAccount);
+        Task AddorRemoveMoney(decimal quantity, string idSelf, string idAccount);
         Task<IEnumerable<TransactionResponseDTO>> GetByUserId(string id);
         Task<IEnumerable<TransactionResponseDTO>> GetSelf(string idSelf, string id);
+        Task TransferTo(TransferMoneyDTO model, string idSelf);
     }
     public class TransactionsService : ITransactionsService
     {
@@ -48,13 +49,17 @@ namespace APITrassBank
                 .ToListAsync();
         }
 
-        public async Task AddMoney(int quantity, string idSelf, string idAccount)
+        public async Task AddorRemoveMoney(decimal quantity, string idSelf, string idAccount)
         {
             var user = await _contextDB.Users.Where(x => x.Id == idSelf).FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
             var account = await _accountsService.GetById(idAccount);
-            var transacction = await _enumsService.GetTranssactionTypeAsync(3);
+            var transacction = await _enumsService.GetTranssactionTypeAsync((quantity < 0) ? 2 : 1);
             using var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
             account.Balance += quantity;
+            if (account.Balance < 0)
+            {
+                throw new ArgumentException("Insufficient funds");
+            }
             var transaction = new Entitys.Entity.Transaction()
             {
                 Account = account,
@@ -65,6 +70,49 @@ namespace APITrassBank
             };
             await _contextDB.AddAsync(transaction);
             _contextDB.Update(account);
+            await _contextDB.SaveChangesAsync();
+            scope.Complete();
+        }
+
+        public async Task TransferTo(TransferMoneyDTO model, string idSelf)
+        {
+            var user = await _contextDB.Users
+                .Where(x => x.Id == idSelf)
+                .FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
+            var account = await _contextDB.Accounts
+                .Include(x => x.Customer)
+                .ThenInclude(x => x.AppUser)
+                .Where(x => x.Id.ToString() == model.accountReciverId)
+                .FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
+            var accountSelf = await _contextDB.Accounts
+                .Where(x => x.Id.ToString() == model.accountSenderId && x.Customer.AppUser.Id == idSelf)
+                .FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
+            if (accountSelf.Balance < model.Quantity)
+            {
+                throw new ArgumentException("Insufficient funds");
+            }
+            var transaction = await _enumsService.GetTranssactionTypeAsync(3);
+            using var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+            account.Balance += model.Quantity;
+            accountSelf.Balance -= model.Quantity;
+            var transactionAdd = new Entitys.Entity.Transaction()
+            {
+                Account = account,
+                Ammount = Math.Abs(model.Quantity),
+                Date = DateTime.UtcNow,
+                OtherInvolved = user,
+                TransactionType = transaction
+            };
+            var transactionSub = new Entitys.Entity.Transaction()
+            {
+                Account = accountSelf,
+                Ammount = -(Math.Abs(model.Quantity)),
+                Date = DateTime.UtcNow,
+                OtherInvolved = account.Customer.AppUser,
+                TransactionType = transaction
+            };
+            await _contextDB.AddRangeAsync(transactionSub, transactionAdd);
+            _contextDB.UpdateRange(account, accountSelf);
             await _contextDB.SaveChangesAsync();
             scope.Complete();
         }
