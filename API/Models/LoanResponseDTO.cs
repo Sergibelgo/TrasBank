@@ -17,5 +17,7 @@ namespace APITrassBank.Models
         public decimal RemainingAmmount { get; set; }
         public string LoanStatus { get; set; }
         public string LoanType { get; set; }
+        public decimal TotalAmmount { get; set; }
+        public string LoanName { get; set; }
     }
 }

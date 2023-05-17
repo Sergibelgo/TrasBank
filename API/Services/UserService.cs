@@ -64,51 +64,52 @@ namespace APITrassBank.Services
                 await _userManager.AddToRoleAsync(user, "Admin");
 
             }
-            if (!(await _contextDB.WorkerStatuses.AnyAsync()))
+            if (!(await _contextDB.Proyecto_WorkerStatuses.AnyAsync()))
             {
-                _contextDB.WorkerStatuses.Add(new WorkerStatus() { Name = "Up" });
-                _contextDB.WorkerStatuses.Add(new WorkerStatus() { Name = "Down" });
+                _contextDB.Proyecto_WorkerStatuses.Add(new WorkerStatus() { Name = "Up" });
+                _contextDB.Proyecto_WorkerStatuses.Add(new WorkerStatus() { Name = "Down" });
             }
-            if (!(await _contextDB.WorkingStates.AnyAsync()))
+            if (!(await _contextDB.Proyecto_WorkingStates.AnyAsync()))
             {
-                _contextDB.WorkingStates.Add(new CustomerWorkingStatus() { Name = "Working" });
-                _contextDB.WorkingStates.Add(new CustomerWorkingStatus() { Name = "Unemployed" });
+                _contextDB.Proyecto_WorkingStates.Add(new CustomerWorkingStatus() { Name = "Working" });
+                _contextDB.Proyecto_WorkingStates.Add(new CustomerWorkingStatus() { Name = "Unemployed" });
             }
-            if (!(await _contextDB.LoanStatuses.AnyAsync()))
+            if (!(await _contextDB.Proyecto_LoanStatuses.AnyAsync()))
             {
-                _contextDB.LoanStatuses.Add(new LoanStatus() { Name = "Waiting" });
-                _contextDB.LoanStatuses.Add(new LoanStatus() { Name = "Aproved" });
-                _contextDB.LoanStatuses.Add(new LoanStatus() { Name = "Denied" });
+                _contextDB.Proyecto_LoanStatuses.Add(new LoanStatus() { Name = "Waiting" });
+                _contextDB.Proyecto_LoanStatuses.Add(new LoanStatus() { Name = "Aproved" });
+                _contextDB.Proyecto_LoanStatuses.Add(new LoanStatus() { Name = "Denied" });
+                _contextDB.Proyecto_LoanStatuses.Add(new LoanStatus() { Name = "Paid" });
             }
-            if (!(await _contextDB.LoansTypes.AnyAsync()))
+            if (!(await _contextDB.Proyecto_LoansTypes.AnyAsync()))
             {
-                _contextDB.LoansTypes.Add(new LoanType() { Name = "Personal",Percentaje=20,TAE=2,TIN=1 });
-                _contextDB.LoansTypes.Add(new LoanType() { Name = "Buissness",Percentaje=30,TAE=2,TIN=1 });
-                _contextDB.LoansTypes.Add(new LoanType() { Name = "Home" ,Percentaje=40,TAE=3,TIN=1});
+                _contextDB.Proyecto_LoansTypes.Add(new LoanType() { Name = "Personal",Percentaje=20,TAE=2,TIN=1 });
+                _contextDB.Proyecto_LoansTypes.Add(new LoanType() { Name = "Buissness",Percentaje=30,TAE=2,TIN=1 });
+                _contextDB.Proyecto_LoansTypes.Add(new LoanType() { Name = "Home" ,Percentaje=40,TAE=3,TIN=1});
             }
-            if (!(await _contextDB.AccountStatuses.AnyAsync()))
+            if (!(await _contextDB.Proyecto_AccountStatuses.AnyAsync()))
             {
-                _contextDB.AccountStatuses.Add(new AccountStatus() { Description = "Enabled" });
-                _contextDB.AccountStatuses.Add(new AccountStatus() { Description = "Blocked" });
-                _contextDB.AccountStatuses.Add(new AccountStatus() { Description = "Disabled" });
+                _contextDB.Proyecto_AccountStatuses.Add(new AccountStatus() { Description = "Enabled" });
+                _contextDB.Proyecto_AccountStatuses.Add(new AccountStatus() { Description = "Blocked" });
+                _contextDB.Proyecto_AccountStatuses.Add(new AccountStatus() { Description = "Disabled" });
             }
-            if (!(await _contextDB.AccountTypes.AnyAsync()))
+            if (!(await _contextDB.Proyecto_AccountTypes.AnyAsync()))
             {
-                _contextDB.AccountTypes.Add(new AccountType()
+                _contextDB.Proyecto_AccountTypes.Add(new AccountType()
                 {
                     Name = "Normal"
                 });
-                _contextDB.AccountTypes.Add(new AccountType()
+                _contextDB.Proyecto_AccountTypes.Add(new AccountType()
                 {
                     Name = "Savings"
                 });
             }
-            if (!(await _contextDB.TranssactionTypes.AnyAsync()))
+            if (!(await _contextDB.Proyecto_TranssactionTypes.AnyAsync()))
             {
-                _contextDB.TranssactionTypes.Add(new TranssactionType() { Name = "Add" });
-                _contextDB.TranssactionTypes.Add(new TranssactionType() { Name = "Draw" });
-                _contextDB.TranssactionTypes.Add(new TranssactionType() { Name = "Transfer" });
-                _contextDB.TranssactionTypes.Add(new TranssactionType() { Name = "Loan Approved" });
+                _contextDB.Proyecto_TranssactionTypes.Add(new TranssactionType() { Name = "Add" });
+                _contextDB.Proyecto_TranssactionTypes.Add(new TranssactionType() { Name = "Draw" });
+                _contextDB.Proyecto_TranssactionTypes.Add(new TranssactionType() { Name = "Transfer" });
+                _contextDB.Proyecto_TranssactionTypes.Add(new TranssactionType() { Name = "Loan Approved" });
             }
             await _contextDB.SaveChangesAsync();
         }

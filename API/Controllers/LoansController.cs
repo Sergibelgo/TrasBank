@@ -68,6 +68,14 @@ namespace APITrassBank.Controllers
             return Ok(response);
 
         }
+        [HttpGet("selfAproved")]
+        public async Task<IActionResult> GetSelfLoansApproved()
+        {
+            var idSelf = httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;
+            IEnumerable<LoanApprovedResponseDTO> loans = await _loansService.GetByUserIdApproved(idSelf);
+            var response = JsonConvert.SerializeObject(loans);
+            return Ok(response);
+        }
         [HttpPost("Aprove")]
         [Authorize(Roles = "Worker")]
         public async Task<IActionResult> AproveLoan([FromBody] string id)

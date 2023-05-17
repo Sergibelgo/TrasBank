@@ -3,7 +3,6 @@ using System;
 using APITrassBank.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -12,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APITrassBank.Migrations
 {
     [DbContext(typeof(ContextDB))]
-    [Migration("20230514092843_UpdateAccountsAddUtils")]
-    partial class UpdateAccountsAddUtils
+    [Migration("20230517114755_AddLoanName")]
+    partial class AddLoanName
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,15 +20,45 @@ namespace APITrassBank.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.5")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            modelBuilder.Entity("Entitys.Entity.ATM", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<bool>("Operative")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Region")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Proyecto_ATMS");
+                });
 
             modelBuilder.Entity("Entitys.Entity.Account", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("AccountName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<int>("AccountStatusId")
                         .HasColumnType("int");
@@ -42,17 +71,17 @@ namespace APITrassBank.Migrations
                         .HasColumnType("decimal(30,2)");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<Guid?>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<decimal>("Interest")
                         .HasPrecision(30, 2)
                         .HasColumnType("decimal(30,2)");
 
                     b.Property<DateTime>("SaveUntil")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -62,7 +91,7 @@ namespace APITrassBank.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Proyecto_Accounts");
                 });
 
             modelBuilder.Entity("Entitys.Entity.AccountStatus", b =>
@@ -71,15 +100,13 @@ namespace APITrassBank.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AccountStatuses");
+                    b.ToTable("Proyecto_AccountStatuses");
                 });
 
             modelBuilder.Entity("Entitys.Entity.AccountType", b =>
@@ -88,36 +115,35 @@ namespace APITrassBank.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AccountTypes");
+                    b.ToTable("Proyecto_AccountTypes");
                 });
 
             modelBuilder.Entity("Entitys.Entity.Customer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("Age")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<decimal>("Income")
                         .HasPrecision(30, 2)
@@ -125,13 +151,13 @@ namespace APITrassBank.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("WorkStatusId")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("WorkerId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("WorkerId")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -141,7 +167,7 @@ namespace APITrassBank.Migrations
 
                     b.HasIndex("WorkerId");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Proyecto_Customers");
                 });
 
             modelBuilder.Entity("Entitys.Entity.CustomerWorkingStatus", b =>
@@ -150,35 +176,38 @@ namespace APITrassBank.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.ToTable("WorkingStates");
+                    b.ToTable("Proyecto_WorkingStates");
                 });
 
             modelBuilder.Entity("Entitys.Entity.Loan", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<decimal>("Ammount")
                         .HasPrecision(30, 2)
                         .HasColumnType("decimal(30,2)");
 
-                    b.Property<Guid?>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<int>("InterestRate")
-                        .HasColumnType("int");
+                    b.Property<decimal>("InterestRate")
+                        .HasPrecision(30, 2)
+                        .HasColumnType("decimal(30,2)");
+
+                    b.Property<string>("LoanName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<int>("LoanStatusId")
                         .HasColumnType("int");
@@ -194,7 +223,11 @@ namespace APITrassBank.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<decimal>("TotalAmmount")
+                        .HasPrecision(30, 2)
+                        .HasColumnType("decimal(30,2)");
 
                     b.Property<int>("TotalInstallments")
                         .HasColumnType("int");
@@ -207,7 +240,7 @@ namespace APITrassBank.Migrations
 
                     b.HasIndex("LoanTypeId");
 
-                    b.ToTable("Loans");
+                    b.ToTable("Proyecto_Loans");
                 });
 
             modelBuilder.Entity("Entitys.Entity.LoanStatus", b =>
@@ -216,15 +249,13 @@ namespace APITrassBank.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.ToTable("LoanStatuses");
+                    b.ToTable("Proyecto_LoanStatuses");
                 });
 
             modelBuilder.Entity("Entitys.Entity.LoanType", b =>
@@ -233,42 +264,49 @@ namespace APITrassBank.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
+
+                    b.Property<float>("Percentaje")
+                        .HasColumnType("float");
+
+                    b.Property<float>("TAE")
+                        .HasColumnType("float");
+
+                    b.Property<float>("TIN")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
-                    b.ToTable("LoansTypes");
+                    b.ToTable("Proyecto_LoansTypes");
                 });
 
             modelBuilder.Entity("Entitys.Entity.Message", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Body")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<bool>("IsReaded")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ReciverId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -276,81 +314,85 @@ namespace APITrassBank.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Proyecto_Messages");
                 });
 
             modelBuilder.Entity("Entitys.Entity.Payment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<decimal>("Ammount")
                         .HasPrecision(30, 2)
                         .HasColumnType("decimal(30,2)");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("LoanId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("LoanId")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LoanId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Proyecto_Payments");
                 });
 
             modelBuilder.Entity("Entitys.Entity.Scoring", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<decimal>("Deposit")
                         .HasPrecision(30, 2)
                         .HasColumnType("decimal(30,2)");
 
-                    b.Property<decimal>("FIN")
+                    b.Property<Guid>("LoanId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<decimal>("Salary")
                         .HasPrecision(30, 2)
                         .HasColumnType("decimal(30,2)");
 
-                    b.Property<Guid?>("LoanId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<decimal>("Spens")
+                        .HasPrecision(30, 2)
+                        .HasColumnType("decimal(30,2)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LoanId");
 
-                    b.ToTable("Scoring");
+                    b.ToTable("Proyecto_Scoring");
                 });
 
             modelBuilder.Entity("Entitys.Entity.Transaction", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("AccountId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("char(36)");
 
                     b.Property<decimal>("Ammount")
                         .HasPrecision(30, 2)
                         .HasColumnType("decimal(30,2)");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Concept")
+                        .HasColumnType("longtext");
 
-                    b.Property<Guid?>("Sender_AccountId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("OtherInvolvedId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int?>("TransactionTypeId")
                         .HasColumnType("int");
@@ -359,11 +401,11 @@ namespace APITrassBank.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.HasIndex("Sender_AccountId");
+                    b.HasIndex("OtherInvolvedId");
 
                     b.HasIndex("TransactionTypeId");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("Proyecto_Transactions");
                 });
 
             modelBuilder.Entity("Entitys.Entity.TranssactionType", b =>
@@ -372,34 +414,33 @@ namespace APITrassBank.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.ToTable("TranssactionTypes");
+                    b.ToTable("Proyecto_TranssactionTypes");
                 });
 
             modelBuilder.Entity("Entitys.Entity.Worker", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("WorkerStatusId")
+                    b.Property<int>("WorkerStatusId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -408,7 +449,7 @@ namespace APITrassBank.Migrations
 
                     b.HasIndex("WorkerStatusId");
 
-                    b.ToTable("Workers");
+                    b.ToTable("Proyecto_Workers");
                 });
 
             modelBuilder.Entity("Entitys.Entity.WorkerStatus", b =>
@@ -417,62 +458,37 @@ namespace APITrassBank.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.ToTable("WorkerStatuses");
-                });
-
-            modelBuilder.Entity("Entitys.UtilsData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Value")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Resources");
+                    b.ToTable("Proyecto_WorkerStatuses");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("varchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
                 });
@@ -483,17 +499,15 @@ namespace APITrassBank.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -505,54 +519,54 @@ namespace APITrassBank.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("varchar(256)");
 
                     b.HasKey("Id");
 
@@ -561,8 +575,7 @@ namespace APITrassBank.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -573,17 +586,15 @@ namespace APITrassBank.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -595,17 +606,17 @@ namespace APITrassBank.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -617,10 +628,10 @@ namespace APITrassBank.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -632,20 +643,31 @@ namespace APITrassBank.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Entitys.Entity.ATM", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("Entitys.Entity.Account", b =>
@@ -677,7 +699,9 @@ namespace APITrassBank.Migrations
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Entitys.Entity.CustomerWorkingStatus", "WorkStatus")
                         .WithMany()
@@ -687,7 +711,9 @@ namespace APITrassBank.Migrations
 
                     b.HasOne("Entitys.Entity.Worker", "Worker")
                         .WithMany()
-                        .HasForeignKey("WorkerId");
+                        .HasForeignKey("WorkerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AppUser");
 
@@ -700,7 +726,9 @@ namespace APITrassBank.Migrations
                 {
                     b.HasOne("Entitys.Entity.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Entitys.Entity.LoanStatus", "LoanStatus")
                         .WithMany()
@@ -740,7 +768,9 @@ namespace APITrassBank.Migrations
                 {
                     b.HasOne("Entitys.Entity.Loan", "Loan")
                         .WithMany()
-                        .HasForeignKey("LoanId");
+                        .HasForeignKey("LoanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Loan");
                 });
@@ -749,7 +779,9 @@ namespace APITrassBank.Migrations
                 {
                     b.HasOne("Entitys.Entity.Loan", "Loan")
                         .WithMany()
-                        .HasForeignKey("LoanId");
+                        .HasForeignKey("LoanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Loan");
                 });
@@ -758,11 +790,15 @@ namespace APITrassBank.Migrations
                 {
                     b.HasOne("Entitys.Entity.Account", "Account")
                         .WithMany()
-                        .HasForeignKey("AccountId");
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Entitys.Entity.Account", "Sender_Account")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "OtherInvolved")
                         .WithMany()
-                        .HasForeignKey("Sender_AccountId");
+                        .HasForeignKey("OtherInvolvedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Entitys.Entity.TranssactionType", "TransactionType")
                         .WithMany()
@@ -770,7 +806,7 @@ namespace APITrassBank.Migrations
 
                     b.Navigation("Account");
 
-                    b.Navigation("Sender_Account");
+                    b.Navigation("OtherInvolved");
 
                     b.Navigation("TransactionType");
                 });
@@ -779,11 +815,15 @@ namespace APITrassBank.Migrations
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Entitys.Entity.WorkerStatus", "WorkerStatus")
                         .WithMany()
-                        .HasForeignKey("WorkerStatusId");
+                        .HasForeignKey("WorkerStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AppUser");
 

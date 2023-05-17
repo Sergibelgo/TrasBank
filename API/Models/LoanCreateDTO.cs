@@ -4,7 +4,7 @@ namespace APITrassBank
 {
     public class LoanCreateDTO
     {
-        
+
         [Required]
         [GreaterThanDec(500.00F)]
         public float Ammount { get; set; }
@@ -21,6 +21,7 @@ namespace APITrassBank
     {
         [Required]
         public string CustomerId { get; set; }
-        
+        public string LoanName { get; set; }
+
     }
 }

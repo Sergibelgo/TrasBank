@@ -32,7 +32,7 @@ namespace APITrassBank
 
         public async Task<IEnumerable<TransactionResponseDTO>> GetSelf(string idSelf, string id)
         {
-            return await _contextDB.Transactions
+            return await _contextDB.Proyecto_Transactions
                  .Include(x => x.Account)
                  .ThenInclude(x => x.Customer)
                  .Include(x => x.OtherInvolved)
@@ -43,7 +43,7 @@ namespace APITrassBank
         }
         public async Task<IEnumerable<TransactionResponseDTO>> GetByUserId(string id)
         {
-            return await _contextDB.Transactions
+            return await _contextDB.Proyecto_Transactions
                 .Include(x => x.Account)
                 .ThenInclude(x => x.Customer)
                 .Where(x => x.Account.Customer.Id.ToString() == id)
@@ -81,12 +81,12 @@ namespace APITrassBank
             var user = await _contextDB.Users
                 .Where(x => x.Id == idSelf)
                 .FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
-            var account = await _contextDB.Accounts
+            var account = await _contextDB.Proyecto_Accounts
                 .Include(x => x.Customer)
                 .ThenInclude(x => x.AppUser)
                 .Where(x => x.Id.ToString() == model.accountReciverId)
                 .FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
-            var accountSelf = await _contextDB.Accounts
+            var accountSelf = await _contextDB.Proyecto_Accounts
                 .Where(x => x.Id.ToString() == model.accountSenderId && x.Customer.AppUser.Id == idSelf)
                 .FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
             if (accountSelf.Balance < model.Quantity)

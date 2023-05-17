@@ -31,7 +31,7 @@ namespace APITrassBank.Services
         }
         public async Task<AccountResponseDTO> Create(AccountCreateDTO model, string idSelf)
         {
-            var user = _contextDB.Customers.Where(c => c.AppUser.Id.ToString() == idSelf).FirstOrDefault() ?? throw new ArgumentOutOfRangeException();
+            var user = _contextDB.Proyecto_Customers.Where(c => c.AppUser.Id.ToString() == idSelf).FirstOrDefault() ?? throw new ArgumentOutOfRangeException();
             var newAccount = new Account()
             {
                 Customer = user,
@@ -42,7 +42,7 @@ namespace APITrassBank.Services
                 SaveUntil = model.SaveUntil,
                 Interest = 0
             };
-            await _contextDB.Accounts.AddAsync(newAccount);
+            await _contextDB.Proyecto_Accounts.AddAsync(newAccount);
             await _contextDB.SaveChangesAsync();
             var result = _mapper.Map<AccountResponseDTO>(newAccount);
             return result;
@@ -59,19 +59,19 @@ namespace APITrassBank.Services
                 SaveUntil = DateTime.Now,
                 Interest = 0
             };
-            await _contextDB.Accounts.AddAsync(main);
+            await _contextDB.Proyecto_Accounts.AddAsync(main);
             await _contextDB.SaveChangesAsync();
             return main;
         }
 
         public async Task<IEnumerable<AccountResponseDTO>> GetAll()
         {
-            return await _contextDB.Accounts.Include(x=>x.AccountStatus).Include(x=>x.Customer).Include(x=>x.AccountType).Select(x => _mapper.Map<AccountResponseDTO>(x)).ToListAsync();
+            return await _contextDB.Proyecto_Accounts.Include(x=>x.AccountStatus).Include(x=>x.Customer).Include(x=>x.AccountType).Select(x => _mapper.Map<AccountResponseDTO>(x)).ToListAsync();
         }
 
         public async Task<AccountResponseDTO> GetById(string id, string userId = null)
         {
-            var account = await _contextDB.Accounts.Include(x => x.Customer).ThenInclude(x => x.AppUser).Include(x => x.AccountStatus).Include(x => x.AccountType).Where(x => x.Id.ToString() == id).FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
+            var account = await _contextDB.Proyecto_Accounts.Include(x => x.Customer).ThenInclude(x => x.AppUser).Include(x => x.AccountStatus).Include(x => x.AccountType).Where(x => x.Id.ToString() == id).FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
             if (userId is not null)
             {
                 if (account.Customer.AppUser.Id.ToString() != userId)
@@ -85,14 +85,14 @@ namespace APITrassBank.Services
         public async Task<IEnumerable<AccountResponseDTO>> GetByUserId(string userId)
         {
            
-            return await _contextDB.Accounts.Include(x=>x.Customer).ThenInclude(x=>x.AppUser).Include(x=>x.AccountStatus).Include(x=>x.AccountType).Where(x => x.Customer.AppUser.Id == userId)
+            return await _contextDB.Proyecto_Accounts.Include(x=>x.Customer).ThenInclude(x=>x.AppUser).Include(x=>x.AccountStatus).Include(x=>x.AccountType).Where(x => x.Customer.AppUser.Id == userId)
                                             .Select(x => _mapper.Map<AccountResponseDTO>(x)).ToListAsync();
         }
 
         public async Task UpdateName(string name, string id, string idSelf)
         {
-            var user = await _contextDB.Customers.Where(x => x.AppUser.Id.ToString() == idSelf).FirstOrDefaultAsync() ?? throw new ArgumentException();
-            var account = await _contextDB.Accounts.Include(x => x.Customer).Where(x => x.Id.ToString() == id).FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
+            var user = await _contextDB.Proyecto_Customers.Where(x => x.AppUser.Id.ToString() == idSelf).FirstOrDefaultAsync() ?? throw new ArgumentException();
+            var account = await _contextDB.Proyecto_Accounts.Include(x => x.Customer).Where(x => x.Id.ToString() == id).FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
             if (account.Customer.Id.ToString() != user.Id.ToString())
             {
                 throw new ArgumentException();
@@ -102,13 +102,13 @@ namespace APITrassBank.Services
         }
         public async Task<Account> GetById(string id)
         {
-            var account = await _contextDB.Accounts.Where(x => x.Id.ToString() == id).FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
+            var account = await _contextDB.Proyecto_Accounts.Where(x => x.Id.ToString() == id).FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
             return account;
         }
 
         public async Task<IEnumerable<AccountByUsernameDTO>> GetByUserName(string username)
         {
-            return await _contextDB.Accounts
+            return await _contextDB.Proyecto_Accounts
                 .Where(x=>x.Customer.AppUser.UserName == username)
                 .Select(x=>_mapper.Map<AccountByUsernameDTO>(x))
                 .ToListAsync();

@@ -29,62 +29,62 @@ namespace APITrassBank.Services
         }
         public async Task<AccountStatus> GetAccountStatusAsync(int id)
         {
-            return await _contextDB.AccountStatuses.FirstOrDefaultAsync(x => x.Id == id);
+            return await _contextDB.Proyecto_AccountStatuses.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IEnumerable<AccountStatus>> GetAccountStatusesAsync()
         {
-            return await _contextDB.AccountStatuses.ToListAsync();
+            return await _contextDB.Proyecto_AccountStatuses.ToListAsync();
         }
 
         public async Task<CustomerWorkingStatus> GetCustomerWorkingStatusAsync(int id)
         {
-            return await _contextDB.WorkingStates.FirstOrDefaultAsync(x => x.Id == id);
+            return await _contextDB.Proyecto_WorkingStates.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IEnumerable<CustomerWorkingStatus>> GetCustomerWorkingStatusesAsync()
         {
-            return await _contextDB.WorkingStates.ToListAsync();
+            return await _contextDB.Proyecto_WorkingStates.ToListAsync();
         }
 
         public async Task<LoanStatus> GetLoanStatusAsync(int id)
         {
-            return await _contextDB.LoanStatuses.FirstOrDefaultAsync(x => x.Id == id);
+            return await _contextDB.Proyecto_LoanStatuses.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IEnumerable<LoanStatus>> GetLoanStatusesAsync()
         {
-            return await _contextDB.LoanStatuses.ToListAsync();
+            return await _contextDB.Proyecto_LoanStatuses.ToListAsync();
         }
 
         public async Task<LoanType> GetLoanTypeAsync(int id)
         {
-            return await _contextDB.LoansTypes.FirstOrDefaultAsync(lt=>lt.Id== id);
+            return await _contextDB.Proyecto_LoansTypes.FirstOrDefaultAsync(lt=>lt.Id== id);
         }
 
         public async Task<IEnumerable<LoanType>> GetLoanTypesAsync()
         {
-            return await _contextDB.LoansTypes.ToListAsync();
+            return await _contextDB.Proyecto_LoansTypes.ToListAsync();
         }
 
         public async Task<IEnumerable<TranssactionType>> GetTranssactionsTypesAsync()
         {
-            return await _contextDB.TranssactionTypes.ToListAsync();
+            return await _contextDB.Proyecto_TranssactionTypes.ToListAsync();
         }
 
         public async Task<TranssactionType> GetTranssactionTypeAsync(int id)
         {
-            return await _contextDB.TranssactionTypes.FirstOrDefaultAsync(x => x.Id == id);
+            return await _contextDB.Proyecto_TranssactionTypes.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<WorkerStatus> GetWorkerStatusAsync(int id)
         {
-            return await _contextDB.WorkerStatuses.FirstOrDefaultAsync(x => x.Id == id);
+            return await _contextDB.Proyecto_WorkerStatuses.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IEnumerable<WorkerStatus>> GetWorkerStatusesAsync()
         {
-            return await _contextDB.WorkerStatuses.ToListAsync();
+            return await _contextDB.Proyecto_WorkerStatuses.ToListAsync();
         }
     }
 }

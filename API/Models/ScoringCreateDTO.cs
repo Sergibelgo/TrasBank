@@ -9,6 +9,7 @@ namespace APITrassBank
         public float Deposit { get; set; }
         [Required]
         public IEnumerable<Expenses> Expenses { get; set; }
+        public string Name { get; set; }
     }
     public class Expenses
     {

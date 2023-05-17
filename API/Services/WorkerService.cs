@@ -29,17 +29,17 @@ namespace APITrassBank.Services
         }
         public async Task<IEnumerable<Worker>> GetWorkers()
         {
-            var list = await _contextDB.Workers.Include(worker => worker.AppUser).Select(worker => worker).ToListAsync();
+            var list = await _contextDB.Proyecto_Workers.Include(worker => worker.AppUser).Select(worker => worker).ToListAsync();
             return list;
         }
         public async Task<Worker> GetWorker(string Id)
         {
-            var worker = await _contextDB.Workers.Where(worker => worker.Id.ToString() == Id).FirstOrDefaultAsync();
+            var worker = await _contextDB.Proyecto_Workers.Where(worker => worker.Id.ToString() == Id).FirstOrDefaultAsync();
             return worker;
         }
         public async Task<Worker> UpdateWorker(WorkerEditDTO model, string id)
         {
-            var OldWorker = await _contextDB.Workers.Include(worker => worker.AppUser).Where(worker => worker.Id.ToString() == id).FirstOrDefaultAsync();
+            var OldWorker = await _contextDB.Proyecto_Workers.Include(worker => worker.AppUser).Where(worker => worker.Id.ToString() == id).FirstOrDefaultAsync();
             if (OldWorker is null)
             {
                 return null;
@@ -50,8 +50,8 @@ namespace APITrassBank.Services
             OldWorker.AppUser.NormalizedEmail = model.Email.ToUpper();
             OldWorker.StartDate = model.StartDate;
             OldWorker.Name = model.FullName;
-            OldWorker.WorkerStatus = await _contextDB.WorkerStatuses.FindAsync(model.WorkerStatusId);
-            var result = _contextDB.Workers.Update(OldWorker).Entity;
+            OldWorker.WorkerStatus = await _contextDB.Proyecto_WorkerStatuses.FindAsync(model.WorkerStatusId);
+            var result = _contextDB.Proyecto_Workers.Update(OldWorker).Entity;
             await _contextDB.SaveChangesAsync();
             return result;
         }
@@ -78,7 +78,7 @@ namespace APITrassBank.Services
                 };
                 try
                 {
-                    var worker = await _contextDB.Workers.AddAsync(newWorker);
+                    var worker = await _contextDB.Proyecto_Workers.AddAsync(newWorker);
                     await _contextDB.SaveChangesAsync();
                     scope.Complete();
                     return worker.Entity;
@@ -99,7 +99,7 @@ namespace APITrassBank.Services
 
         public async Task<IEnumerable<WorkersMailsDTO>> GetWorkersMail()
         {
-            return await _contextDB.Workers
+            return await _contextDB.Proyecto_Workers
                 .Select(x=>new WorkersMailsDTO() { Name=x.Name,Email=x.AppUser.Email})
                 .ToListAsync();
         }

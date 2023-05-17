@@ -29,11 +29,17 @@ namespace APITrassBank
             {
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             });
-            builder.Services.AddDbContext<ContextDB>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            })
-            .AddIdentity<IdentityUser, IdentityRole>(opciones =>
+            builder.Services.AddDbContext<ContextDB>(opciones =>
+            opciones.UseMySql(
+                builder.Configuration.GetConnectionString("MariaDbConnectionString"),
+                new MariaDbServerVersion(new Version(10, 3, 27))
+                ));
+            //builder.Services.AddDbContext<ContextDB>(options =>
+            //{
+            //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            //});
+            builder.Services
+                .AddIdentity<IdentityUser, IdentityRole>(opciones =>
             {
                 opciones.SignIn.RequireConfirmedAccount = false;
             })
@@ -62,11 +68,7 @@ namespace APITrassBank
                                 };
                             });
             builder.Services.AddAutoMapper(typeof(Program));
-            //builder.Services.AddDbContext<ContextDB>(opciones =>
-            //opciones.UseMySql(
-            //    builder.Configuration.GetConnectionString("MariaDbConnectionString"),
-            //    new MariaDbServerVersion(new Version(10, 3, 27))
-            //    ));
+
             builder.Services
                 .AddTransient<IUserService, UserService>()
                 .AddTransient<IContextDB, ContextDB>()
@@ -77,9 +79,9 @@ namespace APITrassBank
                 .AddTransient<ILoansService, LoansService>()
                 .AddTransient<IEnumsService, EnumsService>()
                 .AddTransient<IAccountsService, AccountsService>()
-                .AddTransient<IScoringsService,ScoringsService>()
+                .AddTransient<IScoringsService, ScoringsService>()
                 .AddTransient<IPaymentsService, PaymentsService>()
-                .AddTransient<ITransactionsService,TransactionsService>()
+                .AddTransient<ITransactionsService, TransactionsService>()
                 ;
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

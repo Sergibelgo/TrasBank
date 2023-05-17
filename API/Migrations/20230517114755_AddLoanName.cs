@@ -5,27 +5,25 @@
 namespace APITrassBank.Migrations
 {
     /// <inheritdoc />
-    public partial class AddTotalAmmount : Migration
+    public partial class AddLoanName : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<decimal>(
-                name: "TotalAmmount",
-                table: "Loans",
-                type: "decimal(30,2)",
-                precision: 30,
-                scale: 2,
-                nullable: false,
-                defaultValue: 0m);
+            migrationBuilder.AddColumn<string>(
+                name: "LoanName",
+                table: "Proyecto_Loans",
+                type: "longtext",
+                nullable: false)
+                .Annotation("MySql:CharSet", "utf8mb4");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "TotalAmmount",
-                table: "Loans");
+                name: "LoanName",
+                table: "Proyecto_Loans");
         }
     }
 }

@@ -37,7 +37,7 @@ namespace APITrassBank.Services
             try
             {
                 _contextDB.Users.AttachRange(user,reciver);
-                var result = (await _contextDB.Messages.AddAsync(messaje)).Entity;
+                var result = (await _contextDB.Proyecto_Messages.AddAsync(messaje)).Entity;
                 result.User = user;
                 result.Reciver = reciver;
                 await _contextDB.SaveChangesAsync(true);
@@ -53,7 +53,7 @@ namespace APITrassBank.Services
 
         public async Task<IEnumerable<MessageDTO>> GetMessages(string id)
         {
-            var messages = await _contextDB.Messages.Include(m => m.User).Where(m => m.Reciver.Id == id).Select(m => new MessageDTO
+            var messages = await _contextDB.Proyecto_Messages.Include(m => m.User).Where(m => m.Reciver.Id == id).Select(m => new MessageDTO
             {
                 Body = m.Body,
                 Date = m.Date,

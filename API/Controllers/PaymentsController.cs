@@ -63,7 +63,7 @@ namespace APITrassBank.Controllers
             PaymentResponseDTO result;
             try
             {
-                result = await _paymentsService.Make(model,idSelf);
+                result = await _paymentsService.Make(model, idSelf);
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -80,10 +80,31 @@ namespace APITrassBank.Controllers
             return Ok(JsonConvert.SerializeObject(result));
         }
         [HttpPost("MakePayment/{id}")]
-        [Authorize(Roles ="Admin,Worker")]
+        [Authorize(Roles = "Admin,Worker")]
         public async Task<IActionResult> MakePayment(string id, [FromBody] PaymentCreateDTO model)
         {
-            return Ok();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(JsonConvert.SerializeObject(model));
+            }
+            PaymentResponseDTO result;
+            try
+            {
+                result = await _paymentsService.Make(model, null);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return NotFound();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            return Ok(JsonConvert.SerializeObject(result));
         }
 
 

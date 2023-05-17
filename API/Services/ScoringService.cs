@@ -31,7 +31,7 @@ namespace APITrassBank
 
         public async Task<LoanResponseDTO> ConfirmScore(ScoringCreateDTO model, string idSelf)
         {
-            var user = _contextDB.Customers.Include(x => x.Worker).ThenInclude(x => x.AppUser).Where(c => c.AppUser.Id == idSelf).FirstOrDefault() ?? throw new Exception("User not valid");
+            var user = _contextDB.Proyecto_Customers.Include(x => x.Worker).ThenInclude(x => x.AppUser).Where(c => c.AppUser.Id == idSelf).FirstOrDefault() ?? throw new Exception("User not valid");
             var loan = await _loansService.CreateLoan(model, user);
             var scoring = new Scoring()
             {
@@ -41,7 +41,7 @@ namespace APITrassBank
                 Loan = loan,
                 Deposit = (decimal)model.Deposit
             };
-            var newScor = await _contextDB.Scoring.AddAsync(scoring);
+            var newScor = await _contextDB.Proyecto_Scoring.AddAsync(scoring);
             await _contextDB.SaveChangesAsync();
             await _messagesService.Create(idSelf, new MessageCreateDTO() { Title = "New loan pending", Body = $"There is a new loan by {user.FirstName} {user.LastName}, please check it", ReciverUserName = user.Worker.AppUser.UserName });
             return _mapper.Map<LoanResponseDTO>(loan);
@@ -49,7 +49,7 @@ namespace APITrassBank
 
         public async Task<bool> GetScoring(ScoringCreateDTO model, string id)
         {
-            var user = await _contextDB.Customers.Where(x => x.AppUser.Id == id).FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
+            var user = await _contextDB.Proyecto_Customers.Where(x => x.AppUser.Id == id).FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
             var percentaje = await _enumsService.GetLoanTypeAsync(model.LoanTypeId) ?? throw new ArgumentOutOfRangeException();
             var salary = user.Income;
             var expenses = Spends(model.Expenses);

@@ -33,5 +33,7 @@ namespace Entitys.Entity
         public LoanType LoanType { get; set; }
         [Required]
         public int LoanTypeId { get; set; }
+        [Required]
+        public string LoanName { get; set; }
     }
 }

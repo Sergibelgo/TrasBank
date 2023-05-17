@@ -32,7 +32,7 @@ namespace APITrassBank.Services
         }
         public async Task<IEnumerable<Customer>> GetCustomersAsync()
         {
-            var customers = await _contextDB.Customers.Include(customer => customer.AppUser)
+            var customers = await _contextDB.Proyecto_Customers.Include(customer => customer.AppUser)
                                                 .Include(customer => customer.Worker)
                                                 .Include(customer => customer.WorkStatus)
                                                 .Select(customer => customer).ToListAsync();
@@ -40,7 +40,7 @@ namespace APITrassBank.Services
         }
         public async Task<Customer> GetCustomerAsync(string id)
         {
-            var customer = await _contextDB.Customers
+            var customer = await _contextDB.Proyecto_Customers
                                                 .Where(customer => customer.Id.ToString() == id || customer.AppUser.Id == id)
                                                 .Include(customer => customer.AppUser)
                                                 .Include(customer => customer.Worker)
@@ -51,7 +51,7 @@ namespace APITrassBank.Services
         }
         public async Task<Customer> CreateCustomer(CustomerRegisterDTO model)
         {
-            var worker = await _contextDB.Workers.Where(worker => worker.AppUser.NormalizedEmail == model.WorkerEmail.ToUpper()).FirstOrDefaultAsync();
+            var worker = await _contextDB.Proyecto_Workers.Where(worker => worker.AppUser.NormalizedEmail == model.WorkerEmail.ToUpper()).FirstOrDefaultAsync();
             var workingStatus = await _enums.GetCustomerWorkingStatusAsync(model.WorkStatusId);
             if (worker is null || workingStatus is null)
             {
@@ -81,7 +81,7 @@ namespace APITrassBank.Services
                         WorkStatusId = model.WorkStatusId,
                         AppUser = user
                     };
-                    var customer = await _contextDB.Customers.AddAsync(newCustomer);
+                    var customer = await _contextDB.Proyecto_Customers.AddAsync(newCustomer);
                     await _contextDB.SaveChangesAsync();
                     await _accountsService.CreateMain(customer.Entity);
                     scope.Complete();
@@ -106,12 +106,12 @@ namespace APITrassBank.Services
             {
                 return false;
             }
-            var worker = await _contextDB.Workers.FirstOrDefaultAsync(w => w.Id == model.WorkerId);
+            var worker = await _contextDB.Proyecto_Workers.FirstOrDefaultAsync(w => w.Id == model.WorkerId);
             if (worker is null)
             {
                 return false;
             }
-            var workStatus = await _contextDB.WorkingStates.FirstOrDefaultAsync(ws => ws.Id == model.WorkStatusId);
+            var workStatus = await _contextDB.Proyecto_WorkingStates.FirstOrDefaultAsync(ws => ws.Id == model.WorkStatusId);
             if (workStatus is null)
             {
                 return false;
@@ -139,7 +139,7 @@ namespace APITrassBank.Services
                 customer.Age = model.Age;
                 customer.Income = model.Income;
                 customer.WorkStatusId = model.WorkStatusId;
-                customer.Worker = await _contextDB.Workers.FirstOrDefaultAsync(w => w.Id == model.WorkerId);
+                customer.Worker = await _contextDB.Proyecto_Workers.FirstOrDefaultAsync(w => w.Id == model.WorkerId);
                 await _contextDB.SaveChangesAsync();
                 scope.Complete();
                 return customer;
