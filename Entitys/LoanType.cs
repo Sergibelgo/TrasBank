@@ -4,6 +4,7 @@ namespace Entitys.Entity
 {
     public class LoanType
     {
+        [Required]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }

@@ -5,6 +5,7 @@ namespace Entitys.Entity
 {
     public class Customer
     {
+        [Required]
         public Guid Id { get; set; }
         [Required]
         public string FirstName { get; set; }
@@ -20,7 +21,9 @@ namespace Entitys.Entity
         public CustomerWorkingStatus WorkStatus { get; set; }
         [Required]
         public int WorkStatusId { get; set; }
+        [Required]
         public Worker Worker { get; set; }
+        [Required]
         public IdentityUser AppUser { get; set; }
 
     }

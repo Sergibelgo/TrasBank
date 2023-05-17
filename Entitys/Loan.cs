@@ -5,7 +5,9 @@ namespace Entitys.Entity
 {
     public class Loan
     {
+        [Required]
         public Guid Id { get; set; }
+        [Required]
         public Customer Customer { get; set; }
         [Required]
         public decimal Ammount { get; set; }
@@ -27,6 +29,7 @@ namespace Entitys.Entity
         public LoanStatus LoanStatus { get; set; }
         [Required]
         public int LoanStatusId { get; set; }
+        [Required]
         public LoanType LoanType { get; set; }
         [Required]
         public int LoanTypeId { get; set; }

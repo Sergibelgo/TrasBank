@@ -26,6 +26,9 @@ namespace APITrassBank.Services
                 .ForMember(dto => dto.AccountOtherId, ent => ent.MapFrom(x => x.OtherInvolved.Id))
                 ;
             CreateMap<Account, AccountByUsernameDTO>();
+            CreateMap<Payment, PaymentResponseDTO>()
+                .ForMember(dto => dto.LoanId, ent => ent.MapFrom(x => x.Loan.Id))
+                ;
 
         }
     }

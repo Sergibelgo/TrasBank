@@ -75,5 +75,20 @@ namespace APITrassBank.Controllers
             }
             return Ok(JsonConvert.SerializeObject(respuesta));
         }
+        [HttpGet("GetWorkersMail")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetWorkersMail()
+        {
+            IEnumerable<WorkersMailsDTO> result;
+            try
+            {
+                result = await _workerService.GetWorkersMail();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            return Ok(JsonConvert.SerializeObject(result));
+        }
     }
 }

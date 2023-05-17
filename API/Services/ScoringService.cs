@@ -43,7 +43,7 @@ namespace APITrassBank
             };
             var newScor = await _contextDB.Scoring.AddAsync(scoring);
             await _contextDB.SaveChangesAsync();
-            await _messagesService.Create(idSelf, new MessageCreateDTO() { Title = "New loan pending", Body = $"There is a new loan by {user.FirstName} {user.LastName}, please check it", ReciverId = user.Worker.AppUser.Id });
+            await _messagesService.Create(idSelf, new MessageCreateDTO() { Title = "New loan pending", Body = $"There is a new loan by {user.FirstName} {user.LastName}, please check it", ReciverUserName = user.Worker.AppUser.UserName });
             return _mapper.Map<LoanResponseDTO>(loan);
         }
 

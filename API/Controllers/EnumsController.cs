@@ -1,4 +1,5 @@
 ﻿using APITrassBank.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -16,24 +17,28 @@ namespace APITrassBank.Controllers
             _enumsService = enumsService;
         }
         [HttpGet("TransactionTypes")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetTranssactionTypes()
         {
             var response = await _enumsService.GetTranssactionsTypesAsync();
             return Ok(JsonConvert.SerializeObject(response));
         }
         [HttpGet("CustomerWorkingStatuses")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetCustomerWorkingStatus()
         {
             var response = await _enumsService.GetCustomerWorkingStatusesAsync();
             return Ok(JsonConvert.SerializeObject(response));
         }
         [HttpGet("AccountStatuses")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAccountStatuses()
         {
             var response = await _enumsService.GetAccountStatusesAsync();
             return Ok(JsonConvert.SerializeObject(response));
         }
         [HttpGet("LoanTypes")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetLoanTypes()
         {
             var response = await _enumsService.GetLoanTypesAsync();

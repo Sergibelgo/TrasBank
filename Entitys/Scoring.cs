@@ -4,7 +4,9 @@ namespace Entitys.Entity
 {
     public class Scoring
     {
+        [Required]
         public Guid Id { get; set; }
+        [Required]
         public Loan Loan { get; set; }
         [Required]
         public DateTime DateTime { get; set; }=DateTime.Now;

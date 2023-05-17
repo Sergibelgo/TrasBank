@@ -11,6 +11,7 @@ namespace APITrassBank.Services
     {
         Task<Worker> GetWorker(string Id);
         Task<IEnumerable<Worker>> GetWorkers();
+        Task<IEnumerable<WorkersMailsDTO>> GetWorkersMail();
         Task<Worker> NewWorker(WorkerRegisterDTO model);
         Task<Worker> UpdateWorker(WorkerEditDTO model, string id);
     }
@@ -94,6 +95,13 @@ namespace APITrassBank.Services
                 scope.Dispose();
                 return null;
             }
+        }
+
+        public async Task<IEnumerable<WorkersMailsDTO>> GetWorkersMail()
+        {
+            return await _contextDB.Workers
+                .Select(x=>new WorkersMailsDTO() { Name=x.Name,Email=x.AppUser.Email})
+                .ToListAsync();
         }
     }
 }

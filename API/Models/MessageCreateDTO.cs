@@ -10,6 +10,6 @@ namespace APITrassBank.Models
         [Required]
         public string Body { get; set; }
         [Required]
-        public string ReciverId { get; set; }
+        public string ReciverUserName { get; set; }
     }
 }

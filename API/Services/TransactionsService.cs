@@ -19,13 +19,15 @@ namespace APITrassBank
         private readonly IMapper _mapper;
         private readonly IAccountsService _accountsService;
         private readonly IEnumsService _enumsService;
+        private readonly IMessagesService _messagesService;
 
-        public TransactionsService(ContextDB contextDB, IMapper mapper, IAccountsService accountsService, IEnumsService enumsService)
+        public TransactionsService(ContextDB contextDB, IMapper mapper, IAccountsService accountsService, IEnumsService enumsService, IMessagesService messagesService)
         {
             _contextDB = contextDB;
             _mapper = mapper;
             _accountsService = accountsService;
             _enumsService = enumsService;
+            _messagesService = messagesService;
         }
 
         public async Task<IEnumerable<TransactionResponseDTO>> GetSelf(string idSelf, string id)
@@ -114,6 +116,12 @@ namespace APITrassBank
             await _contextDB.AddRangeAsync(transactionSub, transactionAdd);
             _contextDB.UpdateRange(account, accountSelf);
             await _contextDB.SaveChangesAsync();
+            await _messagesService.Create(idSelf, new Models.MessageCreateDTO()
+            {
+                Title = "New transfer",
+                Body = $"{user.UserName} made a new transfer for ${Math.Abs(model.Quantity)}",
+                ReciverUserName = account.Customer.AppUser.UserName
+            });
             scope.Complete();
         }
     }

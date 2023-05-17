@@ -78,6 +78,7 @@ namespace APITrassBank
                 .AddTransient<IEnumsService, EnumsService>()
                 .AddTransient<IAccountsService, AccountsService>()
                 .AddTransient<IScoringsService,ScoringsService>()
+                .AddTransient<IPaymentsService, PaymentsService>()
                 .AddTransient<ITransactionsService,TransactionsService>()
                 ;
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

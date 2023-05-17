@@ -5,6 +5,7 @@ namespace Entitys.Entity
 {
     public class Message
     {
+        [Required]
         public Guid Id { get; set; }
         [Required]
         public string Title { get; set; }
@@ -14,6 +15,7 @@ namespace Entitys.Entity
         [Required]
         public DateTime Date { get; set; } = DateTime.Now;
         public IdentityUser Reciver { get; set; }
+        [Required]
 
         public bool IsReaded { get; set; } = false;
     }

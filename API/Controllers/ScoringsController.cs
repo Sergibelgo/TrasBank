@@ -76,6 +76,7 @@ namespace APITrassBank.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
+
             return Ok(JsonConvert.SerializeObject(loan));
         }
     }

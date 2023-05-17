@@ -21,7 +21,7 @@ namespace APITrassBank.Controllers
             _httpContext = httpContextAccessor.HttpContext;
             _messagesService = messagesService;
         }
-        [HttpGet]
+        [HttpGet("self")]
         public async Task<IActionResult> Get()
         {
             var idSelf = _httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;

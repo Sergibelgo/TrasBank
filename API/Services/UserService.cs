@@ -11,6 +11,7 @@ namespace APITrassBank.Services
         Task<bool> ChangePassword(UserPasswordDTO model, string id);
         Task GenerateBasics();
         Task<IdentityUser> GetUser(string id);
+        Task<IdentityUser> GetUserByUserName(string userName);
         Task<IEnumerable<IdentityUser>> GetUsers();
         Task<IdentityUser> LogIn(UserLoginDTO model);
     }
@@ -142,6 +143,12 @@ namespace APITrassBank.Services
             }
             var result = await _userManager.ChangePasswordAsync(user, model.OldPass, model.NewPass);
             return result.Succeeded;
+        }
+
+        public async Task<IdentityUser> GetUserByUserName(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            return user;
         }
     }
 }

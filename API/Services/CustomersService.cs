@@ -51,7 +51,7 @@ namespace APITrassBank.Services
         }
         public async Task<Customer> CreateCustomer(CustomerRegisterDTO model)
         {
-            var worker = await _contextDB.Workers.Where(worker => worker.Id.ToString() == model.WorkerId).FirstOrDefaultAsync();
+            var worker = await _contextDB.Workers.Where(worker => worker.AppUser.NormalizedEmail == model.WorkerEmail.ToUpper()).FirstOrDefaultAsync();
             var workingStatus = await _enums.GetCustomerWorkingStatusAsync(model.WorkStatusId);
             if (worker is null || workingStatus is null)
             {

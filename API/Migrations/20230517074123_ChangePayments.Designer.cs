@@ -4,6 +4,7 @@ using APITrassBank.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APITrassBank.Migrations
 {
     [DbContext(typeof(ContextDB))]
-    partial class ContextDBModelSnapshot : ModelSnapshot
+    [Migration("20230517074123_ChangePayments")]
+    partial class ChangePayments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,18 +32,15 @@ namespace APITrassBank.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AppUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("Operative")
                         .HasColumnType("bit");
 
                     b.Property<string>("Region")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -142,7 +142,6 @@ namespace APITrassBank.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("AppUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstName")
@@ -160,7 +159,7 @@ namespace APITrassBank.Migrations
                     b.Property<int>("WorkStatusId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("WorkerId")
+                    b.Property<Guid?>("WorkerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -201,7 +200,7 @@ namespace APITrassBank.Migrations
                         .HasPrecision(30, 2)
                         .HasColumnType("decimal(30,2)");
 
-                    b.Property<Guid>("CustomerId")
+                    b.Property<Guid?>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("EndDate")
@@ -336,7 +335,7 @@ namespace APITrassBank.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("LoanId")
+                    b.Property<Guid?>("LoanId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -359,7 +358,7 @@ namespace APITrassBank.Migrations
                         .HasPrecision(30, 2)
                         .HasColumnType("decimal(30,2)");
 
-                    b.Property<Guid>("LoanId")
+                    b.Property<Guid?>("LoanId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Salary")
@@ -438,7 +437,6 @@ namespace APITrassBank.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AppUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
@@ -448,7 +446,7 @@ namespace APITrassBank.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("WorkerStatusId")
+                    b.Property<int?>("WorkerStatusId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -679,9 +677,7 @@ namespace APITrassBank.Migrations
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserId");
 
                     b.Navigation("AppUser");
                 });
@@ -715,9 +711,7 @@ namespace APITrassBank.Migrations
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserId");
 
                     b.HasOne("Entitys.Entity.CustomerWorkingStatus", "WorkStatus")
                         .WithMany()
@@ -727,9 +721,7 @@ namespace APITrassBank.Migrations
 
                     b.HasOne("Entitys.Entity.Worker", "Worker")
                         .WithMany()
-                        .HasForeignKey("WorkerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WorkerId");
 
                     b.Navigation("AppUser");
 
@@ -742,9 +734,7 @@ namespace APITrassBank.Migrations
                 {
                     b.HasOne("Entitys.Entity.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerId");
 
                     b.HasOne("Entitys.Entity.LoanStatus", "LoanStatus")
                         .WithMany()
@@ -784,9 +774,7 @@ namespace APITrassBank.Migrations
                 {
                     b.HasOne("Entitys.Entity.Loan", "Loan")
                         .WithMany()
-                        .HasForeignKey("LoanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LoanId");
 
                     b.Navigation("Loan");
                 });
@@ -795,9 +783,7 @@ namespace APITrassBank.Migrations
                 {
                     b.HasOne("Entitys.Entity.Loan", "Loan")
                         .WithMany()
-                        .HasForeignKey("LoanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LoanId");
 
                     b.Navigation("Loan");
                 });
@@ -831,15 +817,11 @@ namespace APITrassBank.Migrations
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserId");
 
                     b.HasOne("Entitys.Entity.WorkerStatus", "WorkerStatus")
                         .WithMany()
-                        .HasForeignKey("WorkerStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WorkerStatusId");
 
                     b.Navigation("AppUser");
 

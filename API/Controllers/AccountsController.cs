@@ -153,7 +153,7 @@ namespace APITrassBank.Controllers
             }
             return Ok("Name changed");
         }
-        [HttpPut("GetByUserName")]
+        [HttpPost("GetByUserName")]
         public async Task<IActionResult> GetByUserName([FromBody] string username)
         {
             if (String.IsNullOrEmpty(username))

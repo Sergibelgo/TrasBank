@@ -25,7 +25,7 @@ namespace APITrassBank.Services
         public async Task Create(string idSelf, MessageCreateDTO model)
         {
             var user = await _userService.GetUser(idSelf) ?? throw new ArgumentException("User loged not valid");
-            var reciver = await _userService.GetUser(model.ReciverId) ?? throw new ArgumentException("Reciver Id not valid");
+            var reciver = await _userService.GetUserByUserName(model.ReciverUserName) ?? throw new ArgumentException("Reciver username not valid");
             
             var messaje = new Message()
             {
@@ -58,8 +58,8 @@ namespace APITrassBank.Services
                 Body = m.Body,
                 Date = m.Date,
                 IsReaded = m.IsReaded,
-                ReciverName = m.User.UserName,
-                RevicerId = m.User.Id,
+                SenderName = m.User.UserName,
+                SenderId = m.User.Id,
                 Title = m.Title
             }).ToListAsync();
             return messages;
