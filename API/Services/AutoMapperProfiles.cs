@@ -13,7 +13,7 @@ namespace APITrassBank.Services
                 .ForMember(dto => dto.CustomerId, ent => ent.MapFrom(x => x.Customer.Id))
                 .ForMember(dto => dto.LoanStatus, ent => ent.MapFrom(x => x.LoanStatus.Name))
                 .ForMember(dto => dto.LoanType, ent => ent.MapFrom(x => x.LoanType.Name))
-                .ForMember(dto=>dto.LoanName,ent=>ent.MapFrom(x=>x.LoanName))
+                .ForMember(dto => dto.LoanName, ent => ent.MapFrom(x => x.LoanName))
                 ;
             CreateMap<Account, AccountResponseDTO>()
                 .ForMember(dto => dto.Name, ent => ent.MapFrom(x => x.AccountName))

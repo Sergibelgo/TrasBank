@@ -1,9 +1,9 @@
 ﻿using APITrassBank.Context;
 using APITrassBank.Models;
+using Entitys.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Transactions;
-using Entitys.Entity;
 
 namespace APITrassBank.Services
 {
@@ -23,7 +23,7 @@ namespace APITrassBank.Services
         private readonly IEnumsService _enums;
         private readonly IAccountsService _accountsService;
 
-        public CustomersService(ContextDB contextDB, UserManager<IdentityUser> userManager, IEnumsService enums,IAccountsService accountsService)
+        public CustomersService(ContextDB contextDB, UserManager<IdentityUser> userManager, IEnumsService enums, IAccountsService accountsService)
         {
             _contextDB = contextDB;
             _userManager = userManager;

@@ -9,7 +9,7 @@ namespace Entitys.Entity
         [Required]
         public Loan Loan { get; set; }
         [Required]
-        public DateTime DateTime { get; set; }=DateTime.Now;
+        public DateTime DateTime { get; set; } = DateTime.Now;
         [Required]
         public decimal Deposit { get; set; }
         [Required]

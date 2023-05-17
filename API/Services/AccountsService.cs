@@ -1,10 +1,7 @@
 ﻿using APITrassBank.Context;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Entitys.Entity;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.Design;
-using System.Security.Principal;
 
 namespace APITrassBank.Services
 {
@@ -66,7 +63,7 @@ namespace APITrassBank.Services
 
         public async Task<IEnumerable<AccountResponseDTO>> GetAll()
         {
-            return await _contextDB.Proyecto_Accounts.Include(x=>x.AccountStatus).Include(x=>x.Customer).Include(x=>x.AccountType).Select(x => _mapper.Map<AccountResponseDTO>(x)).ToListAsync();
+            return await _contextDB.Proyecto_Accounts.Include(x => x.AccountStatus).Include(x => x.Customer).Include(x => x.AccountType).Select(x => _mapper.Map<AccountResponseDTO>(x)).ToListAsync();
         }
 
         public async Task<AccountResponseDTO> GetById(string id, string userId = null)
@@ -84,8 +81,8 @@ namespace APITrassBank.Services
 
         public async Task<IEnumerable<AccountResponseDTO>> GetByUserId(string userId)
         {
-           
-            return await _contextDB.Proyecto_Accounts.Include(x=>x.Customer).ThenInclude(x=>x.AppUser).Include(x=>x.AccountStatus).Include(x=>x.AccountType).Where(x => x.Customer.AppUser.Id == userId)
+
+            return await _contextDB.Proyecto_Accounts.Include(x => x.Customer).ThenInclude(x => x.AppUser).Include(x => x.AccountStatus).Include(x => x.AccountType).Where(x => x.Customer.AppUser.Id == userId)
                                             .Select(x => _mapper.Map<AccountResponseDTO>(x)).ToListAsync();
         }
 
@@ -109,8 +106,8 @@ namespace APITrassBank.Services
         public async Task<IEnumerable<AccountByUsernameDTO>> GetByUserName(string username)
         {
             return await _contextDB.Proyecto_Accounts
-                .Where(x=>x.Customer.AppUser.UserName == username)
-                .Select(x=>_mapper.Map<AccountByUsernameDTO>(x))
+                .Where(x => x.Customer.AppUser.UserName == username)
+                .Select(x => _mapper.Map<AccountByUsernameDTO>(x))
                 .ToListAsync();
         }
     }

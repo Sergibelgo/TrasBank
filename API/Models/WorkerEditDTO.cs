@@ -8,7 +8,7 @@ namespace APITrassBank.Models
         public string Username { get; set; }
         [Required]
         [DataType(DataType.EmailAddress)]
-        public string Email { get;set; }
+        public string Email { get; set; }
         [Required]
         [DataType(DataType.Password)]
         public DateTime StartDate { get; set; } = DateTime.Now;

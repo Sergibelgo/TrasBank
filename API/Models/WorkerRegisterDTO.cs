@@ -8,11 +8,11 @@ namespace APITrassBank.Models
         public string Username { get; set; }
         [Required]
         [DataType(DataType.EmailAddress)]
-        public string Email { get;set; }
+        public string Email { get; set; }
         [Required]
         [DataType(DataType.Password)]
-        public string Password { get;set; }
-        public DateTime StartDate { get; set; } 
+        public string Password { get; set; }
+        public DateTime StartDate { get; set; }
         public int WorkerStatusId { get; set; } = 1;
         [Required]
         public string FullName { get; set; }

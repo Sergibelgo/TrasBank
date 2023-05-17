@@ -10,6 +10,6 @@
         public string Type { get; set; }
         public decimal Interest { get; set; }
         public string Propetary { get; set; }
-        public string PropetaryId { get;set; }
+        public string PropetaryId { get; set; }
     }
 }

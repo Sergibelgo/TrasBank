@@ -59,7 +59,7 @@ namespace APITrassBank.Services
 
         public async Task<LoanType> GetLoanTypeAsync(int id)
         {
-            return await _contextDB.Proyecto_LoansTypes.FirstOrDefaultAsync(lt=>lt.Id== id);
+            return await _contextDB.Proyecto_LoansTypes.FirstOrDefaultAsync(lt => lt.Id == id);
         }
 
         public async Task<IEnumerable<LoanType>> GetLoanTypesAsync()

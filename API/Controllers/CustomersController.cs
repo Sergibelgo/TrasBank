@@ -1,13 +1,10 @@
-﻿using APITrassBank.Context;
-using APITrassBank.Models;
+﻿using APITrassBank.Models;
 using APITrassBank.Services;
+using Entitys.Entity;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Security.Claims;
-using Entitys.Entity;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

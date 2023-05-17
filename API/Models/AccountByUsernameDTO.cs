@@ -2,7 +2,7 @@
 {
     public class AccountByUsernameDTO
     {
-        public string Id { get;set; }
-        public string AccountName { get;set; }
+        public string Id { get; set; }
+        public string AccountName { get; set; }
     }
 }

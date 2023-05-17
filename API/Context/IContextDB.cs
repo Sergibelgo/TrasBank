@@ -1,6 +1,4 @@
-﻿using Entitys;
-using Entitys.Entity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Entitys.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace APITrassBank.Context

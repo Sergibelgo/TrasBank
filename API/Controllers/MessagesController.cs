@@ -1,10 +1,7 @@
-﻿using APITrassBank.Context;
-using APITrassBank.Models;
+﻿using APITrassBank.Models;
 using APITrassBank.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Net.Http;
 using System.Security.Claims;
 
 namespace APITrassBank.Controllers
@@ -38,7 +35,7 @@ namespace APITrassBank.Controllers
             var idSelf = _httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;
             try
             {
-                 await _messagesService.Create(idSelf, model);
+                await _messagesService.Create(idSelf, model);
             }
             catch (ArgumentException ex)
             {

@@ -26,7 +26,7 @@ namespace APITrassBank.Services
         {
             var user = await _userService.GetUser(idSelf) ?? throw new ArgumentException("User loged not valid");
             var reciver = await _userService.GetUserByUserName(model.ReciverUserName) ?? throw new ArgumentException("Reciver username not valid");
-            
+
             var messaje = new Message()
             {
                 Body = model.Body,
@@ -36,7 +36,7 @@ namespace APITrassBank.Services
             using var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
             try
             {
-                _contextDB.Users.AttachRange(user,reciver);
+                _contextDB.Users.AttachRange(user, reciver);
                 var result = (await _contextDB.Proyecto_Messages.AddAsync(messaje)).Entity;
                 result.User = user;
                 result.Reciver = reciver;
@@ -48,7 +48,7 @@ namespace APITrassBank.Services
                 scope.Dispose();
                 throw;
             }
-            
+
         }
 
         public async Task<IEnumerable<MessageDTO>> GetMessages(string id)

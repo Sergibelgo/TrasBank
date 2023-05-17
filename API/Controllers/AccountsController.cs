@@ -1,9 +1,7 @@
 ﻿using APITrassBank.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Net.Http;
 using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -65,7 +63,7 @@ namespace APITrassBank.Controllers
             AccountResponseDTO account;
             try
             {
-                account = await _accountsService.GetById(id,null);
+                account = await _accountsService.GetById(id, null);
             }
             catch (ArgumentOutOfRangeException)
             {

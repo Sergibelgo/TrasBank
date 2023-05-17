@@ -1,7 +1,4 @@
-﻿using Entitys.Entity;
-using System.ComponentModel.DataAnnotations;
-
-namespace APITrassBank.Models
+﻿namespace APITrassBank.Models
 {
     public class LoanResponseDTO
     {
