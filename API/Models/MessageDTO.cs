@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
-
-namespace APITrassBank.Models
+﻿namespace APITrassBank.Models
 {
     public class MessageDTO
     {

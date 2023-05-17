@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Validators;
 
 namespace Entitys.Entity
 {
@@ -11,7 +10,7 @@ namespace Entitys.Entity
         public Customer Customer { get; set; }
         [Required]
         public decimal Ammount { get; set; }
-        
+
         [Required]
         public decimal InterestRate { get; set; }
         [Required]

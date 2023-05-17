@@ -10,14 +10,14 @@ namespace APITrassBank.Services
     {
         Task<string> GenerateJWT(IdentityUser user);
     }
-    public class AuthUsersService:IAuthUsersService
+    public class AuthUsersService : IAuthUsersService
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly string jwt_Key;
         private readonly string jwt_Issuer;
         private readonly string jwt_Audience;
 
-        public AuthUsersService(UserManager<IdentityUser> userManager,IConfiguration configuration)
+        public AuthUsersService(UserManager<IdentityUser> userManager, IConfiguration configuration)
         {
             _userManager = userManager;
             jwt_Issuer = configuration.GetSection("Jwt")["Issuer"];

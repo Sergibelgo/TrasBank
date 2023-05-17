@@ -1,9 +1,6 @@
-﻿using APITrassBank.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Net.Http;
 using System.Security.Claims;
 
 namespace APITrassBank.Controllers

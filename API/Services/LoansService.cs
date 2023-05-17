@@ -135,7 +135,7 @@ namespace APITrassBank.Services
                 .Include(x => x.LoanType)
                 .Include(x => x.LoanStatus)
                 .Where(x => x.Customer.AppUser.Id == idSelf)
-                .Select(x =>_mapper.Map<LoanResponseDTO>(x)).ToListAsync();
+                .Select(x => _mapper.Map<LoanResponseDTO>(x)).ToListAsync();
         }
 
         public async Task<IEnumerable<LoanApprovedResponseDTO>> GetByUserIdApproved(string idSelf)

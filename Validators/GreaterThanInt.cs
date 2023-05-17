@@ -20,7 +20,7 @@ namespace Validators
             var secondComparable = Number as IComparable;
             if (firstComparable is not null && secondComparable is not null)
             {
-                if (firstComparable.CompareTo(secondComparable)>-1)
+                if (firstComparable.CompareTo(secondComparable) > -1)
                 {
                     return ValidationResult.Success;
                 }

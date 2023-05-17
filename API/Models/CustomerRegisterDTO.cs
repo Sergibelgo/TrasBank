@@ -1,6 +1,6 @@
 ﻿namespace APITrassBank.Models
 {
-    public class CustomerRegisterDTO:UserRegisterDTO
+    public class CustomerRegisterDTO : UserRegisterDTO
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

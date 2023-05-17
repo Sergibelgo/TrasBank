@@ -2,7 +2,7 @@
 
 namespace APITrassBank.Models
 {
-    public class CustomerEditDTO:UserEditDTO
+    public class CustomerEditDTO : UserEditDTO
     {
         [Required]
         public string FirstName { get; set; }

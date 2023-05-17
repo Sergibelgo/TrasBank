@@ -1,9 +1,9 @@
 ﻿using APITrassBank.Context;
 using APITrassBank.Models;
+using Entitys.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Transactions;
-using Entitys.Entity;
 
 namespace APITrassBank.Services
 {
@@ -100,7 +100,7 @@ namespace APITrassBank.Services
         public async Task<IEnumerable<WorkersMailsDTO>> GetWorkersMail()
         {
             return await _contextDB.Proyecto_Workers
-                .Select(x=>new WorkersMailsDTO() { Name=x.Name,Email=x.AppUser.Email})
+                .Select(x => new WorkersMailsDTO() { Name = x.Name, Email = x.AppUser.Email })
                 .ToListAsync();
         }
     }

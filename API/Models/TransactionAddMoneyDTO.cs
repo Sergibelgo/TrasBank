@@ -9,7 +9,7 @@ namespace APITrassBank
         [TransactionMoneyValidator]
         public decimal Quantity { get; set; }
     }
-    public class TransferMoneyDTO 
+    public class TransferMoneyDTO
     {
         [Required]
         public decimal Quantity { get; set; }

@@ -83,9 +83,9 @@ namespace APITrassBank.Services
             }
             if (!(await _contextDB.Proyecto_LoansTypes.AnyAsync()))
             {
-                _contextDB.Proyecto_LoansTypes.Add(new LoanType() { Name = "Personal",Percentaje=20,TAE=2,TIN=1 });
-                _contextDB.Proyecto_LoansTypes.Add(new LoanType() { Name = "Buissness",Percentaje=30,TAE=2,TIN=1 });
-                _contextDB.Proyecto_LoansTypes.Add(new LoanType() { Name = "Home" ,Percentaje=40,TAE=3,TIN=1});
+                _contextDB.Proyecto_LoansTypes.Add(new LoanType() { Name = "Personal", Percentaje = 20, TAE = 2, TIN = 1 });
+                _contextDB.Proyecto_LoansTypes.Add(new LoanType() { Name = "Buissness", Percentaje = 30, TAE = 2, TIN = 1 });
+                _contextDB.Proyecto_LoansTypes.Add(new LoanType() { Name = "Home", Percentaje = 40, TAE = 3, TIN = 1 });
             }
             if (!(await _contextDB.Proyecto_AccountStatuses.AnyAsync()))
             {
