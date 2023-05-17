@@ -6,6 +6,11 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entitys", "Entitys\Entitys.csproj", "{687DA33C-C6D6-44F2-876F-37C314AAD18F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APITrassBank", "API\APITrassBank.csproj", "{646A6A77-2700-4197-A2CC-AB4E56193239}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3F6768EF-C8BD-492D-BBD8-2FE9841AD08D} = {3F6768EF-C8BD-492D-BBD8-2FE9841AD08D}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Validators", "Validators\Validators.csproj", "{3F6768EF-C8BD-492D-BBD8-2FE9841AD08D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +26,10 @@ Global
 		{646A6A77-2700-4197-A2CC-AB4E56193239}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{646A6A77-2700-4197-A2CC-AB4E56193239}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{646A6A77-2700-4197-A2CC-AB4E56193239}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F6768EF-C8BD-492D-BBD8-2FE9841AD08D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F6768EF-C8BD-492D-BBD8-2FE9841AD08D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F6768EF-C8BD-492D-BBD8-2FE9841AD08D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F6768EF-C8BD-492D-BBD8-2FE9841AD08D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

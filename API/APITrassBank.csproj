@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Entitys\Entitys.csproj" />
+    <ProjectReference Include="..\Validators\Validators.csproj" />
   </ItemGroup>
 
 </Project>

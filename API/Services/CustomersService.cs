@@ -19,16 +19,20 @@ namespace APITrassBank.Services
     public class CustomersService : ICustomerService
     {
         private readonly ContextDB _contextDB;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IEnumsService _enums;
+        private readonly IAccountsService _accountsService;
 
-        public CustomersService(ContextDB contextDB, UserManager<IdentityUser> userManager)
+        public CustomersService(ContextDB contextDB, UserManager<IdentityUser> userManager, IEnumsService enums,IAccountsService accountsService)
         {
-            this._contextDB = contextDB;
-            this.userManager = userManager;
+            _contextDB = contextDB;
+            _userManager = userManager;
+            _enums = enums;
+            _accountsService = accountsService;
         }
         public async Task<IEnumerable<Customer>> GetCustomersAsync()
         {
-            var customers = await _contextDB.Customers.Include(customer => customer.AppUser)
+            var customers = await _contextDB.Proyecto_Customers.Include(customer => customer.AppUser)
                                                 .Include(customer => customer.Worker)
                                                 .Include(customer => customer.WorkStatus)
                                                 .Select(customer => customer).ToListAsync();
@@ -36,7 +40,7 @@ namespace APITrassBank.Services
         }
         public async Task<Customer> GetCustomerAsync(string id)
         {
-            var customer = await _contextDB.Customers
+            var customer = await _contextDB.Proyecto_Customers
                                                 .Where(customer => customer.Id.ToString() == id || customer.AppUser.Id == id)
                                                 .Include(customer => customer.AppUser)
                                                 .Include(customer => customer.Worker)
@@ -47,8 +51,8 @@ namespace APITrassBank.Services
         }
         public async Task<Customer> CreateCustomer(CustomerRegisterDTO model)
         {
-            var worker = _contextDB.Workers.Where(worker => worker.Id.ToString() == model.WorkerId).FirstOrDefault();
-            var workingStatus = _contextDB.WorkingStates.Where(status => status.Id == model.WorkStatusId).FirstOrDefault();
+            var worker = await _contextDB.Proyecto_Workers.Where(worker => worker.AppUser.NormalizedEmail == model.WorkerEmail.ToUpper()).FirstOrDefaultAsync();
+            var workingStatus = await _enums.GetCustomerWorkingStatusAsync(model.WorkStatusId);
             if (worker is null || workingStatus is null)
             {
                 return null;
@@ -61,10 +65,10 @@ namespace APITrassBank.Services
                     Email = model.Email,
                     UserName = model.Username
                 };
-                var response = await userManager.CreateAsync(newUser, password: model.Password);
+                var response = await _userManager.CreateAsync(newUser, password: model.Password);
                 if (response.Succeeded)
                 {
-                    var user = (await userManager.FindByEmailAsync(newUser.Email));
+                    var user = (await _userManager.FindByEmailAsync(newUser.Email));
                     Customer newCustomer = new()
                     {
                         FirstName = model.FirstName,
@@ -77,8 +81,9 @@ namespace APITrassBank.Services
                         WorkStatusId = model.WorkStatusId,
                         AppUser = user
                     };
-                    var customer = await _contextDB.Customers.AddAsync(newCustomer);
+                    var customer = await _contextDB.Proyecto_Customers.AddAsync(newCustomer);
                     await _contextDB.SaveChangesAsync();
+                    await _accountsService.CreateMain(customer.Entity);
                     scope.Complete();
                     return customer.Entity;
                 }
@@ -101,12 +106,12 @@ namespace APITrassBank.Services
             {
                 return false;
             }
-            var worker = await _contextDB.Workers.FirstOrDefaultAsync(w => w.Id == model.WorkerId);
+            var worker = await _contextDB.Proyecto_Workers.FirstOrDefaultAsync(w => w.Id == model.WorkerId);
             if (worker is null)
             {
                 return false;
             }
-            var workStatus = await _contextDB.WorkingStates.FirstOrDefaultAsync(ws => ws.Id == model.WorkStatusId);
+            var workStatus = await _contextDB.Proyecto_WorkingStates.FirstOrDefaultAsync(ws => ws.Id == model.WorkStatusId);
             if (workStatus is null)
             {
                 return false;
@@ -127,14 +132,14 @@ namespace APITrassBank.Services
             {
                 customer.AppUser.Email = model.Email;
                 customer.AppUser.UserName = model.Username;
-                await userManager.UpdateAsync(customer.AppUser);
+                await _userManager.UpdateAsync(customer.AppUser);
                 customer.FirstName = model.FirstName;
                 customer.LastName = model.LastName;
                 customer.Address = model.Address;
                 customer.Age = model.Age;
                 customer.Income = model.Income;
                 customer.WorkStatusId = model.WorkStatusId;
-                customer.Worker = await _contextDB.Workers.FirstOrDefaultAsync(w => w.Id == model.WorkerId);
+                customer.Worker = await _contextDB.Proyecto_Workers.FirstOrDefaultAsync(w => w.Id == model.WorkerId);
                 await _contextDB.SaveChangesAsync();
                 scope.Complete();
                 return customer;
@@ -152,7 +157,7 @@ namespace APITrassBank.Services
             {
                 customer.AppUser.Email = model.Email;
                 customer.AppUser.UserName = model.Username;
-                await userManager.UpdateAsync(customer.AppUser);
+                await _userManager.UpdateAsync(customer.AppUser);
                 customer.Income = model.Income;
                 customer.Address = model.Address;
                 customer.Age = model.Age;

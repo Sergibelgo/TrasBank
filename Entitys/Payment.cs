@@ -4,11 +4,10 @@ namespace Entitys.Entity
 {
     public class Payment
     {
-        public Guid Id { get; set; }
-        public Loan Loan { get; set; }
-        
         [Required]
-        public string Description { get; set; }
+        public Guid Id { get; set; }
+        [Required]
+        public Loan Loan { get; set; }
         [Required]
         public decimal Ammount { get; set; }
         [Required]

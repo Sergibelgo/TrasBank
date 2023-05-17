@@ -1,4 +1,5 @@
 using APITrassBank.Context;
+using APITrassBank.Models;
 using APITrassBank.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -27,11 +29,17 @@ namespace APITrassBank
             {
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             });
-            builder.Services.AddDbContext<ContextDB>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            })
-            .AddIdentity<IdentityUser, IdentityRole>(opciones =>
+            builder.Services.AddDbContext<ContextDB>(opciones =>
+            opciones.UseMySql(
+                builder.Configuration.GetConnectionString("MariaDbConnectionString"),
+                new MariaDbServerVersion(new Version(10, 3, 27))
+                ));
+            //builder.Services.AddDbContext<ContextDB>(options =>
+            //{
+            //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            //});
+            builder.Services
+                .AddIdentity<IdentityUser, IdentityRole>(opciones =>
             {
                 opciones.SignIn.RequireConfirmedAccount = false;
             })
@@ -60,19 +68,50 @@ namespace APITrassBank
                                 };
                             });
             builder.Services.AddAutoMapper(typeof(Program));
-            //builder.Services.AddDbContext<ContextDB>(opciones =>
-            //opciones.UseMySql(
-            //    builder.Configuration.GetConnectionString("MariaDbConnectionString"),
-            //    new MariaDbServerVersion(new Version(10, 3, 27))
-            //    ));
-            builder.Services.AddTransient<IContextDB, ContextDB>();
-            builder.Services.AddTransient<IAuthUsersService, AuthUsersService>();
-            builder.Services.AddTransient<IWorkerService, WorkerService>();
-            builder.Services.AddTransient<ICustomerService, CustomersService>();
-            builder.Services.AddTransient<IMessagesService, MessagesService>();
+
+            builder.Services
+                .AddTransient<IUserService, UserService>()
+                .AddTransient<IContextDB, ContextDB>()
+                .AddTransient<IAuthUsersService, AuthUsersService>()
+                .AddTransient<IWorkerService, WorkerService>()
+                .AddTransient<ICustomerService, CustomersService>()
+                .AddTransient<IMessagesService, MessagesService>()
+                .AddTransient<ILoansService, LoansService>()
+                .AddTransient<IEnumsService, EnumsService>()
+                .AddTransient<IAccountsService, AccountsService>()
+                .AddTransient<IScoringsService, ScoringsService>()
+                .AddTransient<IPaymentsService, PaymentsService>()
+                .AddTransient<ITransactionsService, TransactionsService>()
+                ;
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(
+                c =>
+                {
+                    c.AddSecurityDefinition(JwtAuthenticationDefaults.AuthenticationScheme,
+                    new OpenApiSecurityScheme
+                    {
+                        Description = "JWT Authorization header using the Bearer scheme.",
+                        Name = JwtAuthenticationDefaults.HeaderName, // Authorization
+                        In = ParameterLocation.Header,
+                        Type = SecuritySchemeType.Http,
+                        Scheme = "bearer"
+                    });
+                    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = JwtAuthenticationDefaults.AuthenticationScheme
+                                }
+                            },
+                            new List<string>()
+                        }
+                    });
+                });
 
             var app = builder.Build();
 

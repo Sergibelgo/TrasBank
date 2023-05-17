@@ -8,6 +8,6 @@
         public DateTime Age { get; set; }
         public decimal Income { get; set; }
         public int WorkStatusId { get; set; }
-        public string WorkerId { get; set; }
+        public string WorkerEmail { get; set; }
     }
 }

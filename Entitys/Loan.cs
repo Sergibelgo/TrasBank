@@ -1,15 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Validators;
 
 namespace Entitys.Entity
 {
     public class Loan
     {
+        [Required]
         public Guid Id { get; set; }
+        [Required]
         public Customer Customer { get; set; }
         [Required]
         public decimal Ammount { get; set; }
+        
         [Required]
-        public int InterestRate { get; set; }
+        public decimal InterestRate { get; set; }
+        [Required]
+        public decimal TotalAmmount { get; set; }
         [Required]
         public DateTime StartDate { get; set; }
         [Required]
@@ -23,8 +29,11 @@ namespace Entitys.Entity
         public LoanStatus LoanStatus { get; set; }
         [Required]
         public int LoanStatusId { get; set; }
+        [Required]
         public LoanType LoanType { get; set; }
         [Required]
         public int LoanTypeId { get; set; }
+        [Required]
+        public string LoanName { get; set; }
     }
 }
