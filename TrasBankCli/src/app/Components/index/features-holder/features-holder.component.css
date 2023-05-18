@@ -1,0 +1,6 @@
+/* ====== feature css ====== */
+@media (max-width: 767px) {
+  .feature-section.pt-120 {
+    padding-top: 80px;
+  }
+}
