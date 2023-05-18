@@ -33,6 +33,11 @@ body {
   box-sizing: border-box;
 }
 
+.logo-sm{
+    width:45%;
+    height:35%;
+}
+
 a:focus,
 input:focus,
 textarea:focus,

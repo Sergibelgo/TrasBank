@@ -6,6 +6,7 @@
   background-image: url("/assets/img/hero/hero-bg.svg");
   background-position: top center;
   background-repeat: no-repeat;
+  filter: hue-rotate(20 deg);
 }
 
 /*@media (max-width: 767px) {

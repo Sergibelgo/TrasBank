@@ -43,7 +43,7 @@
       </p>
     </div>
 
-    <ul *ngIf="list.length!=0">
+    <ul *ngIf="list.length!=0" class="wow fadeInUp" data-wow-delay=".4s">
       <li *ngFor="let item of list">{{item}}</li>
     </ul>
     <a *ngIf="url!=null" href="{{url}}"
