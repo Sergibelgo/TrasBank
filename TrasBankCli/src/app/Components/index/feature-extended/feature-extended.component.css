@@ -1,0 +1,36 @@
+.single-feature-extended {
+  padding: 30px;
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .single-feature-extended {
+    padding: 30px 10px;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .single-feature-extended {
+    padding: 30px 0px;
+  }
+}
+
+.single-feature-extended .icon img {
+  height: 8em;
+  width:10em;
+  line-height: 1;
+  margin-bottom: 30px;
+  color: #5864FF;
+}
+
+.single-feature-extended .content h3 {
+  margin-bottom: 20px;
+}
+
+.single-feature-extended .content p {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 28px;
+}
+.content{
+    text-align:center;
+}

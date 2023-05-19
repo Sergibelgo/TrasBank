@@ -6,7 +6,6 @@
   background-image: url("/assets/img/hero/hero-bg.svg");
   background-position: top center;
   background-repeat: no-repeat;
-  filter: hue-rotate(20 deg);
 }
 
 /*@media (max-width: 767px) {
@@ -75,7 +74,7 @@
 }
 
 .hero-section .hero-content .main-btn {
-  border-color: #fff;
+  border-color: #FCE500;
   color: #fff;
 }
 
@@ -88,9 +87,9 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #fff;
-  border: 3px solid #5864FF;
-  color: #5864FF;
+  background: #c34141;
+  border: 2px solid #FCE500;
+  color: #FCE500;
   left: 15px;
   bottom: 0;
   z-index: 9;

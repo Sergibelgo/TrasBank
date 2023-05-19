@@ -24,6 +24,7 @@ body {
   font-style: normal;
   color: #5B657E;
   overflow-x: hidden;
+  background: rgba(182, 145, 145, 0.11);
 }
 
 * {
@@ -250,11 +251,11 @@ p {
   color: #fff;
 }
 
-.main-btn.border-btn {
-  border: 2px solid #5864FF;
-  background: transparent;
-  color: #5864FF;
-}
+  .main-btn.border-btn {
+    border: 2px solid #FCE500;
+    background: transparent;
+    color: #5864FF;
+  }
 
 .btn-hover {
   position: relative;
