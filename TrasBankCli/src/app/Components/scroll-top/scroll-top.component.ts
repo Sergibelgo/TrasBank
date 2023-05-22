@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./scroll-top.component.css']
 })
 export class ScrollTopComponent {
-
+  toTop() {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
 }

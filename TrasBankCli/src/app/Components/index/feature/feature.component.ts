@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./feature.component.css']
 })
 export class FeatureComponent {
-  @Input() icon: string | undefined;
-  @Input() title: string | undefined;
-  @Input() text: string | undefined;
+  @Input() icon: string = "";
+  @Input() title: string = "";
+  @Input() text: string = "";
 }

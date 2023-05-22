@@ -1,3 +1,36 @@
 {
-  "head": "TrasBank empowers you to take control of your finances with ease. No more wasting time in long queues or dealing with complicated processes. Our intuitive mobile app and user-friendly website put banking at your fingertips. From managing your accounts to making seamless transactions, TrasBank ensures that your banking needs are met effortlessly, anytime, and anywhere."
+  "Description": "TrasBank empowers you to take control of your finances with ease. No more wasting time in long queues or dealing with complicated processes. Our intuitive mobile app and user-friendly website put banking at your fingertips. From managing your accounts to making seamless transactions, TrasBank ensures that your banking needs are met effortlessly, anytime, and anywhere.",
+  "Register": "Register",
+  "Login": "Login",
+  "Feature01_Title": "Fast",
+  "Feature01_Text": "Make transactions quickly and dynamically",
+  "Feature02_Title": "Online",
+  "Feature02_Text": "Your banking in the cloud so that you can manage completely from your mobile",
+  "Feature03_Title": "Secure",
+  "Feature03_Text": "Totally secure, protecting all your data so that it can only be accessed by you",
+  "Slide01_Title": "Efficient",
+  "Slide01_Text": "TrasBank takes banking efficiency to new heights with its optimized platform. \n Say goodbye to unnecessary delays and experience swift transactions that keep up with your fast-paced lifestyle. Our streamlined processes and smart algorithms ensure that every interaction with TrasBank is smooth and seamless. From opening an account to managing your finances, we prioritize optimization to save you time and effort.\nEnjoy lightning-fast transaction processing at TrasBank. No more waiting for hours or days to see your funds reflected in your account. Our optimization efforts ensure that your transactions are processed swiftly, providing you with real-time results. With TrasBank's optimized mobile app and website, banking has never been more convenient. Access your accounts, make transfers, and stay in control of your money with intuitive interfaces designed for maximum efficiency.",
+  "Slide02_Title": "Security",
+  "Slide02_Text": "TrasBank's optimized security measures provide you with peace of mind.\n We employ advanced technologies to safeguard your personal information, utilizing encryption and multi-factor authentication to protect your data. Our optimization extends to customer support, ensuring that your inquiries are addressed promptly and effectively.\n TrasBank's dedicated support team is committed to providing you with efficient assistance, making your banking experience hassle-free.",
+
+
+  "Slide02_Point01": "Java Web Tokens",
+  "Slide02_Point02": "Middleware",
+  "Slide02_Point03": "EndPoints Security",
+  "About_Title": "Who are we?",
+  "About_Subtitle": "The people begind this project are composed by:",
+  "About_Trassierra": "The institute behind the support and realization of this project",
+  "About_Sergio": "The fullstack developer of this project, behind all desing, code and deployment",
+  "About_Atmira": "The company that taught and directed the developer to direct this project",
+  "Footer_Text": "CFP of Sergio Beltrán Gómez done for the cicle of Web development to the insitute IES Trassierra",
+  "Footer_About_Title": "About Us",
+  "Footer_About_Home": "Home",
+  "Footer_About_Feature": "Feature",
+  "Footer_About_About": "About",
+  "Footer_Features_Title": "Features",
+  "Footer_Features_Terms": "Terms of service",
+  "Footer_Features_Privacy": "Privacy policy",
+  "Footer_Features_Refund": "Refund policy",
+  "Footer_Languages": "Languages"
+
 }

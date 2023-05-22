@@ -5,8 +5,8 @@
   background-position: top right;
   padding-top: 260px;
   margin-top: 100px;
-  z-index:8;
-  position:relative;
+  z-index: 8;
+  position: relative;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -84,4 +84,13 @@
 
     .footer .widget-wrapper .footer-widget ul.links li a:hover {
       padding-left: 8px;
+    }
+
+    .btn-flag{
+        background-color:rgba(0,0,0,0);
+        border:none;
+        display:block;
+    }
+    .btn-flag img{
+        width:20%;
     }

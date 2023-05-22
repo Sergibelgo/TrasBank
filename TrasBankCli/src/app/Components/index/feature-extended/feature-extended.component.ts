@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./feature-extended.component.css']
 })
 export class FeatureExtendedComponent {
-  @Input() src: string | undefined;
-  @Input() title: string | undefined;
-  @Input() text: string | undefined;
+  @Input() src: string ="";
+  @Input() title: string ="";
+  @Input() text: string ="";
 }

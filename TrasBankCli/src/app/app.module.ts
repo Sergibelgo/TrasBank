@@ -17,6 +17,8 @@ import { FeatureComponent } from './Components/index/feature/feature.component';
 import { AboutComponent } from './Components/index/about/about.component';
 import { UsComponent } from './Components/index/us/us.component';
 import { FeatureExtendedComponent } from './Components/index/feature-extended/feature-extended.component';
+import { LoginComponent } from './Components/login/login.component';
+import { FormLoginComponent } from './Components/login/form-login/form-login.component';
 
 
 @NgModule({
@@ -31,7 +33,9 @@ import { FeatureExtendedComponent } from './Components/index/feature-extended/fe
     FeatureComponent,
     AboutComponent,
     UsComponent,
-    FeatureExtendedComponent
+    FeatureExtendedComponent,
+    LoginComponent,
+    FormLoginComponent
   ],
   imports: [
     BrowserModule,

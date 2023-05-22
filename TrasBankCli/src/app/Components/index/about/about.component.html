@@ -36,15 +36,15 @@
   <div class="about-content">
     <div class="section-title mb-30">
       <h2 class="mb-25 wow fadeInUp" data-wow-delay=".2s">
-        {{title}}
+        {{title|translate}}
       </h2>
       <p class="wow fadeInUp" data-wow-delay=".4s">
-        {{text}}
+        {{text|translate}}
       </p>
     </div>
 
     <ul *ngIf="list.length!=0" class="wow fadeInUp" data-wow-delay=".4s">
-      <li *ngFor="let item of list">{{item}}</li>
+      <li *ngFor="let item of list">{{item|translate}}</li>
     </ul>
     <a *ngIf="url!=null" href="{{url}}"
        class="main-btn btn-hover border-btn wow fadeInUp"
