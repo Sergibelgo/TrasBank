@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -20,8 +20,11 @@ import { FeatureExtendedComponent } from './Components/index/feature-extended/fe
 import { LoginComponent } from './Components/login/login.component';
 import { FormLoginComponent } from './Components/login/form-login/form-login.component';
 import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './Redux/redux';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { userReducer } from './state/reducers/user.reducer';
+import { ROOT_REDUCERS } from './state/app.state';
+import { UserEffects } from './state/effects/user.effects';
 
 
 @NgModule({
@@ -53,10 +56,9 @@ import { EffectsModule } from '@ngrx/effects';
         deps: [HttpClient]
       }
     }),
-    StoreModule.forRoot(reducers, {
-      metaReducers
-    }),
-    EffectsModule.forRoot([])
+    StoreModule.forRoot(ROOT_REDUCERS),
+    EffectsModule.forRoot([UserEffects]),
+    StoreDevtoolsModule.instrument({ name:"Test" })
   ],
   providers: [],
   bootstrap: [AppComponent]

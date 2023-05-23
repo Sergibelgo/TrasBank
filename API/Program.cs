@@ -18,7 +18,18 @@ namespace APITrassBank
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name:"Policy1",
+                    policy =>
+                    {
+                        policy.AllowAnyHeader();
+                        policy.AllowAnyOrigin();
+                    });
+
+            });
             var politicaUsuariosAutenticados = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+            
 
             // Add services to the container.
 
@@ -112,6 +123,7 @@ namespace APITrassBank
                         }
                     });
                 });
+            
 
             var app = builder.Build();
 
@@ -124,6 +136,7 @@ namespace APITrassBank
 
             app.UseHttpsRedirection();
 
+            app.UseCors("Policy1");
             app.UseAuthentication();
             app.UseAuthorization();
 

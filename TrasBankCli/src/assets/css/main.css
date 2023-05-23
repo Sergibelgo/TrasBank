@@ -61,12 +61,20 @@ button:focus,
   box-shadow: none;
 }
 
-.btn-recolor {
+.btn-primary {
   background-color: #a83636;
+  border-color: #a83636;
 }
-.btn-deselect {
+
+  .btn-primary:hover {
+    background-color: #a74c4c;
+    border-color: #a74c4c;
+  }
+
+.btn-secondary {
   background-color: #431313;
 }
+
 
 a:hover {
   color: #5864FF;

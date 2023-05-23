@@ -2,20 +2,31 @@
   <div class="card-title mb-3">
     <h2>Login</h2>
   </div>
-  <form>
+  <form [formGroup]="frlogin" autocomplete="off">
     <div class="form-outline mb-4">
-      <input type="email" id="form2Example11" class="form-control"
-             placeholder="Phone number or email address" />
+      <input type="text" class="form-control"
+             id="email"
+             name="email"
+             formControlName="email"
+             placeholder="name@example.com" />
       <label class="form-label" for="form2Example11">Username</label>
+      <small class="form-text text-danger"
+             *ngIf="frlogin.controls['email'].hasError('required') && frlogin.controls['email'].touched">
+        Dato requerido
+      </small>
     </div>
     <div class="form-outline mb-4">
-      <input type="password" id="form2Example22" class="form-control" />
-      <label class="form-label" for="form2Example22">Password</label>
+      <input type="password" id="password" name="password" formControlName="password" placeholder="password" class="form-control" />
+      <label class="form-label" for="password">Password</label>
+      <small class="form-text text-danger"
+             *ngIf="frlogin.controls['password'].hasError('required') && frlogin.controls['password'].touched">
+        Dato requerido
+      </small>
     </div>
 
     <div class="text-center pt-1 mb-5 pb-1 d-flex flex-column">
-      <button class="btn btn-primary btn-recolor btn-block fa-lg gradient-custom-2 mb-3" type="button">
-        Login
+      <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button" (click)="login()">
+        {{'Login'|translate}}
       </button>
     </div>
 
