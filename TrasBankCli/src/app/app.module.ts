@@ -19,6 +19,9 @@ import { UsComponent } from './Components/index/us/us.component';
 import { FeatureExtendedComponent } from './Components/index/feature-extended/feature-extended.component';
 import { LoginComponent } from './Components/login/login.component';
 import { FormLoginComponent } from './Components/login/form-login/form-login.component';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './Redux/redux';
+import { EffectsModule } from '@ngrx/effects';
 
 
 @NgModule({
@@ -49,7 +52,11 @@ import { FormLoginComponent } from './Components/login/form-login/form-login.com
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    StoreModule.forRoot(reducers, {
+      metaReducers
+    }),
+    EffectsModule.forRoot([])
   ],
   providers: [],
   bootstrap: [AppComponent]
