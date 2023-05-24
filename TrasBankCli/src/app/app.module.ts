@@ -25,6 +25,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { userReducer } from './state/reducers/user.reducer';
 import { ROOT_REDUCERS } from './state/app.state';
 import { UserEffects } from './state/effects/user.effects';
+import { FormRegisterComponent } from './components/login/form-register/form-register.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { UserEffects } from './state/effects/user.effects';
     UsComponent,
     FeatureExtendedComponent,
     LoginComponent,
-    FormLoginComponent
+    FormLoginComponent,
+    FormRegisterComponent
   ],
   imports: [
     BrowserModule,

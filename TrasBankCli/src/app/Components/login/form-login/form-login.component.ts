@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,  OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { setLoadUser, tryLogIn } from '../../../state/actions/auth.actions';
+import { setLoad, tryLogIn } from '../../../state/actions/auth.actions';
 
 @Component({
   selector: 'app-form-login',
@@ -23,7 +23,7 @@ export class FormLoginComponent implements OnInit {
   }
   login() {
     if (this.frlogin.valid) {
-      this.store.dispatch(setLoadUser({ load: true }));
+      this.store.dispatch(setLoad({ load: true }));
       const data = this.frlogin.value;
       this.store.dispatch(tryLogIn(data));
     }

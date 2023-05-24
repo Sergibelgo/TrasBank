@@ -1,28 +1,28 @@
-import { Component,  OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import {  map } from 'rxjs';
+import { Subscription, map } from 'rxjs';
 import { selectError, selectLoading } from '../../state/selectors/user.selectors';
 import Swal from 'sweetalert2';
+import { alertLoading, errorAlert } from '../Utils';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
-  loading$ = this.store.select(selectLoading);
-  error$ = this.store.select(selectError);
+  loading$: Subscription;
+  error$: Subscription;
   formSelect: boolean = true;
-  alertLoading: any = Swal.mixin({
-    title: "Loading...",
-    icon: 'info',
-    showConfirmButton: false,
-    allowOutsideClick: false
-  });
+  
   constructor(private store: Store<any>) {
-    this.loading$.pipe(map(res => { return res })).subscribe((val) => { this.loading(val) });
-    this.error$.pipe(map(res => { return res })).subscribe((val) => { if (val!="") this.error(val) })
+    this.loading$ = this.store.select(selectLoading).pipe(map(res => { return res })).subscribe((val) => { this.loading(val) });
+    this.error$ = this.store.select(selectError).pipe(map(res => { return res })).subscribe((val) => { if (val != "") errorAlert(val) })
+  }
+  ngOnDestroy(): void {
+    this.loading$.unsubscribe();
+    this.error$.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -34,15 +34,9 @@ export class LoginComponent implements OnInit {
 
   loading(value: boolean) {
     if (value) {
-      this.alertLoading.fire();
+      alertLoading.fire();
     } else {
-      this.alertLoading.close();
+      alertLoading.close();
     }
-  }
-  error(val: string) {
-    Swal.fire({
-      icon: "error",
-      title:val
-    })
   }
 }

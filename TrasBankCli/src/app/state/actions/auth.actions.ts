@@ -15,7 +15,7 @@ import { User } from '../../Models/User/user';
 //    'Retrieved Book List': props<{ books: ReadonlyArray<Book> }>(),
 //  },
 //});
-export const setLoadUser = createAction("[User login] Load user", props<{ load: boolean }>());
+export const setLoad = createAction("[User login] Load user", props<{ load: boolean }>());
 export const setUserJWT = createAction("[User login] Set JWT", props<{ userJWT: string }>());
 export const tryLogIn = createAction("[User login] Try login", props<{ password: string, username?: string, email?: string }>());
 export const setError = createAction("[Errors] Set Error", props<{ error: string }>());

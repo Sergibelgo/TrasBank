@@ -1,0 +1,121 @@
+<div class="card-body p-md-5 mx-md-4">
+  <div class="card-title mb-3">
+    <h2>{{'Register'|translate}}</h2>
+  </div>
+  <form [formGroup]="frRegister" autocomplete="off">
+    <div class="form-outline mb-4">
+      <input type="email" class="form-control"
+             id="email"
+             name="email"
+             formControlName="email"
+             placeholder="name@example.com" />
+      <label class="form-label" for="email">Email</label>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['email'].hasError('required') && frRegister.controls['email'].touched">
+        Dato requerido
+      </small>
+    </div>
+    <div class="form-outline mb-4">
+      <input type="text" class="form-control"
+             id="username"
+             name="username"
+             formControlName="username"
+             placeholder="username" />
+      <label class="form-label" for="username">Username</label>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['username'].hasError('required') && frRegister.controls['username'].touched">
+        Dato requerido
+      </small>
+    </div>
+    <div class="form-outline mb-4">
+      <input type="text" class="form-control"
+             id="firstname"
+             name="firstname"
+             formControlName="firstname"
+             placeholder="firstname" />
+      <label class="form-label" for="firstname">First Name</label>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['firstname'].hasError('required') && frRegister.controls['firstname'].touched">
+        Dato requerido
+      </small>
+    </div>
+    <div class="form-outline mb-4">
+      <input type="text" class="form-control"
+             id="lastname"
+             name="lastname"
+             formControlName="lastname"
+             placeholder="lastname" />
+      <label class="form-label" for="lastname">Last Name</label>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['lastname'].hasError('required') && frRegister.controls['lastname'].touched">
+        Dato requerido
+      </small>
+    </div>
+    <div class="form-outline mb-4">
+      <input type="text" class="form-control"
+             id="address"
+             name="address"
+             formControlName="address"
+             placeholder="address" />
+      <label class="form-label" for="address">Address</label>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['address'].hasError('required') && frRegister.controls['address'].touched">
+        Dato requerido
+      </small>
+    </div>
+    <div class="form-outline mb-4">
+      <input type="date" class="form-control"
+             id="age"
+             name="age"
+             formControlName="age"
+             placeholder="age" />
+      <label class="form-label" for="age">Birthday</label>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['age'].hasError('required') && frRegister.controls['age'].touched">
+        Dato requerido
+      </small>
+    </div>
+    <div class="form-outline mb-4">
+      <input type="number" class="form-control"
+             id="income"
+             name="income"
+             formControlName="income"
+             placeholder="income" />
+      <label class="form-label" for="income">Birthday</label>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['income'].hasError('required') && frRegister.controls['income'].touched">
+        Dato requerido
+      </small>
+    </div>
+    <div class="form-outline mb-4">
+      <input type="radio" class="form-control"
+             id="workStatusId"
+             name="workStatusId"
+             formControlName="workStatusId"
+             placeholder="workStatusId" />
+      <label class="form-label" for="workStatusId">Working Status</label>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['income'].hasError('required') && frRegister.controls['income'].touched">
+        Dato requerido
+      </small>
+    </div>
+
+    <div class="form-outline mb-4">
+      <input type="password" id="password" name="password" formControlName="password" placeholder="password" class="form-control" />
+      <label class="form-label" for="password">Password</label>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['password'].hasError('required') && frRegister.controls['password'].touched">
+        Dato requerido
+      </small>
+    </div>
+
+    <div class="text-center pt-1 mb-5 pb-1 d-flex flex-column">
+      <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button" (click)="register()">
+        {{'Register'|translate}}
+      </button>
+    </div>
+
+  </form>
+</div>
+
+

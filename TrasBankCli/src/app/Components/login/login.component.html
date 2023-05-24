@@ -2,8 +2,8 @@
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="row">
-        <div class="col-lg-6 p-2 d-flex">
-          <div class="d-flex w-100 justify-content-center">
+        <div class=" col-lg-6 p-2">
+          <div class="">
             <img src="/assets/img/logo/logoFondo.png"
                  alt="logo" class="logo-lg">
           </div>
@@ -14,8 +14,8 @@
 
             </div>
             <div class="card-footer d-flex justify-content-between">
-              <button class="btn btn-primary btn-deselect">Register</button>
-              <button class="btn btn-secondary btn-recolor">Login</button>
+              <button class="btn btn-secondary" disabled>{{'Register'|translate}}</button>
+              <button class="btn btn-primary">{{'Login'|translate}}</button>
             </div>
           </div>
         </div>
@@ -27,5 +27,5 @@
   <app-form-login></app-form-login>
 </ng-template>
 <ng-template #register>
-  <app-form-login></app-form-login>
+  <app-form-register></app-form-register>
 </ng-template>
