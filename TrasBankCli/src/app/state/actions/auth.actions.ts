@@ -1,5 +1,6 @@
 import { createAction, createActionGroup, props } from '@ngrx/store';
 import { User } from '../../Models/User/user';
+import { UserRegister } from '../../Models/UserRegister/user-register';
 
 //export const BooksActions = createActionGroup({
 //  source: 'Books',
@@ -18,4 +19,5 @@ import { User } from '../../Models/User/user';
 export const setLoad = createAction("[User login] Load user", props<{ load: boolean }>());
 export const setUserJWT = createAction("[User login] Set JWT", props<{ userJWT: string }>());
 export const tryLogIn = createAction("[User login] Try login", props<{ password: string, username?: string, email?: string }>());
+export const tryRegister = createAction("[User register] Try register", props<{ data: UserRegister }>())
 export const setError = createAction("[Errors] Set Error", props<{ error: string }>());

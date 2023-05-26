@@ -81,21 +81,29 @@
              name="income"
              formControlName="income"
              placeholder="income" />
-      <label class="form-label" for="income">Birthday</label>
+      <label class="form-label" for="income">Income</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['income'].hasError('required') && frRegister.controls['income'].touched">
         Dato requerido
       </small>
     </div>
     <div class="form-outline mb-4">
-      <input type="radio" class="form-control"
-             id="workStatusId"
-             name="workStatusId"
-             formControlName="workStatusId"
-             placeholder="workStatusId" />
-      <label class="form-label" for="workStatusId">Working Status</label>
+      <select class="form-select" id="workStatusId" formControlName="workStatusId" name="workStatusId">
+        <option *ngFor="let status of workingStatuses" [value]="status.Id">{{status.Name}}</option>
+      </select>
+      <label for="workStatusId" class="form-label">Select working status</label>
       <small class="form-text text-danger"
-             *ngIf="frRegister.controls['income'].hasError('required') && frRegister.controls['income'].touched">
+             *ngIf="frRegister.controls['workStatusId'].hasError('required') && frRegister.controls['workStatusId'].touched">
+        Dato requerido
+      </small>
+    </div>
+    <div class="form-outline mb-4">
+      <select class="form-select" id="workerEmail" formControlName="workerEmail" name="workerEmail">
+        <option *ngFor="let worker of workers" [value]="worker.Email">{{worker.Name}}</option>
+      </select>
+      <label for="workerEmail" class="form-label">Select a worker for you</label>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['workerEmail'].hasError('required') && frRegister.controls['workerEmail'].touched">
         Dato requerido
       </small>
     </div>

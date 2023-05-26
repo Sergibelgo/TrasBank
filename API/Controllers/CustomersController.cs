@@ -15,11 +15,13 @@ namespace APITrassBank.Controllers
     public class CustomersController : ControllerBase
     {
         private readonly ICustomerService _customerService;
+        private readonly IAuthUsersService _authUsersService;
         private readonly HttpContext httpContext;
 
-        public CustomersController(ICustomerService customerService, IHttpContextAccessor accessor)
+        public CustomersController(ICustomerService customerService, IHttpContextAccessor accessor,IAuthUsersService authUsersService)
         {
             _customerService = customerService;
+            _authUsersService = authUsersService;
             httpContext = accessor.HttpContext;
         }
         // GET: api/<CustomersController>
@@ -69,7 +71,7 @@ namespace APITrassBank.Controllers
             {
                 return BadRequest(JsonConvert.SerializeObject(new { model, error = "The customer could not be created" }));
             }
-            return Created($"api/[controller]/{customer.Id}", customer);
+            return Created($"api/[controller]/{customer.Id}", JsonConvert.SerializeObject( await _authUsersService.GenerateJWT(customer.AppUser)));
         }
 
         // PUT api/<CustomersController>/5

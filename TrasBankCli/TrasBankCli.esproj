@@ -12,8 +12,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="src\app\Components\" />
-    <Folder Include="src\app\state\selectors\" />
-    <Folder Include="src\app\state\reducers\" />
     <Folder Include="src\assets\i18n\" />
   </ItemGroup>
 </Project>

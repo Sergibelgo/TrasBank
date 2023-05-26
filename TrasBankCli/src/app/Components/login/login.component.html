@@ -10,13 +10,13 @@
         </div>
         <div class="col-lg-6 p-2">
           <div class="card">
-            <div *ngIf="formSelect;then register; else login">
-
-            </div>
             <div class="card-footer d-flex justify-content-between">
-              <button class="btn btn-secondary" disabled>{{'Register'|translate}}</button>
-              <button class="btn btn-primary">{{'Login'|translate}}</button>
+              <button class="btn btn-primary" disabled (click)="changeForm(true)">{{'Register'|translate}}</button>
+              <button class="btn btn-primary" (click)="changeForm(false)">{{'Login'|translate}}</button>
             </div>
+            <div *ngIf="formSelect;then register; else login">
+            </div>
+
           </div>
         </div>
       </div>

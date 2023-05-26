@@ -6,7 +6,7 @@ import { EnumsService } from '../../services/enums.service';
 
 @Injectable()
 export class EnumsEffects {
-  loadUserJWT$ = createEffect(() => this.actions$.pipe(
+  transactionsTypes$ = createEffect(() => this.actions$.pipe(
     ofType("[Enums] load TransactionsTypes"),
     mergeMap((action: any) => this.enumsService.getTransactionTypes()
       .then((TransactionTypes) => ({ type: "[Enums] Set TransactionsTypes", TransactionTypes }))
@@ -14,6 +14,14 @@ export class EnumsEffects {
     )
   )
   );
+  workingStatuses$ = createEffect(() => this.actions$.pipe(
+    ofType("[Enums] load WorkingStatuses"),
+    mergeMap(
+      (action: any) => this.enumsService.getWorkingStatuses()
+        .then((WorkingStatuses) => ({ type: "[Enums] Set WorkingStatuses", WorkingStatuses }))
+        .catch((error) => ({ type: "[Errors] Set Error", error }))
+    )
+  ))
 
   constructor(
     private actions$: Actions,

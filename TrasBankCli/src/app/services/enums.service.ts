@@ -9,12 +9,19 @@ export class EnumsService {
   constructor() {
   }
   async getTransactionTypes() {
-    let result = await fetch(`${this.baseUrl}/TransactionTypes`);
+    let result = await fetch(`${this.baseUrl}TransactionTypes`);
     var data = await result.json();
     if (!result.ok) {
       throw Error(data);
     }
-    console.log(data);
+    return data;
+  }
+  async getWorkingStatuses() {
+    let result = await fetch(`${this.baseUrl}CustomerWorkingStatuses`);
+    var data = await result.json();
+    if (!result.ok) {
+      throw Error(data);
+    }
     return data;
   }
 }

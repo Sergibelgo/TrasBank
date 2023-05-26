@@ -25,7 +25,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { userReducer } from './state/reducers/user.reducer';
 import { ROOT_REDUCERS } from './state/app.state';
 import { UserEffects } from './state/effects/user.effects';
-import { FormRegisterComponent } from './components/login/form-register/form-register.component';
+import { FormRegisterComponent } from './Components/login/form-register/form-register.component';
+import { EnumsEffects } from './state/effects/enums.effects';
+import { WorkerEffects } from './state/effects/worker.effects';
+import { DashBoardComponent } from './Components/dash/dash-board/dash-board.component';
 
 
 @NgModule({
@@ -43,7 +46,8 @@ import { FormRegisterComponent } from './components/login/form-register/form-reg
     FeatureExtendedComponent,
     LoginComponent,
     FormLoginComponent,
-    FormRegisterComponent
+    FormRegisterComponent,
+    DashBoardComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +63,7 @@ import { FormRegisterComponent } from './components/login/form-register/form-reg
       }
     }),
     StoreModule.forRoot(ROOT_REDUCERS),
-    EffectsModule.forRoot([UserEffects]),
+    EffectsModule.forRoot([UserEffects, EnumsEffects,WorkerEffects]),
     StoreDevtoolsModule.instrument({ name:"Test" })
   ],
   providers: [],

@@ -6,6 +6,6 @@ export interface Enumsstate {
   WorkerStatuses: Enum[]
 }
 export interface Enum {
-  id: number,
+  Id: number,
   Name: string
 }

@@ -14,6 +14,14 @@ export class UserEffects {
     )
   )
   );
+  registerUser$ = createEffect(() => this.actions$.pipe(
+    ofType("[User register] Try register"),
+    mergeMap((action: any) => this.authService.register(action)
+      .then((userJWT) => ({ type: "[User login] Set JWT", userJWT }))
+      .catch((error) => ({ type: "[Errors] Set Error", error }))
+    )
+
+  ))
 
   constructor(
     private actions$: Actions,
