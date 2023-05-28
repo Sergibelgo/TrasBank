@@ -1,5 +1,6 @@
 ﻿using APITrassBank.Context;
 using APITrassBank.Models;
+using AutoMapper;
 using Entitys.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ namespace APITrassBank.Services
         Task<Customer> CreateCustomer(CustomerRegisterDTO model);
         Task<Customer> GetCustomerAsync(string id);
         Task<IEnumerable<Customer>> GetCustomersAsync();
+        Task<CustomerSelfDTO> GetSelfAsync(string id);
         Task<bool> IsValidModel(CustomerEditDTO model);
         Task<Customer> UpdateCustomer(Customer user, CustomerEditDTO model);
         Task<Customer> UpdateSelf(CustomerEditSelfDTO model, Customer customer);
@@ -22,13 +24,15 @@ namespace APITrassBank.Services
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IEnumsService _enums;
         private readonly IAccountsService _accountsService;
+        private readonly IMapper _mapper;
 
-        public CustomersService(ContextDB contextDB, UserManager<IdentityUser> userManager, IEnumsService enums, IAccountsService accountsService)
+        public CustomersService(ContextDB contextDB, UserManager<IdentityUser> userManager, IEnumsService enums, IAccountsService accountsService, IMapper mapper)
         {
             _contextDB = contextDB;
             _userManager = userManager;
             _enums = enums;
             _accountsService = accountsService;
+            _mapper = mapper;
         }
         public async Task<IEnumerable<Customer>> GetCustomersAsync()
         {
@@ -49,13 +53,37 @@ namespace APITrassBank.Services
                                                 .FirstOrDefaultAsync();
             return customer;
         }
+        public async Task<CustomerSelfDTO> GetSelfAsync(string id)
+        {
+            var customer = await _contextDB.Proyecto_Customers
+                .Include(a => a.AppUser)
+                .Where(c => c.AppUser.Id == id)
+                .Select(a => _mapper.Map<CustomerSelfDTO>(a))
+                .FirstOrDefaultAsync();
+            var accounts = await _contextDB.Proyecto_Accounts
+                .Where(a => a.Customer.AppUser.Id == id)
+                .Select(a => new AccountList
+                {
+                    Id = a.Id.ToString(),
+                    Name = a.AccountName
+                })
+                .ToListAsync();
+            customer.Accounts = accounts;
+            return customer;
+        }
         public async Task<Customer> CreateCustomer(CustomerRegisterDTO model)
         {
             var worker = await _contextDB.Proyecto_Workers.Where(worker => worker.AppUser.NormalizedEmail == model.WorkerEmail.ToUpper()).FirstOrDefaultAsync();
             var workingStatus = await _enums.GetCustomerWorkingStatusAsync(model.WorkStatusId);
             if (worker is null || workingStatus is null)
             {
-                return null;
+                throw new Exception("Invalid worker or working status");
+            }
+            DateTime date = DateTime.Now;
+            date = date.AddYears(-18);
+            if (model.Age.CompareTo(date) > 0)
+            {
+                throw new Exception("The client must be over 18 years old");
             }
             using var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
             try

@@ -21,3 +21,5 @@ export const setUserJWT = createAction("[User login] Set JWT", props<{ userJWT: 
 export const tryLogIn = createAction("[User login] Try login", props<{ password: string, username?: string, email?: string }>());
 export const tryRegister = createAction("[User register] Try register", props<{ data: UserRegister }>())
 export const setError = createAction("[Errors] Set Error", props<{ error: string }>());
+export const loadUser = createAction("[User info] Load info", props < {jwt:string}>());
+export const setUser = createAction("[User info] set info", props < {user:User}>())

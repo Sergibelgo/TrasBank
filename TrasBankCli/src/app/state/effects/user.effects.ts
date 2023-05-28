@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
 import { map, exhaustMap, catchError, mergeMap, switchMap } from 'rxjs/operators';
 import { AuthService } from '../../services/auth-service.service';
-
+import { User } from '../../Models/User/user';
 @Injectable()
 export class UserEffects {
   loadUserJWT$ = createEffect(() => this.actions$.pipe(
@@ -22,6 +22,13 @@ export class UserEffects {
     )
 
   ))
+  loadUser$ = createEffect(() => this.actions$.pipe(
+    ofType("[User info] Load info"),
+    mergeMap((action: any) => this.authService.loadUser(action.jwt)
+      .then((user) => ({ type: "[User info] set info", user}))
+      .catch((error) => ({ type: "[Errors] Set Error", error }))
+    )
+  ));
 
   constructor(
     private actions$: Actions,

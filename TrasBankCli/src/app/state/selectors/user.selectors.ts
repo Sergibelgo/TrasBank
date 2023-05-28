@@ -16,3 +16,7 @@ export const selectError = createSelector(
   selectUserFeature,
   (state: UserState) => state.errorMsg
 );
+export const selectUser = createSelector(
+  selectUserFeature,
+  (state: UserState) => state.user
+)

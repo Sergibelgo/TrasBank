@@ -68,10 +68,7 @@ namespace APITrassBank.Controllers
                 return BadRequest(JsonConvert.SerializeObject("Username, Email or password invalid"));
             }
             var jwt = await _authService.GenerateJWT(user);
-            return Ok(new
-            {
-                AccessToken = jwt
-            });
+            return Ok(JsonConvert.SerializeObject(jwt));
         }
         [HttpGet("GenerarBasicos")]
         [AllowAnonymous]

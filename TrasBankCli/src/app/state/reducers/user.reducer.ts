@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { setError, setLoad, setUserJWT } from '../actions/auth.actions';
+import { setError, setLoad, setUser, setUserJWT } from '../actions/auth.actions';
 import { UserState } from '../../Models/userState/user-state';
 
 
@@ -22,5 +22,9 @@ export const userReducer = createReducer(
   }),
   on(setError, (state, action) => {
     return { ...state, errorMsg: action.error, loading:false }
+  }),
+  on(setUser, (state, action) => {
+    return { ...state, user: action.user }
   })
+  
 );

@@ -29,6 +29,10 @@ import { FormRegisterComponent } from './Components/login/form-register/form-reg
 import { EnumsEffects } from './state/effects/enums.effects';
 import { WorkerEffects } from './state/effects/worker.effects';
 import { DashBoardComponent } from './Components/dash/dash-board/dash-board.component';
+import { MenuLComponent } from './Components/dash/dash-board/menu-l/menu-l.component';
+import { MenuSComponent } from './Components/dash/dash-board/menu-s/menu-s.component';
+import { AccountsInfoComponent } from './Components/dash/dash-board/accounts-info/accounts-info.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 
 @NgModule({
@@ -47,11 +51,15 @@ import { DashBoardComponent } from './Components/dash/dash-board/dash-board.comp
     LoginComponent,
     FormLoginComponent,
     FormRegisterComponent,
-    DashBoardComponent
+    DashBoardComponent,
+    MenuLComponent,
+    MenuSComponent,
+    AccountsInfoComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    FullCalendarModule,
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,

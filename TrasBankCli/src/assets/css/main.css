@@ -26,6 +26,7 @@ body {
   color: #5B657E;
   overflow-x: hidden;
   background: rgba(182, 145, 145, 0.11);
+  min-width:400px;
 }
 
 * {
@@ -86,7 +87,9 @@ button:focus,
 .btn-secondary {
   background-color: #431313;
 }
-
+.bg-color {
+  background-color: #a83636;
+}
 
 a:hover {
   color: #5864FF;

@@ -49,7 +49,7 @@ namespace APITrassBank.Controllers
         public async Task<IActionResult> GetSelf()
         {
             var idSelf = httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;
-            var self = await _customerService.GetCustomerAsync(idSelf);
+            var self = await _customerService.GetSelfAsync(idSelf);
             if (self is null)
             {
                 return NotFound();
@@ -66,12 +66,17 @@ namespace APITrassBank.Controllers
             {
                 return BadRequest(ConstructResponse(model, "Invalid model"));
             }
+            try { 
             var customer = await _customerService.CreateCustomer(model);
             if (customer is null)
             {
                 return BadRequest(JsonConvert.SerializeObject(new { model, error = "The customer could not be created" }));
             }
             return Created($"api/[controller]/{customer.Id}", JsonConvert.SerializeObject( await _authUsersService.GenerateJWT(customer.AppUser)));
+            }catch(Exception ex)
+            {
+                return BadRequest(JsonConvert.SerializeObject(ex.Message));
+            }
         }
 
         // PUT api/<CustomersController>/5

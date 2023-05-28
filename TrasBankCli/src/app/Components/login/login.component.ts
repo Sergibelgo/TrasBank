@@ -53,9 +53,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
   logedIn(val: any) {
-    if (val.accessToken != null && val.accessToken != "") {
-      if (this.jwt == null || this.jwt != val.accessToken) {
-        localStorage.setItem("userTokenIdentification", val.accessToken);
+    if (val != null && val != "") {
+      if (this.jwt == null || this.jwt != val) {
+        localStorage.setItem("userTokenIdentification", val);
       }
       this.router.navigate(["dash"]);
     }

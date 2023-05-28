@@ -14,7 +14,6 @@ export class WorkersService {
     if (!result.ok) {
       throw Error(data);
     }
-    console.log(data);
     return data;
   }
 }

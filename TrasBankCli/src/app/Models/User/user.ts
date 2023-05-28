@@ -6,7 +6,7 @@ export interface User {
   username: string;
   email: string;
   income: number;
-  accounts: Account[];
+  accounts: { id: string,name:string }[];
   age: Date;
   }
 
