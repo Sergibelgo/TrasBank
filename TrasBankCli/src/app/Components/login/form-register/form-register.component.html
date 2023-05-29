@@ -9,7 +9,7 @@
              name="email"
              formControlName="email"
              placeholder="name@example.com" />
-      <label class="form-label" for="email">Email</label>
+      <label class="form-label" for="email">{{"Email"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['email'].hasError('required') && frRegister.controls['email'].touched">
         Dato requerido
@@ -20,8 +20,8 @@
              id="username"
              name="username"
              formControlName="username"
-             placeholder="username" />
-      <label class="form-label" for="username">Username</label>
+             placeholder="xXPedroXx" />
+      <label class="form-label" for="username">{{"Username"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['username'].hasError('required') && frRegister.controls['username'].touched">
         Dato requerido
@@ -32,8 +32,8 @@
              id="firstname"
              name="firstname"
              formControlName="firstname"
-             placeholder="firstname" />
-      <label class="form-label" for="firstname">First Name</label>
+             placeholder="Manuel" />
+      <label class="form-label" for="firstname">{{"First Name"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['firstname'].hasError('required') && frRegister.controls['firstname'].touched">
         Dato requerido
@@ -44,8 +44,8 @@
              id="lastname"
              name="lastname"
              formControlName="lastname"
-             placeholder="lastname" />
-      <label class="form-label" for="lastname">Last Name</label>
+             placeholder="Perez Rodriguez" />
+      <label class="form-label" for="lastname">{{"Last Name"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['lastname'].hasError('required') && frRegister.controls['lastname'].touched">
         Dato requerido
@@ -56,8 +56,8 @@
              id="address"
              name="address"
              formControlName="address"
-             placeholder="address" />
-      <label class="form-label" for="address">Address</label>
+             placeholder="Cº Motril" />
+      <label class="form-label" for="address">{{"Address"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['address'].hasError('required') && frRegister.controls['address'].touched">
         Dato requerido
@@ -68,8 +68,8 @@
              id="age"
              name="age"
              formControlName="age"
-             placeholder="age" />
-      <label class="form-label" for="age">Birthday</label>
+              />
+      <label class="form-label" for="age">{{"Birthday"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['age'].hasError('required') && frRegister.controls['age'].touched">
         Dato requerido
@@ -80,8 +80,8 @@
              id="income"
              name="income"
              formControlName="income"
-             placeholder="income" />
-      <label class="form-label" for="income">Income</label>
+             placeholder="1000" />
+      <label class="form-label" for="income">{{"Income"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['income'].hasError('required') && frRegister.controls['income'].touched">
         Dato requerido
@@ -91,7 +91,7 @@
       <select class="form-select" id="workStatusId" formControlName="workStatusId" name="workStatusId">
         <option *ngFor="let status of workingStatuses" [value]="status.Id">{{status.Name}}</option>
       </select>
-      <label for="workStatusId" class="form-label">Select working status</label>
+      <label for="workStatusId" class="form-label">{{"Select working status"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['workStatusId'].hasError('required') && frRegister.controls['workStatusId'].touched">
         Dato requerido
@@ -101,7 +101,7 @@
       <select class="form-select" id="workerEmail" formControlName="workerEmail" name="workerEmail">
         <option *ngFor="let worker of workers" [value]="worker.Email">{{worker.Name}}</option>
       </select>
-      <label for="workerEmail" class="form-label">Select a worker for you</label>
+      <label for="workerEmail" class="form-label">{{"Select a worker for you"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['workerEmail'].hasError('required') && frRegister.controls['workerEmail'].touched">
         Dato requerido
@@ -110,7 +110,7 @@
 
     <div class="form-outline mb-4">
       <input type="password" id="password" name="password" formControlName="password" placeholder="password" class="form-control" />
-      <label class="form-label" for="password">Password</label>
+      <label class="form-label" for="password">{{"Password"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['password'].hasError('required') && frRegister.controls['password'].touched">
         Dato requerido

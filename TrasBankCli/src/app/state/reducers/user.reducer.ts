@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { setError, setLoad, setUser, setUserJWT } from '../actions/auth.actions';
+import { resetUser, setError, setIndex, setLoad, setUser, setUserJWT } from '../actions/auth.actions';
 import { UserState } from '../../Models/userState/user-state';
 
 
@@ -9,7 +9,8 @@ export const initialState: UserState = {
   loading: false,
   userJWT: "",
   user: null,
-  errorMsg:""
+  errorMsg: "",
+  index:0
 };
 
 export const userReducer = createReducer(
@@ -25,6 +26,11 @@ export const userReducer = createReducer(
   }),
   on(setUser, (state, action) => {
     return { ...state, user: action.user }
+  }), on(resetUser, (state, action) => {
+    return initialState
+  }),
+  on(setIndex, (state, action) => {
+    return { ...state, index: action.index }
   })
   
 );

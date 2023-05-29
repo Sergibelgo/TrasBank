@@ -42,7 +42,7 @@ namespace APITrassBank.Services
                 throw new ArgumentException();
             }
 
-            await _transactionsService.AddorRemoveMoney(loan.Ammount, idSelf, account.Id.ToString());
+            await _transactionsService.AddorRemoveMoney(loan.Ammount, idSelf, account.Id.ToString(),"Loan approved");
             loan.LoanStatusId = 2;
             await _contextDB.SaveChangesAsync();
         }

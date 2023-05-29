@@ -24,7 +24,7 @@ namespace APITrassBank.Services
             CreateMap<Transaction, TransactionResponseDTO>()
                 .ForMember(dto => dto.TipeTransaction, ent => ent.MapFrom(x => x.TransactionType.Name))
                 .ForMember(dto => dto.NameOther, ent => ent.MapFrom(x => (x.OtherInvolved.UserName)))
-                .ForMember(dto => dto.AccountOtherId, ent => ent.MapFrom(x => x.OtherInvolved.Id))
+                .ForMember(dto => dto.AccountName, ent => ent.MapFrom(x => x.Account.AccountName))
                 ;
             CreateMap<Account, AccountByUsernameDTO>();
             CreateMap<Payment, PaymentResponseDTO>()

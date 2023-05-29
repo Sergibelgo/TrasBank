@@ -12,7 +12,7 @@ export class FormLoginComponent implements OnInit {
   frlogin: FormGroup;
   constructor(private frmBuilder: FormBuilder, private store: Store<any>) {
     this.frlogin = this.frmBuilder.group({
-      email: new FormControl('', [Validators.required]),
+      username: new FormControl('', [Validators.required]),
       password: new FormControl('', [
         Validators.required,
       ]),

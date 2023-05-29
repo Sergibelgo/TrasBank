@@ -28,7 +28,7 @@ namespace APITrassBank.Services
         }
         public async Task<AccountResponseDTO> Create(AccountCreateDTO model, string idSelf)
         {
-            var user = _contextDB.Proyecto_Customers.Where(c => c.AppUser.Id.ToString() == idSelf).FirstOrDefault() ?? throw new ArgumentOutOfRangeException();
+            var user = _contextDB.Proyecto_Customers.Where(c => c.AppUser.Id == idSelf).FirstOrDefault() ?? throw new ArgumentOutOfRangeException();
             var newAccount = new Account()
             {
                 Customer = user,

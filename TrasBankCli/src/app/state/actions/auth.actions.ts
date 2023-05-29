@@ -22,4 +22,6 @@ export const tryLogIn = createAction("[User login] Try login", props<{ password:
 export const tryRegister = createAction("[User register] Try register", props<{ data: UserRegister }>())
 export const setError = createAction("[Errors] Set Error", props<{ error: string }>());
 export const loadUser = createAction("[User info] Load info", props < {jwt:string}>());
-export const setUser = createAction("[User info] set info", props < {user:User}>())
+export const setUser = createAction("[User info] set info", props<{ user: User }>());
+export const resetUser = createAction("[User info] reset info");
+export const setIndex = createAction("[Dash]set index", props<{ index: number }>());

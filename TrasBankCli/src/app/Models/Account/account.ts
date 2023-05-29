@@ -1,10 +1,10 @@
 import { Transaction } from "../Transaction/transaction";
 
 export interface Account {
-  name: string;
-  accountType: string;
-  accountStatus: string;
-  saveDate: Date;
-  balance: number;
-  transactions: Transaction[];
+  Id: string;
+  Name: string;
+  Type: string;
+  Status: string;
+  SaveUntil: Date;
+  Balance: number;
 }

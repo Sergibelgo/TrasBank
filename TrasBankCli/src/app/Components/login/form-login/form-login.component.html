@@ -5,19 +5,19 @@
   <form [formGroup]="frlogin" autocomplete="off">
     <div class="form-outline mb-4">
       <input type="text" class="form-control"
-             id="email"
-             name="email"
-             formControlName="email"
-             placeholder="name@example.com" />
-      <label class="form-label" for="form2Example11">Username</label>
+             id="username"
+             name="username"
+             formControlName="username"
+             placeholder="Pepito2015" />
+      <label class="form-label" for="username">{{"Username"|translate}}</label>
       <small class="form-text text-danger"
-             *ngIf="frlogin.controls['email'].hasError('required') && frlogin.controls['email'].touched">
+             *ngIf="frlogin.controls['username'].hasError('required') && frlogin.controls['username'].touched">
         Dato requerido
       </small>
     </div>
     <div class="form-outline mb-4">
       <input type="password" id="password" name="password" formControlName="password" placeholder="password" class="form-control" />
-      <label class="form-label" for="password">Password</label>
+      <label class="form-label" for="password">{{"Password"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frlogin.controls['password'].hasError('required') && frlogin.controls['password'].touched">
         Dato requerido

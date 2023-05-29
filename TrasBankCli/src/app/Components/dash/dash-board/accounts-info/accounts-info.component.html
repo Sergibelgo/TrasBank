@@ -2,7 +2,11 @@
   <div class="row">
     <select class="form-select text-center">
       <option value="">{{"All"|translate}}</option>
+      <option *ngFor="let account of accountsBasicInfo" value="account.id">{{account.Name}}</option>
     </select>
+  </div>
+  <div class="row mt-3">
+    <h2>{{"Total Balance"|translate}}: {{accountActive?.Balance}} </h2>
   </div>
   <div class="row">
     <div class="pt-5">

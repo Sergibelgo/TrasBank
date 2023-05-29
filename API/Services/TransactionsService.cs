@@ -8,7 +8,7 @@ namespace APITrassBank
 {
     public interface ITransactionsService
     {
-        Task AddorRemoveMoney(decimal quantity, string idSelf, string idAccount);
+        Task AddorRemoveMoney(decimal quantity, string idSelf, string idAccount,string concept="");
         Task<IEnumerable<TransactionResponseDTO>> GetByUserId(string id);
         Task<IEnumerable<TransactionResponseDTO>> GetSelf(string idSelf, string id);
         Task TransferTo(TransferMoneyDTO model, string idSelf);
@@ -46,12 +46,14 @@ namespace APITrassBank
             return await _contextDB.Proyecto_Transactions
                 .Include(x => x.Account)
                 .ThenInclude(x => x.Customer)
-                .Where(x => x.Account.Customer.Id.ToString() == id)
+                .Include(x=>x.TransactionType)
+                .Include(x=>x.OtherInvolved)
+                .Where(x => x.Account.Customer.AppUser.Id == id)
                 .Select(x => _mapper.Map<TransactionResponseDTO>(x))
                 .ToListAsync();
         }
 
-        public async Task AddorRemoveMoney(decimal quantity, string idSelf, string idAccount)
+        public async Task AddorRemoveMoney(decimal quantity, string idSelf, string idAccount,string concept="")
         {
             var user = await _contextDB.Users.Where(x => x.Id == idSelf).FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
             var account = await _accountsService.GetById(idAccount);
@@ -68,7 +70,8 @@ namespace APITrassBank
                 Ammount = quantity,
                 Date = DateTime.UtcNow,
                 OtherInvolved = user,
-                TransactionType = transacction
+                TransactionType = transacction,
+                Concept=concept
             };
             await _contextDB.AddAsync(transaction);
             _contextDB.Update(account);
@@ -84,11 +87,15 @@ namespace APITrassBank
             var account = await _contextDB.Proyecto_Accounts
                 .Include(x => x.Customer)
                 .ThenInclude(x => x.AppUser)
-                .Where(x => x.Id.ToString() == model.accountReciverId)
+                .Where(x => x.Id.ToString() == model.AccountReciverId)
                 .FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
             var accountSelf = await _contextDB.Proyecto_Accounts
-                .Where(x => x.Id.ToString() == model.accountSenderId && x.Customer.AppUser.Id == idSelf)
+                .Where(x => x.Id.ToString() == model.AccountSenderId && x.Customer.AppUser.Id == idSelf)
                 .FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
+            if (accountSelf.AccountTypeId==2 && accountSelf.SaveUntil.CompareTo(DateTime.Now)>0)
+            {
+                throw new ArgumentException("The saving account does not meet the date yet");
+            }
             if (accountSelf.Balance < model.Quantity)
             {
                 throw new ArgumentException("Insufficient funds");
@@ -103,7 +110,8 @@ namespace APITrassBank
                 Ammount = Math.Abs(model.Quantity),
                 Date = DateTime.UtcNow,
                 OtherInvolved = user,
-                TransactionType = transaction
+                TransactionType = transaction,
+                Concept = model.Concept ?? ""
             };
             var transactionSub = new Entitys.Entity.Transaction()
             {

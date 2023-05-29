@@ -33,6 +33,9 @@ import { MenuLComponent } from './Components/dash/dash-board/menu-l/menu-l.compo
 import { MenuSComponent } from './Components/dash/dash-board/menu-s/menu-s.component';
 import { AccountsInfoComponent } from './Components/dash/dash-board/accounts-info/accounts-info.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { LogoutButtonComponent } from './Components/dash/dash-board/logout-button/logout-button.component';
+import { DropdownMenuComponent } from './Components/dash/dash-board/menu-l/dropdown-menu/dropdown-menu.component';
+import { AccountsEffects } from './state/effects/accounts.effects';
 
 
 @NgModule({
@@ -54,7 +57,9 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     DashBoardComponent,
     MenuLComponent,
     MenuSComponent,
-    AccountsInfoComponent
+    AccountsInfoComponent,
+    LogoutButtonComponent,
+    DropdownMenuComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +76,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
       }
     }),
     StoreModule.forRoot(ROOT_REDUCERS),
-    EffectsModule.forRoot([UserEffects, EnumsEffects,WorkerEffects]),
+    EffectsModule.forRoot([UserEffects, EnumsEffects, WorkerEffects, AccountsEffects]),
     StoreDevtoolsModule.instrument({ name:"Test" })
   ],
   providers: [],

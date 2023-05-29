@@ -33,6 +33,21 @@ namespace APITrassBank.Controllers
             return Ok(JsonConvert.SerializeObject(result));
 
         }
+        [HttpGet("self/all")]
+        public async Task<IActionResult> GetAllSelf()
+        {
+            var idSelf = _httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;
+            IEnumerable<TransactionResponseDTO> result;
+            try
+            {
+                result = await _transactionsService.GetByUserId(idSelf);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            return Ok(JsonConvert.SerializeObject(result));
+        }
         [HttpGet("ByUserId/{id}")]
         [Authorize(Roles = "Admin,Worker")]
         public async Task<IActionResult> GetByUserId(string id)
@@ -60,7 +75,7 @@ namespace APITrassBank.Controllers
 
             try
             {
-                await _transactionsService.AddorRemoveMoney(model.Quantity, idSelf, id);
+                await _transactionsService.AddorRemoveMoney(model.Quantity, idSelf, id,model.Concept);
             }
             catch (ArgumentOutOfRangeException)
             {

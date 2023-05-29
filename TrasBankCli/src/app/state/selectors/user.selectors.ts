@@ -20,3 +20,11 @@ export const selectUser = createSelector(
   selectUserFeature,
   (state: UserState) => state.user
 )
+export const selectIndex = createSelector(
+  selectUserFeature,
+  (state: UserState) => state.index
+)
+export const selectAccountsInfo = createSelector(
+  selectUserFeature,
+  (state: UserState) => state.user?.Accounts
+)

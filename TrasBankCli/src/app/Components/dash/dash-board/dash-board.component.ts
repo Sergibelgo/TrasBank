@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, first } from 'rxjs';
 import { User } from '../../../Models/User/user';
-import { selectJWT, selectUser } from '../../../state/selectors/user.selectors';
+import { selectIndex, selectJWT, selectUser } from '../../../state/selectors/user.selectors';
 import { loadUser, setUserJWT } from '../../../state/actions/auth.actions';
 import { Router } from '@angular/router';
 
@@ -16,12 +16,16 @@ export class DashBoardComponent implements OnInit, OnDestroy {
   user: User | null = null;
   jwt$: Subscription;
   jwt: string | null = null;
+  index$: Subscription;
+  index: number = 0;
   constructor(private store: Store<any>, private router: Router) {
     this.user$ = this.store.select(selectUser).pipe((data) => data).subscribe((val) => this.user = val);
     this.jwt$ = this.store.select(selectJWT).pipe(data => data).subscribe(val => this.jwt = val);
+    this.index$ = this.store.select(selectIndex).pipe(data => data).subscribe(val => this.index = val);
   }
   ngOnDestroy(): void {
     this.user$.unsubscribe();
+    this.jwt$.unsubscribe();
   }
   ngOnInit(): void {
     if (this.jwt == "") {

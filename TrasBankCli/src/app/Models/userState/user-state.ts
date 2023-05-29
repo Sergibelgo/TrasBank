@@ -4,5 +4,6 @@ export interface UserState {
   loading: boolean,
   userJWT: string,
   user: User | null,
-  errorMsg:string
+  errorMsg: string,
+  index: number
 }
