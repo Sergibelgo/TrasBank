@@ -12,7 +12,7 @@
       <label class="form-label" for="username">{{"Username"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frlogin.controls['username'].hasError('required') && frlogin.controls['username'].touched">
-        Dato requerido
+        {{"Required"|translate}}
       </small>
     </div>
     <div class="form-outline mb-4">
@@ -20,7 +20,7 @@
       <label class="form-label" for="password">{{"Password"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frlogin.controls['password'].hasError('required') && frlogin.controls['password'].touched">
-        Dato requerido
+        {{"Required"|translate}}
       </small>
     </div>
 

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { setIndex } from '../../../../state/actions/auth.actions';
+import { Store } from '@ngrx/store';
 declare var $: any;
 
 @Component({
@@ -12,5 +14,11 @@ export class MenuSComponent {
   }
   closeMenu() {
     $("#container").removeClass("d-block").addClass("d-none")
+  }
+  constructor(private store: Store<any>) {
+
+  }
+  changeIndex(index: number) {
+    this.store.dispatch(setIndex({ index: index }));
   }
 }

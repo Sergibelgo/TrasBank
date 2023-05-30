@@ -43,6 +43,21 @@
   "Password": "Contraseña",
   "Accounts": "Cuentas",
   "Transactions": "Transacciones",
+  "Transaction": "Transaccion",
   "Loans": "Prestamos",
-  "All": "Todas"
+  "All": "Todas",
+  "Total Balance": "Monto total",
+  "Type of operation": "Tipo de operación",
+  "Concept": "Concepto",
+  "Ammount": "Monto",
+  "Date": "Fecha",
+  "Other Involved": "Usuario externo involucrado",
+  "Add": "Ingreso",
+  "Transfer": "Transferencia",
+  "Draw": "Egresos",
+  "Required": "Requerido",
+  "Enabled": "Habilitada",
+  "Disabled": "Deshabilitada",
+  "Blocked": "Bloqueada",
+  "Account Status": "Estado de la cuenta"
 }

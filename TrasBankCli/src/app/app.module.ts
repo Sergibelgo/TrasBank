@@ -36,6 +36,11 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { LogoutButtonComponent } from './Components/dash/dash-board/logout-button/logout-button.component';
 import { DropdownMenuComponent } from './Components/dash/dash-board/menu-l/dropdown-menu/dropdown-menu.component';
 import { AccountsEffects } from './state/effects/accounts.effects';
+import { ModalTransactionComponent } from './Components/dash/dash-board/accounts-info/modal-transaction/modal-transaction.component';
+import { TransactionsMakeComponent } from './Components/dash/dash-board/transactions-make/transactions-make.component';
+import { LoansMakeComponent } from './Components/dash/dash-board/loans-make/loans-make.component';
+import { MessagesComponent } from './Components/dash/dash-board/messages/messages.component';
+import { ProfileComponent } from './Components/dash/dash-board/profile/profile.component';
 
 
 @NgModule({
@@ -59,7 +64,12 @@ import { AccountsEffects } from './state/effects/accounts.effects';
     MenuSComponent,
     AccountsInfoComponent,
     LogoutButtonComponent,
-    DropdownMenuComponent
+    DropdownMenuComponent,
+    ModalTransactionComponent,
+    TransactionsMakeComponent,
+    LoansMakeComponent,
+    MessagesComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

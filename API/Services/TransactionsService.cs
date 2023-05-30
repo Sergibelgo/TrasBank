@@ -8,7 +8,7 @@ namespace APITrassBank
 {
     public interface ITransactionsService
     {
-        Task AddorRemoveMoney(decimal quantity, string idSelf, string idAccount,string concept="");
+        Task AddorRemoveMoney(decimal quantity, string idSelf, string idAccount, string concept = "");
         Task<IEnumerable<TransactionResponseDTO>> GetByUserId(string id);
         Task<IEnumerable<TransactionResponseDTO>> GetSelf(string idSelf, string id);
         Task TransferTo(TransferMoneyDTO model, string idSelf);
@@ -46,14 +46,14 @@ namespace APITrassBank
             return await _contextDB.Proyecto_Transactions
                 .Include(x => x.Account)
                 .ThenInclude(x => x.Customer)
-                .Include(x=>x.TransactionType)
-                .Include(x=>x.OtherInvolved)
+                .Include(x => x.TransactionType)
+                .Include(x => x.OtherInvolved)
                 .Where(x => x.Account.Customer.AppUser.Id == id)
                 .Select(x => _mapper.Map<TransactionResponseDTO>(x))
                 .ToListAsync();
         }
 
-        public async Task AddorRemoveMoney(decimal quantity, string idSelf, string idAccount,string concept="")
+        public async Task AddorRemoveMoney(decimal quantity, string idSelf, string idAccount, string concept = "")
         {
             var user = await _contextDB.Users.Where(x => x.Id == idSelf).FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
             var account = await _accountsService.GetById(idAccount);
@@ -71,7 +71,7 @@ namespace APITrassBank
                 Date = DateTime.UtcNow,
                 OtherInvolved = user,
                 TransactionType = transacction,
-                Concept=concept
+                Concept = concept
             };
             await _contextDB.AddAsync(transaction);
             _contextDB.Update(account);
@@ -92,7 +92,11 @@ namespace APITrassBank
             var accountSelf = await _contextDB.Proyecto_Accounts
                 .Where(x => x.Id.ToString() == model.AccountSenderId && x.Customer.AppUser.Id == idSelf)
                 .FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
-            if (accountSelf.AccountTypeId==2 && accountSelf.SaveUntil.CompareTo(DateTime.Now)>0)
+            if (accountSelf.AccountStatusId != 1 || account.AccountStatusId != 1)
+            {
+                throw new ArgumentException($"The account is {accountSelf.AccountStatus.Description}");
+            }
+            if (accountSelf.AccountTypeId == 2 && accountSelf.SaveUntil.CompareTo(DateTime.Now) > 0)
             {
                 throw new ArgumentException("The saving account does not meet the date yet");
             }

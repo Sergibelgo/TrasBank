@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { resetUser, setError, setIndex, setLoad, setUser, setUserJWT } from '../actions/auth.actions';
 import { AccountState } from '../../Models/accountState/account-state';
-import { setAccounts, setActive, setAll, setTransactions } from '../actions/accounts.actions';
+import { resetAccounts, setAccounts, setActive, setAll, setTransactions } from '../actions/accounts.actions';
 import { Account } from '../../Models/Account/account';
 
 const generateAll = (accounts: Account[]) => {
@@ -41,6 +41,13 @@ export const accountsReducer = createReducer(
   }),
   on(setTransactions, (state, action) => {
     return { ...state, transactions: action.transactions }
+  }),
+  on(setAll, (state, action) => {
+    let active = generateAll(action.accounts);
+    return { ...state, active: active }
+  }),
+  on(resetAccounts, (state, action) => {
+    return initialState;
   })
 
 );

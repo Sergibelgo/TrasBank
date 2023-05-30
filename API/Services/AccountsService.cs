@@ -105,6 +105,7 @@ namespace APITrassBank.Services
 
         public async Task<IEnumerable<AccountByUsernameDTO>> GetByUserName(string username)
         {
+            var user = await _contextDB.Users.Where(x => x.UserName == username).FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
             return await _contextDB.Proyecto_Accounts
                 .Where(x => x.Customer.AppUser.UserName == username)
                 .Select(x => _mapper.Map<AccountByUsernameDTO>(x))

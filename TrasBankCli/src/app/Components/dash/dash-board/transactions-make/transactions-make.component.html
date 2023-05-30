@@ -1,0 +1,47 @@
+<div class="container w-75">
+  <div class="row">
+    <form [formGroup]="frmTransaction" autocomplete="off">
+      <div class="form-outline" mb-4>
+        <label class="form-label" for="account">Account</label>
+        <select class="form-select"
+                id="account"
+                name="account"
+                formControlName="account">
+        </select>
+        <small class="form-text text-danger"
+               *ngIf="frmTransaction.controls['account'].hasError('required') && frmTransaction.controls['account'].touched">
+          {{"Required"|translate}}
+        </small>
+      </div>
+
+
+      <div class="form-outline mb-4">
+        <label class="form-label" for="username">{{"Username"|translate}}</label>
+        <div class="input-group">
+          <input type="text" class="form-control"
+                 id="username"
+                 name="username"
+                 formControlName="username"
+                 placeholder="Pepito2015" />
+          <span class="input-group-text"><button type="button" class="btn btn-primary">{{"Check"|translate}}</button></span>
+        </div>
+        <small class="form-text text-danger"
+               *ngIf="frmTransaction.controls['username'].hasError('required') && frmTransaction.controls['username'].touched">
+          {{"Required"|translate}}
+        </small>
+      </div>
+      <div class="form-outline" mb-4>
+        <label class="form-label">Account</label>
+        <select class="form-select">
+          <option value="">{{"Select account"}}...</option>
+          <option>
+            1
+          </option>
+          <option>
+            2
+          </option>
+        </select>
+      </div>
+    </form>
+  </div>
+</div>

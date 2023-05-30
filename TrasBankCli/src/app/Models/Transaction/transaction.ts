@@ -1,7 +1,8 @@
 export interface Transaction {
-  type: string;
-  ammount: number;
-  date: Date;
-  other: string;
-  concep: string;
+  TipeTransaction: string;
+  Ammount: number;
+  Date: Date;
+  NameOther: string;
+  Concept: string;
+  Id: string;
 }

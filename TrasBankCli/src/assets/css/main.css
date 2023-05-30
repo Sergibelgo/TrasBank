@@ -15,6 +15,20 @@
 /*===========================
     01.COMMON css 
 ===========================*/
+
+.fc {
+  --fc-event-border-color: #a83636;
+  --fc-button-bg-color: #a83636;
+  --fc-button-border-color: #612020;
+  --fc-button-hover-bg-color: #6E0500;
+  --fc-button-hover-border-color: #B80500;
+}
+.fc-view-harness {
+ min-height:500px
+}
+.fc-button:hover{
+    color:red;
+}
 html {
   scroll-behavior: smooth;
 }
@@ -27,6 +41,9 @@ body {
   overflow-x: hidden;
   background: rgba(182, 145, 145, 0.11);
   min-width:400px;
+}
+td{
+    cursor:pointer;
 }
 
 * {
@@ -80,7 +97,7 @@ button:focus,
 }
 
   .btn-primary:hover {
-    background-color: #a74c4c;
+    background-color: #6E0500;
     border-color: #a74c4c;
   }
 
@@ -99,12 +116,14 @@ a:hover {
 a {
   -webkit-transition: all 0.3s ease-out 0s;
   transition: all 0.3s ease-out 0s;
+  color:black;
 }
 
   a,
   a:focus,
   a:hover {
     text-decoration: none;
+    color:black;
   }
 
 i,

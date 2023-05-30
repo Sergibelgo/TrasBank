@@ -12,7 +12,7 @@
       <label class="form-label" for="email">{{"Email"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['email'].hasError('required') && frRegister.controls['email'].touched">
-        Dato requerido
+        {{"Required"|translate}}
       </small>
     </div>
     <div class="form-outline mb-4">
@@ -24,7 +24,7 @@
       <label class="form-label" for="username">{{"Username"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['username'].hasError('required') && frRegister.controls['username'].touched">
-        Dato requerido
+        {{"Required"|translate}}
       </small>
     </div>
     <div class="form-outline mb-4">
@@ -36,7 +36,7 @@
       <label class="form-label" for="firstname">{{"First Name"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['firstname'].hasError('required') && frRegister.controls['firstname'].touched">
-        Dato requerido
+        {{"Required"|translate}}
       </small>
     </div>
     <div class="form-outline mb-4">
@@ -48,7 +48,7 @@
       <label class="form-label" for="lastname">{{"Last Name"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['lastname'].hasError('required') && frRegister.controls['lastname'].touched">
-        Dato requerido
+        {{"Required"|translate}}
       </small>
     </div>
     <div class="form-outline mb-4">
@@ -60,19 +60,18 @@
       <label class="form-label" for="address">{{"Address"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['address'].hasError('required') && frRegister.controls['address'].touched">
-        Dato requerido
+        {{"Required"|translate}}
       </small>
     </div>
     <div class="form-outline mb-4">
       <input type="date" class="form-control"
              id="age"
              name="age"
-             formControlName="age"
-              />
+             formControlName="age" />
       <label class="form-label" for="age">{{"Birthday"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['age'].hasError('required') && frRegister.controls['age'].touched">
-        Dato requerido
+        {{"Required"|translate}}
       </small>
     </div>
     <div class="form-outline mb-4">
@@ -84,7 +83,7 @@
       <label class="form-label" for="income">{{"Income"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['income'].hasError('required') && frRegister.controls['income'].touched">
-        Dato requerido
+        {{"Required"|translate}}
       </small>
     </div>
     <div class="form-outline mb-4">
@@ -94,7 +93,7 @@
       <label for="workStatusId" class="form-label">{{"Select working status"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['workStatusId'].hasError('required') && frRegister.controls['workStatusId'].touched">
-        Dato requerido
+        {{"Required"|translate}}
       </small>
     </div>
     <div class="form-outline mb-4">
@@ -104,7 +103,7 @@
       <label for="workerEmail" class="form-label">{{"Select a worker for you"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['workerEmail'].hasError('required') && frRegister.controls['workerEmail'].touched">
-        Dato requerido
+        {{"Required"|translate}}
       </small>
     </div>
 
@@ -113,7 +112,7 @@
       <label class="form-label" for="password">{{"Password"|translate}}</label>
       <small class="form-text text-danger"
              *ngIf="frRegister.controls['password'].hasError('required') && frRegister.controls['password'].touched">
-        Dato requerido
+        {{"Required"|translate}}
       </small>
     </div>
 
