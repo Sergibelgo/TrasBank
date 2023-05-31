@@ -22,6 +22,13 @@ export class AccountsEffects {
       .catch((error) => ({ type: "[Errors] Set Error", error }))
     )
   ))
+  createAccount$ = createEffect(() => this.actions$.pipe(
+    ofType("[Accounts] Create new"),
+    mergeMap((action: any) => this.accountsService.createAccount(action.jwt, action.account)
+      .then((account) => ({ type: "[Accounts] add account" ,account}))
+      .catch((error) => ({ type: "[Errors] Set Error", error }))
+    )
+  ))
 
   constructor(
     private actions$: Actions,

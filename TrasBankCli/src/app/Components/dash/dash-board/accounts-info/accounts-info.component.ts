@@ -4,13 +4,14 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { selectAccountsInfo, selectJWT, selectUser } from '../../../../state/selectors/user.selectors';
+import { selectJWT, selectUser } from '../../../../state/selectors/user.selectors';
 import { Account } from '../../../../Models/Account/account';
 import { selectAccountActive, selectAccounts, selectTransactions } from '../../../../state/selectors/accounts.selectors';
 import { loadAccounts, loadTransactions, setActive, setAll } from '../../../../state/actions/accounts.actions';
 import { Transaction } from '../../../../Models/Transaction/transaction';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { User } from '../../../../Models/User/user';
 declare var $: any;
 
 @Component({
@@ -23,10 +24,10 @@ export class AccountsInfoComponent implements OnInit, OnDestroy {
   jwt$: Subscription;
   jwt: string = "";
   userInfo$: Subscription;
+  userInfo: User | null = { Age: new Date(), Email: "", FirstName: "", Income: 0, LastName: "", Username: "" };
   accountsBasicInfo?: { Id: string, Name: string }[];
   accountActive$: Subscription;
-  accountActive: Account = { Balance: 0, Id: "", Name: "", SaveUntil: new Date(), Status:"",Type:"" }
-;
+  accountActive: Account = { Balance: 0, Id: "", Name: "", SaveUntil: new Date(), Status: "", Type: "" }
   accounts$: Subscription;
   accounts?: Account[];
   transactions$: Subscription;
@@ -42,8 +43,14 @@ export class AccountsInfoComponent implements OnInit, OnDestroy {
   modalTransaction: Transaction = { Ammount: 0, Concept: "", Date: new Date(), Id: "", NameOther: "", TipeTransaction: "" }
 
   constructor(private store: Store<any>, private translateService: TranslateService) {
-    this.userInfo$ = this.store.select(selectUser).pipe(val => val).subscribe(val => this.accountsBasicInfo = val?.Accounts);
-    this.accounts$ = this.store.select(selectAccounts).pipe(val => val).subscribe(val => this.accounts = val);
+    this.userInfo$ = this.store.select(selectUser).pipe(val => val)
+      .subscribe(val => this.userInfo = val);
+    this.accounts$ = this.store.select(selectAccounts).pipe(val => val).subscribe((val) => {
+      this.accounts = val;
+      this.accountsBasicInfo = val.map((item) => {
+        return { Id: item.Id, Name: item.Name }
+      })
+    });
     this.accountActive$ = this.store.select(selectAccountActive).pipe(val => val).subscribe(val => this.accountActive = val);
     this.jwt$ = this.store.select(selectJWT).pipe(val => val).subscribe(val => this.jwt = val ?? "");
     this.transactions$ = this.store.select(selectTransactions).pipe(val => val).subscribe(val => { this.transactions = val; this.loadEvents(val) });
@@ -100,5 +107,8 @@ export class AccountsInfoComponent implements OnInit, OnDestroy {
     }
     this.modalTransaction = trans;
     $("#Modal").modal("show");
+  }
+  showCreateAccount() {
+    $("#ModalAccount").modal("show");
   }
 }

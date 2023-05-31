@@ -59,5 +59,12 @@
   "Enabled": "Habilitada",
   "Disabled": "Deshabilitada",
   "Blocked": "Bloqueada",
-  "Account Status": "Estado de la cuenta"
+  "Account Status": "Estado de la cuenta",
+  "Account added succesfuly": "Cuenta añadida con exito",
+  "Loged in successfully": "Inicio de sesión exitoso",
+  "Account Type": "Tipo de la cuenta",
+  "Name": "Nombre",
+  "Type of account": "Tipo de cuenta",
+  "Savings": "Ahorros"
+
 }

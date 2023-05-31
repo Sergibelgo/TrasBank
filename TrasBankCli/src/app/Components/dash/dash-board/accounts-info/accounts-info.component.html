@@ -1,14 +1,20 @@
 <div class="container w-75">
   <div class="row mb-3">
     <div class="col-12 col-md-6">
-      <select class="form-select text-center m-auto" (change)="actTransactions($event)">
-        <option value="">{{"All"|translate}}</option>
-        <option *ngFor="let account of accountsBasicInfo" [value]="account.Id">{{account.Name}}</option>
-      </select>
+      <div class="input-group">
+        <span class="input-group-text">
+          <button type="button" class="btn btn-primary" (click)="showCreateAccount()"><i class="lni lni-plus"></i></button>
+        </span>
+        <select class="form-select text-center" (change)="actTransactions($event)">
+          <option value="">{{"All"|translate}}</option>
+          <option *ngFor="let account of accountsBasicInfo" [value]="account.Id">{{account.Name}}</option>
+        </select>
+      </div>
     </div>
-    <div class="col-12 col-md-6">
-      <h2 class="text-center text-nowrap">{{"Total Balance"|translate}}: {{accountActive?.Balance}} </h2>
-      <h2 class="text-center  text-nowrap">{{"Account Status"|translate}}: {{accountActive.Status|translate}}</h2>
+    <div class="col-12 col-md-6 d-flex flex-column">
+      <h2 class="text-end text-nowrap">{{"Total Balance"|translate}}: {{accountActive.Balance}} </h2>
+      <h2 class="text-end text-nowrap">{{"Account Status"|translate}}: {{accountActive.Status|translate}}</h2>
+      <h2 class="text-end text-nowrap">{{"Account Type"|translate}}: {{accountActive.Type|translate}}</h2>
     </div>
   </div>
 
@@ -19,3 +25,4 @@
   </div>
 </div>
 <app-modal-transaction [transaction]="modalTransaction"></app-modal-transaction>
+<app-create-account></app-create-account>

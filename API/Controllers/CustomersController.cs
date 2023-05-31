@@ -73,7 +73,11 @@ namespace APITrassBank.Controllers
                 return BadRequest(JsonConvert.SerializeObject(new { model, error = "The customer could not be created" }));
             }
             return Created($"api/[controller]/{customer.Id}", JsonConvert.SerializeObject( await _authUsersService.GenerateJWT(customer.AppUser)));
-            }catch(Exception ex)
+            }catch(ArgumentException ex)
+            {
+                return BadRequest(JsonConvert.SerializeObject(ex.Message));
+            }
+            catch(Exception ex)
             {
                 return BadRequest(JsonConvert.SerializeObject(ex.Message));
             }

@@ -49,5 +49,12 @@ namespace APITrassBank.Controllers
             var response = await _enumsService.GetWorkerStatusesAsync();
             return Ok(JsonConvert.SerializeObject(response));
         }
+        [HttpGet("AccountTypes")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAccountTypes()
+        {
+            var response = await _enumsService.GetAccountTypesAsync();
+            return Ok(JsonConvert.SerializeObject(response));
+        }
     }
 }

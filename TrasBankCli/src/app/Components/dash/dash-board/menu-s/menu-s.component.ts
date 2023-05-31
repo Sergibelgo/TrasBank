@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { setIndex } from '../../../../state/actions/auth.actions';
 import { Store } from '@ngrx/store';
+import { setIndex } from '../../../../state/actions/utils.actions';
 declare var $: any;
 
 @Component({

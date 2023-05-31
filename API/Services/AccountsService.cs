@@ -28,7 +28,13 @@ namespace APITrassBank.Services
         }
         public async Task<AccountResponseDTO> Create(AccountCreateDTO model, string idSelf)
         {
-            var user = _contextDB.Proyecto_Customers.Where(c => c.AppUser.Id == idSelf).FirstOrDefault() ?? throw new ArgumentOutOfRangeException();
+            var user = _contextDB.Proyecto_Customers
+                .Where(c => c.AppUser.Id == idSelf)
+                .FirstOrDefault() ?? throw new ArgumentOutOfRangeException();
+            if (model.AccountType == 2 && model.SaveUntil.CompareTo(DateTime.Now) < 0)
+            {
+                throw new ArgumentException("The saving date should be later than today");
+            }
             var newAccount = new Account()
             {
                 Customer = user,
@@ -41,6 +47,8 @@ namespace APITrassBank.Services
             };
             await _contextDB.Proyecto_Accounts.AddAsync(newAccount);
             await _contextDB.SaveChangesAsync();
+            newAccount.AccountType=await _contextDB.Proyecto_AccountTypes.Where(x=>x.Id == model.AccountType).FirstOrDefaultAsync();
+            newAccount.AccountStatus = new AccountStatus() { Id = 1, Description = "Enabled" };
             var result = _mapper.Map<AccountResponseDTO>(newAccount);
             return result;
         }

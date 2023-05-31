@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { resetUser } from '../../../../state/actions/auth.actions';
 import { Router } from '@angular/router';
 import { resetAccounts } from '../../../../state/actions/accounts.actions';
+import { resetUtils } from '../../../../state/actions/utils.actions';
 
 @Component({
   selector: 'app-logout-button',
@@ -16,6 +17,7 @@ export class LogoutButtonComponent {
   logout() {
     this.store.dispatch(resetUser());
     this.store.dispatch(resetAccounts())
+    this.store.dispatch(resetUtils())
     localStorage.removeItem("userTokenIdentification");
     this.router.navigate(["login"]);
   }

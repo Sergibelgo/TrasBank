@@ -1,6 +1,7 @@
 ﻿using APITrassBank.Context;
 using APITrassBank.Models;
 using AutoMapper;
+using Azure;
 using Entitys.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -79,6 +80,14 @@ namespace APITrassBank.Services
             {
                 throw new Exception("Invalid worker or working status");
             }
+            if (model.Income < 0)
+            {
+                throw new ArgumentException("Invalid income");
+            }
+            if (model.Age.CompareTo(DateTime.Now.AddYears(-150))<0)
+            {
+                throw new ArgumentException("Invalid birthday");
+            }
             DateTime date = DateTime.Now;
             date = date.AddYears(-18);
             if (model.Age.CompareTo(date) > 0)
@@ -118,13 +127,13 @@ namespace APITrassBank.Services
                 else
                 {
                     scope.Dispose();
-                    return null;
+                    throw new ArgumentException(string.Join(" ",response.Errors.Select(x=>x.Description)));
                 }
             }
-            catch
+            catch (Exception ex) 
             {
                 scope.Dispose();
-                return null;
+                throw new ArgumentException(ex.Message);
             }
         }
 

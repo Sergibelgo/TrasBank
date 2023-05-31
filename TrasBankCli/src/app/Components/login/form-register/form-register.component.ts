@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { setLoad, tryLogIn, tryRegister } from '../../../state/actions/auth.actions';
+import { tryRegister } from '../../../state/actions/auth.actions';
 import { loadWorkingStatuses } from '../../../state/actions/enums.actions';
 import { selectWorkingStatuses } from '../../../state/selectors/enums.selectors';
 import { Observable, Subscription, take } from 'rxjs';
@@ -10,6 +10,7 @@ import { selectWorkersPublicInfo } from '../../../state/selectors/worker.selecto
 import { WorkerPublicInfo } from '../../../Models/Worker/worker';
 import { loadPublicInfo } from '../../../state/actions/worker.actions';
 import { UserRegister } from '../../../Models/UserRegister/user-register';
+import { setLoad } from '../../../state/actions/utils.actions';
 
 @Component({
   selector: 'app-form-register',

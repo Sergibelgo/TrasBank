@@ -1,7 +1,8 @@
 import { Component,  OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { setLoad, tryLogIn } from '../../../state/actions/auth.actions';
+import { tryLogIn } from '../../../state/actions/auth.actions';
+import { setLoad } from '../../../state/actions/utils.actions';
 
 @Component({
   selector: 'app-form-login',

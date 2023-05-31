@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription, map } from 'rxjs';
-import { selectError, selectJWT, selectLoading } from '../../state/selectors/user.selectors';
-import Swal from 'sweetalert2';
+import {  selectJWT } from '../../state/selectors/user.selectors';
 import { alertLoading, errorAlert } from '../Utils';
 import { Router } from '@angular/router';
 import { setUserJWT } from '../../state/actions/auth.actions';
+import { selectError, selectLoading } from '../../state/selectors/utils.selectors';
+import { setLoad, setSuccess } from '../../state/actions/utils.actions';
+import { TranslateService } from '@ngx-translate/core';
 declare var $: any;
 
 @Component({
@@ -21,7 +23,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   formSelect: boolean = true;
   jwt: string | null = localStorage.getItem("userTokenIdentification");
 
-  constructor(private store: Store<any>, private router: Router) {
+  constructor(private store: Store<any>, private router: Router, private transService: TranslateService) {
     this.loading$ = this.store.select(selectLoading).pipe(map(res => { return res })).subscribe((val) => { this.loading(val) });
     this.error$ = this.store.select(selectError).pipe(map(res => { return res })).subscribe((val) => { if (val != "") errorAlert(val) });
     this.userJWT$ = this.store.select(selectJWT).pipe(map(res => res)).subscribe((val)=>this.logedIn(val))
@@ -47,16 +49,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loading(value: boolean) {
     if (value) {
-      alertLoading.fire();
-    } else {
-      alertLoading.close();
-    }
+      alertLoading(this.transService.instant("Loading"));
+    } 
   }
   logedIn(val: any) {
     if (val != null && val != "") {
       if (this.jwt == null || this.jwt != val) {
         localStorage.setItem("userTokenIdentification", val);
       }
+      this.store.dispatch(setLoad({ load: false }));
       this.router.navigate(["dash"]);
     }
   }

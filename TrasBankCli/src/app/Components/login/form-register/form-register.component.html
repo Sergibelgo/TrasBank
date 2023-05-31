@@ -14,6 +14,10 @@
              *ngIf="frRegister.controls['email'].hasError('required') && frRegister.controls['email'].touched">
         {{"Required"|translate}}
       </small>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['email'].hasError('email') && frRegister.controls['email'].touched">
+        {{"Email must be valid"|translate}}
+      </small>
     </div>
     <div class="form-outline mb-4">
       <input type="text" class="form-control"

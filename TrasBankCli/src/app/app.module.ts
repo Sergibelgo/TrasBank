@@ -41,6 +41,8 @@ import { TransactionsMakeComponent } from './Components/dash/dash-board/transact
 import { LoansMakeComponent } from './Components/dash/dash-board/loans-make/loans-make.component';
 import { MessagesComponent } from './Components/dash/dash-board/messages/messages.component';
 import { ProfileComponent } from './Components/dash/dash-board/profile/profile.component';
+import { CreateAccountComponent } from './Components/dash/dash-board/accounts-info/create-account/create-account.component';
+import { UtilsEffects } from './state/effects/utils.effects';
 
 
 @NgModule({
@@ -69,7 +71,8 @@ import { ProfileComponent } from './Components/dash/dash-board/profile/profile.c
     TransactionsMakeComponent,
     LoansMakeComponent,
     MessagesComponent,
-    ProfileComponent
+    ProfileComponent,
+    CreateAccountComponent
   ],
   imports: [
     BrowserModule,
@@ -86,7 +89,7 @@ import { ProfileComponent } from './Components/dash/dash-board/profile/profile.c
       }
     }),
     StoreModule.forRoot(ROOT_REDUCERS),
-    EffectsModule.forRoot([UserEffects, EnumsEffects, WorkerEffects, AccountsEffects]),
+    EffectsModule.forRoot([UserEffects, EnumsEffects, WorkerEffects, AccountsEffects, UtilsEffects]),
     StoreDevtoolsModule.instrument({ name:"Test" })
   ],
   providers: [],

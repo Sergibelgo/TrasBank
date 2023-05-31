@@ -8,3 +8,7 @@ export const selectWorkingStatuses = createSelector(
   selectEnumFeature,
   (state: Enumsstate) => state.WorkingStatuses
 );
+export const selectAccountTypes = createSelector(
+  selectEnumFeature,
+  (state: Enumsstate) => state.AccountTypes
+)

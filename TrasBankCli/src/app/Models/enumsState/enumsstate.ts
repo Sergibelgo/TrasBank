@@ -3,7 +3,8 @@ export interface Enumsstate {
   WorkingStatuses: Enum[],
   AccountStatuses: Enum[],
   LoanTypes: Enum[],
-  WorkerStatuses: Enum[]
+  WorkerStatuses: Enum[],
+  AccountTypes:Enum[]
 }
 export interface Enum {
   Id: number,

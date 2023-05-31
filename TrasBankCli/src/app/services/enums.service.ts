@@ -24,4 +24,12 @@ export class EnumsService {
     }
     return data;
   }
+  async getAccountTypes() {
+    let result = await fetch(`${this.baseUrl}AccountTypes`);
+    var data = await result.json();
+    if (!result.ok) {
+      throw Error(data);
+    }
+    return data;
+  }
 }

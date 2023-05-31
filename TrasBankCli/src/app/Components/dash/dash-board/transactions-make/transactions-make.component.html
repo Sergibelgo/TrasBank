@@ -7,6 +7,7 @@
                 id="account"
                 name="account"
                 formControlName="account">
+          <option *ngFor="let item of accounts" [value]="item.Id">{{item.Name}}</option>
         </select>
         <small class="form-text text-danger"
                *ngIf="frmTransaction.controls['account'].hasError('required') && frmTransaction.controls['account'].touched">
@@ -20,10 +21,12 @@
         <div class="input-group">
           <input type="text" class="form-control"
                  id="username"
+                 [(ngModel)]="otherUser"
+                 (input)="clearOtherAccounts()"
                  name="username"
                  formControlName="username"
                  placeholder="Pepito2015" />
-          <span class="input-group-text"><button type="button" class="btn btn-primary">{{"Check"|translate}}</button></span>
+          <span class="input-group-text"><button type="button" class="btn btn-primary" id="check" (click)="getUserAccounts()">{{"Check"|translate}}</button></span>
         </div>
         <small class="form-text text-danger"
                *ngIf="frmTransaction.controls['username'].hasError('required') && frmTransaction.controls['username'].touched">
@@ -33,13 +36,8 @@
       <div class="form-outline" mb-4>
         <label class="form-label">Account</label>
         <select class="form-select">
-          <option value="">{{"Select account"}}...</option>
-          <option>
-            1
-          </option>
-          <option>
-            2
-          </option>
+          <option value="">Select account...</option>
+          <option *ngFor="let item of otherAccounts" [value]="item.Id"> {{item.AccountName}} </option>
         </select>
       </div>
     </form>

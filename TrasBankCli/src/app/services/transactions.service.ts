@@ -33,4 +33,19 @@ export class TransactionsService {
     }
     return dataResult;
   }
+  async getUserAccounts(jwt: string, otherUser: string) {
+    let result = await fetch(`${url}Accounts/GetByUserName`, {
+      method: "POST",
+      body: JSON.stringify(otherUser),
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": `Bearer ${jwt}`
+      }
+    });
+    if (result.ok) {
+      return await result.json();
+    } else {
+      throw Error("Not found")
+    }
+  }
 }

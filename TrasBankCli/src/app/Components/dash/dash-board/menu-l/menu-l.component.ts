@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { setIndex } from '../../../../state/actions/auth.actions';
+import { setIndex } from '../../../../state/actions/utils.actions';
+
 
 @Component({
   selector: 'app-menu-l',

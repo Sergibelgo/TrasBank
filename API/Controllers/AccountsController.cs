@@ -116,6 +116,10 @@ namespace APITrassBank.Controllers
             {
                 return Forbid();
             }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(JsonConvert.SerializeObject(ex.Message));
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, JsonConvert.SerializeObject(ex.Message));

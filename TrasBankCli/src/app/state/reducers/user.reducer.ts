@@ -1,36 +1,24 @@
 import { createReducer, on } from '@ngrx/store';
-import { resetUser, setError, setIndex, setLoad, setUser, setUserJWT } from '../actions/auth.actions';
+import { resetUser,  setUser, setUserJWT } from '../actions/auth.actions';
 import { UserState } from '../../Models/userState/user-state';
 
 
 
 
 export const initialState: UserState = {
-  loading: false,
   userJWT: "",
-  user: null,
-  errorMsg: "",
-  index:0
+  user: null
 };
 
 export const userReducer = createReducer(
   initialState,
-  on(setLoad, (state, action) => {
-    return { ...state, loading: action.load }
-  }),
   on(setUserJWT, (state, action) => {
     return { ...state, userJWT: action.userJWT, loading: false }
-  }),
-  on(setError, (state, action) => {
-    return { ...state, errorMsg: action.error, loading:false }
   }),
   on(setUser, (state, action) => {
     return { ...state, user: action.user }
   }), on(resetUser, (state, action) => {
     return initialState
-  }),
-  on(setIndex, (state, action) => {
-    return { ...state, index: action.index }
   })
   
 );
