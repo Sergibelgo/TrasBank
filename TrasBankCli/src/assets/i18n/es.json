@@ -65,6 +65,10 @@
   "Account Type": "Tipo de la cuenta",
   "Name": "Nombre",
   "Type of account": "Tipo de cuenta",
-  "Savings": "Ahorros"
+  "Savings": "Ahorros",
+  "Reciver account": "Cuenta de destino",
+  "Sender account": "Cuenta remitente",
+  "Transaction done": "Transacción realizada",
+  "Are you sure of the transaction": "¿Esta seguro de realizar esta transacción"
 
 }

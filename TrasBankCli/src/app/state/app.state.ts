@@ -9,13 +9,16 @@ import { AccountState } from "../Models/accountState/account-state";
 import { accountsReducer } from "./reducers/accounts.reducer";
 import { UtilsState } from "../Models/utilsStatus/utils-state";
 import { utilsReducer } from "./reducers/utils.reducer";
+import { MessagesState } from "../Models/messagesState/messages-state";
+import { messagesReducer } from "./reducers/messages.reducer";
 
 export interface AppState {
   user: UserState,
   enums: Enumsstate,
   workers: WorkerState,
   accounts: AccountState,
-  utils: UtilsState
+  utils: UtilsState,
+  messages: MessagesState
 }
 
 export const ROOT_REDUCERS: ActionReducerMap<AppState> = {
@@ -23,5 +26,6 @@ export const ROOT_REDUCERS: ActionReducerMap<AppState> = {
   enums: enumsReducer,
   workers: workerReducer,
   accounts: accountsReducer,
-  utils: utilsReducer
+  utils: utilsReducer,
+  messages:messagesReducer
 }

@@ -1,1 +1,28 @@
-<p>messages works!</p>
+<div class="container">
+  <table datatable [dtOptions]="dtOptions" class="row-border hover table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Date</th>
+        <th>Sender</th>
+        <th>Readed</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let message of messages">
+        <td>
+          {{message.Title}}
+        </td>
+        <td>
+          {{message.Date|date}}
+        </td>
+        <td>
+          {{message.SenderName}}
+        </td>
+        <td>
+          {{message.IsReaded}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

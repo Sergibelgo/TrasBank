@@ -4,6 +4,7 @@ import { resetUser } from '../../../../state/actions/auth.actions';
 import { Router } from '@angular/router';
 import { resetAccounts } from '../../../../state/actions/accounts.actions';
 import { resetUtils } from '../../../../state/actions/utils.actions';
+import { resetMessages } from '../../../../state/actions/messages.actions';
 
 @Component({
   selector: 'app-logout-button',
@@ -18,6 +19,7 @@ export class LogoutButtonComponent {
     this.store.dispatch(resetUser());
     this.store.dispatch(resetAccounts())
     this.store.dispatch(resetUtils())
+    this.store.dispatch(resetMessages())
     localStorage.removeItem("userTokenIdentification");
     this.router.navigate(["login"]);
   }

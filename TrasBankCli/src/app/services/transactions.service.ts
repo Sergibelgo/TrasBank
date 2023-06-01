@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { url } from './base-service.service';
+import { TransactionDto } from '../Models/transactionDTO/transaction-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,22 @@ export class TransactionsService {
       return await result.json();
     } else {
       throw Error("Not found")
+    }
+  }
+  async makeTransaction(transaction: TransactionDto, jwt: string) {
+    let result = await fetch(`${url}Transactions/Transfer`, {
+      method: "POST",
+      body: JSON.stringify(transaction),
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": `Bearer ${jwt}`
+      }
+    });
+    if (result.ok) {
+      return;
+    } else {
+      let data = await result.text();
+      throw new Error(data)
     }
   }
 }

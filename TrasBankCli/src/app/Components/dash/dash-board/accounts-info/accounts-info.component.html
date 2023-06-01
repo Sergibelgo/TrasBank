@@ -5,10 +5,14 @@
         <span class="input-group-text">
           <button type="button" class="btn btn-primary" (click)="showCreateAccount()"><i class="lni lni-plus"></i></button>
         </span>
+        <span class="input-group-text">
+          <button type="button" class="btn btn-primary"><i class="lni lni-pencil"></i></button>
+        </span>
         <select class="form-select text-center" (change)="actTransactions($event)">
           <option value="">{{"All"|translate}}</option>
           <option *ngFor="let account of accountsBasicInfo" [value]="account.Id">{{account.Name}}</option>
         </select>
+
       </div>
     </div>
     <div class="col-12 col-md-6 d-flex flex-column">

@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { alertLoading, successAlert } from '../../Utils';
 import { selectIndex, selectLoading, selectSuccess } from '../../../state/selectors/utils.selectors';
 import { TranslateService } from '@ngx-translate/core';
+import { loadMessages } from '../../../state/actions/messages.actions';
 declare var $: any;
 
 @Component({
@@ -19,7 +20,7 @@ export class DashBoardComponent implements OnInit, OnDestroy {
   user$: Subscription;
   user: User | null = null;
   jwt$: Subscription;
-  jwt: string | null = null;
+  jwt: string ="";
   index$: Subscription;
   index: number = 0;
   loading$: Subscription;
@@ -43,9 +44,11 @@ export class DashBoardComponent implements OnInit, OnDestroy {
         this.router.navigate(["login"]);
       } else {
         this.store.dispatch(setUserJWT({ userJWT: localStorage.getItem("userTokenIdentification") as string }))
+
       }
     }
     this.store.dispatch(loadUser({ jwt: this.jwt as string }));
+    this.store.dispatch(loadMessages({ jwt: this.jwt }));
   }
   loading(value: boolean) {
     if (value) {

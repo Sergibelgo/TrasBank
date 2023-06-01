@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { DataTablesModule } from "angular-datatables";
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -22,7 +23,6 @@ import { FormLoginComponent } from './Components/login/form-login/form-login.com
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { userReducer } from './state/reducers/user.reducer';
 import { ROOT_REDUCERS } from './state/app.state';
 import { UserEffects } from './state/effects/user.effects';
 import { FormRegisterComponent } from './Components/login/form-register/form-register.component';
@@ -43,6 +43,8 @@ import { MessagesComponent } from './Components/dash/dash-board/messages/message
 import { ProfileComponent } from './Components/dash/dash-board/profile/profile.component';
 import { CreateAccountComponent } from './Components/dash/dash-board/accounts-info/create-account/create-account.component';
 import { UtilsEffects } from './state/effects/utils.effects';
+import { MessagesEffects } from './state/effects/messages.effects';
+import { MessageComponent } from './Components/dash/dash-board/messages/message/message.component';
 
 
 @NgModule({
@@ -72,7 +74,8 @@ import { UtilsEffects } from './state/effects/utils.effects';
     LoansMakeComponent,
     MessagesComponent,
     ProfileComponent,
-    CreateAccountComponent
+    CreateAccountComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,
@@ -81,6 +84,7 @@ import { UtilsEffects } from './state/effects/utils.effects';
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
+    DataTablesModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -89,7 +93,7 @@ import { UtilsEffects } from './state/effects/utils.effects';
       }
     }),
     StoreModule.forRoot(ROOT_REDUCERS),
-    EffectsModule.forRoot([UserEffects, EnumsEffects, WorkerEffects, AccountsEffects, UtilsEffects]),
+    EffectsModule.forRoot([UserEffects, EnumsEffects, WorkerEffects, AccountsEffects, UtilsEffects, MessagesEffects]),
     StoreDevtoolsModule.instrument({ name:"Test" })
   ],
   providers: [],

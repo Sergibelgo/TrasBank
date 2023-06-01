@@ -2,14 +2,13 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { AccountDTO } from '../../../../Models/createAccount/account-dto';
 import { selectAccounts } from '../../../../state/selectors/accounts.selectors';
-import { url } from '../../../../services/base-service.service';
 import { selectJWT } from '../../../../state/selectors/user.selectors';
 import { TransactionsService } from '../../../../services/transactions.service';
-import { setError, setSuccess } from '../../../../state/actions/utils.actions';
-import { toast } from '../../../Utils';
+import { errorAlert, successAlert, toast } from '../../../Utils';
 import { TranslateService } from '@ngx-translate/core';
+import Swal from 'sweetalert2';
+import { TransactionDto } from '../../../../Models/transactionDTO/transaction-dto';
 declare var $: any;
 
 @Component({
@@ -23,16 +22,18 @@ export class TransactionsMakeComponent {
   jwt$: Subscription;
   jwt: string = "";
   frmTransaction: FormGroup;
-  otherUser: string = "";
-  otherAccounts: {    Id: string, AccountName: string }[] = [];
+  otherAccounts: { Id: string, AccountName: string }[] = [];
   constructor(private store: Store<any>, private frmBuilder: FormBuilder, private service: TransactionsService, private translate: TranslateService) {
     this.frmTransaction = this.frmBuilder.group({
       username: new FormControl('', [Validators.required]),
-      account: new FormControl("", [Validators.required])
+      account: new FormControl("", [Validators.required]),
+      otherAccounts: new FormControl("", [Validators.required]),
+      ammount: new FormControl("", [Validators.required]),
+      concept: new FormControl("", [])
     })
     this.accounts$ = this.store.select(selectAccounts).pipe(val => val)
       .subscribe(val => this.accounts = val.map((val) => { return { Id: val.Id, Name: val.Name } }))
-    this.jwt$ = this.store.select(selectJWT).pipe(val => val).subscribe(val => this.jwt=val)
+    this.jwt$ = this.store.select(selectJWT).pipe(val => val).subscribe(val => this.jwt = val)
 
   }
   clearOtherAccounts() {
@@ -41,13 +42,33 @@ export class TransactionsMakeComponent {
   async getUserAccounts() {
     $("#check").attr("disabled", true);
     try {
-      this.otherAccounts = await this.service.getUserAccounts(this.jwt, this.otherUser);
-      console.log(this.otherAccounts);
-      toast(this.translate.instant("User found"),"success")
+      this.otherAccounts = await this.service.getUserAccounts(this.jwt, this.frmTransaction.value.username);
+      toast(this.translate.instant("User found"), "success")
     } catch {
       toast(this.translate.instant("User not found"), "error")
     } finally {
       $("#check").attr("disabled", false);
     }
+  }
+  confirm() {
+    if (this.frmTransaction.valid) {
+      Swal.fire({
+        icon: "info",
+        showCancelButton: true,
+        text: this.translate.instant("Are you sure of the transaction")+"?"
+      }).then((res) => {
+        if (res.isConfirmed) {
+          let values = this.frmTransaction.value;
+          let transaction: TransactionDto = { AccountReciverId: values.otherAccounts, AccountSenderId: values.account, Concept: values.concept, Quantity: values.ammount };
+          this.service.makeTransaction(transaction, this.jwt).then(() => {
+            successAlert(this.translate.instant("Transaction done"))
+          }).catch((err) => {
+            errorAlert(err);
+          });
+
+        }
+      })
+    }
+
   }
 }

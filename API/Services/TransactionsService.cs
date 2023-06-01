@@ -104,6 +104,10 @@ namespace APITrassBank
             {
                 throw new ArgumentException("Insufficient funds");
             }
+            if (model.Quantity < 0)
+            {
+                throw new ArgumentException("Invalid quantity");
+            }
             var transaction = await _enumsService.GetTranssactionTypeAsync(3);
             using var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
             account.Balance += model.Quantity;
@@ -123,7 +127,8 @@ namespace APITrassBank
                 Ammount = -(Math.Abs(model.Quantity)),
                 Date = DateTime.UtcNow,
                 OtherInvolved = account.Customer.AppUser,
-                TransactionType = transaction
+                TransactionType = transaction,
+                Concept = model.Concept ?? ""
             };
             await _contextDB.AddRangeAsync(transactionSub, transactionAdd);
             _contextDB.UpdateRange(account, accountSelf);
