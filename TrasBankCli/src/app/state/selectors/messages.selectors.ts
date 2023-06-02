@@ -12,3 +12,7 @@ export const selectNotReaded = createSelector(
   selectMessageFeature,
   (state: MessagesState) => state.notReaded
 )
+export const selectActiveMessage = createSelector(
+  selectMessageFeature,
+  (state: MessagesState) => state.activeMessage
+)

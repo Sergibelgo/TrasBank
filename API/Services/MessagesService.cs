@@ -10,6 +10,7 @@ namespace APITrassBank.Services
     {
         Task Create(string idSelf, MessageCreateDTO model);
         Task<IEnumerable<MessageDTO>> GetMessages(string id);
+        Task ReadMessage(string idSelf, string id);
     }
     public class MessagesService : IMessagesService
     {
@@ -60,10 +61,19 @@ namespace APITrassBank.Services
                 IsReaded = m.IsReaded,
                 SenderName = m.User.UserName,
                 SenderId = m.User.Id,
-                Title = m.Title
+                Title = m.Title,
+                Id = m.Id.ToString()
             }).ToListAsync();
             return messages;
         }
 
+        public async Task ReadMessage(string idSelf, string id)
+        {
+            var message = await _contextDB.Proyecto_Messages
+                .Where(m => m.Id.ToString() == id && m.Reciver.Id == idSelf)
+                .FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
+            message.IsReaded = true;
+            await _contextDB.SaveChangesAsync();
+        }
     }
 }

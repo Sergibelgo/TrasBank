@@ -4,4 +4,5 @@ export interface Message {
   Date: Date;
   SenderName: string;
   IsReaded: boolean;
+  Id: string;
 }

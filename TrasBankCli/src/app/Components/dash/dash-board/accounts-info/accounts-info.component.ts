@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CalendarOptions } from '@fullcalendar/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Calendar, CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import { Store } from '@ngrx/store';
@@ -19,7 +19,7 @@ declare var $: any;
   templateUrl: './accounts-info.component.html',
   styleUrls: ['./accounts-info.component.css']
 })
-export class AccountsInfoComponent implements OnInit, OnDestroy {
+export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('calendar') calendarComponent: FullCalendarComponent | undefined;
   jwt$: Subscription;
   jwt: string = "";
@@ -38,7 +38,26 @@ export class AccountsInfoComponent implements OnInit, OnDestroy {
     locale: this.translateService.currentLang,
     editable: true,
     themeSystem: "bootstrap5",
-    eventClick: (info) => this.showTransactionInfo(info)
+    eventClick: (info) => this.showTransactionInfo(info),
+    eventOrder: "-start",
+    eventsSet: function (dateInfo) {
+      var renderedEvents = $('.fc-list-table  tr');
+      var reorderedEvents = [];
+      var blockEvents: any = $('<tbody></tbody>');
+      renderedEvents.map(function (key:any, event:any) {
+        if ($(event).hasClass('fc-list-day')) {
+          if (blockEvents) {
+            reorderedEvents.unshift(blockEvents.children());
+          }
+          blockEvents = $('<tbody></tbody>');
+        }
+        blockEvents.append(event);
+      });
+      if (blockEvents) {
+        reorderedEvents.unshift(blockEvents.children());
+        $('.fc-list-table tbody').html(reorderedEvents);
+      }
+    },
   };
   modalTransaction: Transaction = { Ammount: 0, Concept: "", Date: new Date(), Id: "", NameOther: "", TipeTransaction: "" }
 
@@ -55,6 +74,10 @@ export class AccountsInfoComponent implements OnInit, OnDestroy {
     this.jwt$ = this.store.select(selectJWT).pipe(val => val).subscribe(val => this.jwt = val ?? "");
     this.transactions$ = this.store.select(selectTransactions).pipe(val => val).subscribe(val => { this.transactions = val; this.loadEvents(val) });
   }
+  ngAfterViewInit(): void {
+    let calendar = this.calendarComponent?.getApi() as Calendar;
+
+  }
   ngOnDestroy(): void {
     this.accountActive$.unsubscribe();
     this.userInfo$.unsubscribe();
@@ -65,6 +88,7 @@ export class AccountsInfoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(loadAccounts({ jwt: this.jwt }));
     this.store.dispatch(loadTransactions({ jwt: this.jwt, accountId: "" }));
+
   }
   actTransactions(event: Event) {
     let id = $(event.target).val();
@@ -111,4 +135,5 @@ export class AccountsInfoComponent implements OnInit, OnDestroy {
   showCreateAccount() {
     $("#ModalAccount").modal("show");
   }
+
 }

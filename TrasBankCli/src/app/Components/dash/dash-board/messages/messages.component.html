@@ -1,15 +1,24 @@
-<div class="container">
-  <table datatable [dtOptions]="dtOptions" class="row-border hover table">
+<div class="container min-vh-50">
+  <div class="row justify-content-between mb-3">
+    <button class="btn btn-primary col-2"><i class="lni lni-reload" [title]="'Reload'|translate"></i><span class="ms-3 d-none d-lg-inline">{{"Reload"|translate}}</span></button>
+    <button class="btn btn-primary col-2 text-center"><i class="lni lni-pencil" [title]="'Create'|translate"></i><span class="ms-3 d-none d-lg-inline">{{"Create"|translate}}</span></button>
+  </div>
+  <table datatable [dtOptions]="dtOptions" class="row-border hover table" id="datatableId" [dtTrigger]="dtTrigger" (window:resize)="updateDataTable()">
     <thead>
       <tr>
-        <th>Title</th>
-        <th>Date</th>
-        <th>Sender</th>
-        <th>Readed</th>
+        <th>Id</th>
+        <th>{{"Title"|translate}}</th>
+        <th>{{"Date"|translate}}</th>
+        <th>{{"Sender"|translate}}</th>
+        <th>{{"Readed"|translate}}</th>
+        <th>check</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let message of messages">
+        <td>
+          {{message.Id}}
+        </td>
         <td>
           {{message.Title}}
         </td>
@@ -20,9 +29,19 @@
           {{message.SenderName}}
         </td>
         <td>
+          <div *ngIf="message.IsReaded;then tik;else cross"></div>
+        </td>
+        <td>
           {{message.IsReaded}}
         </td>
       </tr>
     </tbody>
   </table>
 </div>
+<app-message></app-message>
+<ng-template #cross>
+  <i class="lni lni-cross-circle"><span class="d-none">0</span></i>
+</ng-template>
+<ng-template #tik>
+  <i class="lni lni-checkmark"><span class="d-none">1</span></i>
+</ng-template>

@@ -51,6 +51,24 @@ namespace APITrassBank.Controllers
             }
             return Ok(JsonConvert.SerializeObject(model));
         }
+        [HttpPost("Read")]
+        public async Task<IActionResult> Read([FromBody] string Id)
+        {
+            var idSelf = _httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;
+            try
+            {
+                await _messagesService.ReadMessage(idSelf, Id);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return NotFound();
+            }
+            catch(ArgumentException ex)
+            {
+                return Forbid();
+            }
+            return Ok();
+        }
 
     }
 }

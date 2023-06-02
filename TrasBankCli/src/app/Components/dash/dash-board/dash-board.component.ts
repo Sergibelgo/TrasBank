@@ -17,28 +17,23 @@ declare var $: any;
   styleUrls: ['./dash-board.component.css']
 })
 export class DashBoardComponent implements OnInit, OnDestroy {
-  user$: Subscription;
+  user$!: Subscription;
   user: User | null = null;
-  jwt$: Subscription;
-  jwt: string ="";
-  index$: Subscription;
+  jwt$!: Subscription;
+  jwt: string = "";
+  index$!: Subscription;
   index: number = 0;
-  loading$: Subscription;
-  success$: Subscription;
+  loading$!: Subscription;
+  success$!: Subscription;
   constructor(private store: Store<any>, private router: Router, private transService: TranslateService) {
+
+  }
+  ngOnInit(): void {
     this.user$ = this.store.select(selectUser).pipe((data) => data).subscribe((val) => this.user = val);
     this.jwt$ = this.store.select(selectJWT).pipe(data => data).subscribe(val => this.jwt = val);
     this.index$ = this.store.select(selectIndex).pipe(data => data).subscribe(val => this.index = val);
     this.loading$ = this.store.select(selectLoading).pipe(val => val).subscribe(val => this.loading(val));
     this.success$ = this.store.select(selectSuccess).pipe(val => val).subscribe(val => this.success(val));
-  }
-  ngOnDestroy(): void {
-    this.user$.unsubscribe();
-    this.jwt$.unsubscribe();
-    this.index$.unsubscribe();
-    this.loading$.unsubscribe();
-  }
-  ngOnInit(): void {
     if (this.jwt == "") {
       if (localStorage.getItem("userTokenIdentification") == undefined) {
         this.router.navigate(["login"]);
@@ -50,6 +45,13 @@ export class DashBoardComponent implements OnInit, OnDestroy {
     this.store.dispatch(loadUser({ jwt: this.jwt as string }));
     this.store.dispatch(loadMessages({ jwt: this.jwt }));
   }
+  ngOnDestroy(): void {
+    this.user$.unsubscribe();
+    this.jwt$.unsubscribe();
+    this.index$.unsubscribe();
+    this.loading$.unsubscribe();
+  }
+
   loading(value: boolean) {
     if (value) {
       alertLoading(this.transService.instant("Loading"));
@@ -58,7 +60,10 @@ export class DashBoardComponent implements OnInit, OnDestroy {
   success(val: string) {
     if (val != "") {
       successAlert(val);
-      $(".modal").modal("hide");
+      if ($(".modal").get().length != 0) {
+        $(".modal").modal("hide");
+      }
+
     }
   }
 

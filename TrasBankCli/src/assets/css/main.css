@@ -378,6 +378,9 @@ p {
     transform: translateY(30px);
   }
 }
+.min-vh-50 {
+  min-height: 50vh !important;
+}
 
 .mt-5 {
   margin-top: 5px;

@@ -15,6 +15,14 @@ export class MessagesEffects {
     )
   )
   );
+  changeReaded$ = createEffect(() => this.actions$.pipe(
+    ofType("[Messages] Set Readed"),
+    mergeMap((action: any) => this.messageService.setReaded(action.jwt,action.Id)
+      .then((Id) => ({ type: "[Messages] Update Readed" ,Id}))
+      .catch((error) => ({ type: "[Errors] Set Error", error }))
+    )
+  )
+  );
   setReaded = createEffect(() => this.actions$.pipe(
     ofType("[Messages] Set messages"),
     map((action: any) => {

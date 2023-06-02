@@ -90,8 +90,13 @@ namespace APITrassBank
                 .Where(x => x.Id.ToString() == model.AccountReciverId)
                 .FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
             var accountSelf = await _contextDB.Proyecto_Accounts
+                .Include(x=>x.Customer)
                 .Where(x => x.Id.ToString() == model.AccountSenderId && x.Customer.AppUser.Id == idSelf)
                 .FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
+            if (accountSelf.Id.Equals(account.Id))
+            {
+                throw new ArgumentException($"The account must be diferent");
+            }
             if (accountSelf.AccountStatusId != 1 || account.AccountStatusId != 1)
             {
                 throw new ArgumentException($"The account is {accountSelf.AccountStatus.Description}");
