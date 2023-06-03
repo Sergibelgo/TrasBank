@@ -6,7 +6,7 @@ import { selectMessages } from '../../../../state/selectors/messages.selectors';
 import { selectJWT } from '../../../../state/selectors/user.selectors';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { DataTableDirective } from 'angular-datatables';
-import { setActiveMessage, setMessages, setNotReaded, setReaded, updateReaded } from '../../../../state/actions/messages.actions';
+import { loadMessages, setActiveMessage, setMessages, setNotReaded, setReaded, updateReaded } from '../../../../state/actions/messages.actions';
 declare var $: any;
 
 @Component({
@@ -29,7 +29,10 @@ export class MessagesComponent implements AfterViewInit, OnInit {
 
   constructor(private store: Store<any>, private trans: TranslateService) {
     this.jwt$ = this.store.select(selectJWT).subscribe(val => this.jwt = val);
-    this.messages$ = this.store.select(selectMessages).pipe(val => val).subscribe((val) => { this.messages = val; this.updateDataTable() });
+    this.messages$ = this.store.select(selectMessages).pipe(val => val).subscribe((val) => {
+      this.messages = val;
+      this.updateDataTable();
+    });
   }
   ngOnInit(): void {
     this.dtOptions = {
@@ -38,6 +41,10 @@ export class MessagesComponent implements AfterViewInit, OnInit {
           targets: [0,5],
           visible: false,
           searchable: false
+        },
+        {
+          targets: 2,
+          type: "date"
         }
       ],
       order: [[4, "asc"], [2, 'desc'], [1, "asc"]],
@@ -63,10 +70,11 @@ export class MessagesComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit(): void {
     this.dtTrigger.next(undefined);
+
   }
   clickHandler(info: any) {
     this.store.dispatch(setActiveMessage({ Id: info[0] }));
-    $(".modal").modal("show");
+    $("#Modal").modal("show");
     if (info[5] == "false") {
       this.store.dispatch(setReaded({ jwt: this.jwt, Id: info[0] }));
       setTimeout(() => { this.store.dispatch(setNotReaded()) }, 5000)
@@ -81,5 +89,17 @@ export class MessagesComponent implements AfterViewInit, OnInit {
       // Call the dtTrigger to rerender again
       this.dtTrigger.next(undefined);
     });
+  }
+  reload(event: Event) {
+    this.store.dispatch(loadMessages({ jwt: this.jwt }));
+    $("#reloadButton").attr("disabled", true);
+    setTimeout(() => {
+      $("#reloadButton").attr("disabled",false)
+    },3000)
+  }
+  createMessage() {
+    $("#frmCreateMessage div input").val("");
+    $("#ModalCreateMessage").modal("show")
+    
   }
 }

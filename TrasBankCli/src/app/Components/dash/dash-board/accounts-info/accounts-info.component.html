@@ -19,6 +19,7 @@
       <h2 class="text-end text-nowrap">{{"Total Balance"|translate}}: {{accountActive.Balance}} </h2>
       <h2 class="text-end text-nowrap">{{"Account Status"|translate}}: {{accountActive.Status|translate}}</h2>
       <h2 class="text-end text-nowrap">{{"Account Type"|translate}}: {{accountActive.Type|translate}}</h2>
+      <h2 class="text-end text-nowrap"*ngIf="saveCheck" >{{"Save until"|translate}}: {{accountActive.SaveUntil|date}}</h2>
     </div>
   </div>
 

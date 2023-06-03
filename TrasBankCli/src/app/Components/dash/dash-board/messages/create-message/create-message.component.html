@@ -1,0 +1,44 @@
+<div class="modal fade" id="ModalCreateMessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{"Send message"|translate}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="frmCreateMessage" autocomplete="off" id="frmCreateMessage">
+          <div class="form-outline mb-4">
+            <label for="title">{{"Title"|translate}} </label>
+            <input id="title" name="title" formControlName="title" type="text" class="form-control" />
+            <small class="form-text text-danger"
+                   *ngIf="frmCreateMessage.controls['title'].hasError('required') && frmCreateMessage.controls['title'].touched">
+              {{"Required"|translate}}
+            </small>
+          </div>
+          <div class="form-outline mb-4">
+            <label for="body">{{"Body"|translate}} </label>
+            <input id="body" name="body" formControlName="body" type="text" class="form-control" />
+            <small class="form-text text-danger"
+                   *ngIf="frmCreateMessage.controls['body'].hasError('required') && frmCreateMessage.controls['body'].touched">
+              {{"Required"|translate}}
+            </small>
+          </div>
+          <div class="form-outline mb-4">
+            <label for="reciverUserName">{{"Reciver username"|translate}} </label>
+            <input id="reciverUserName" name="reciverUserName" formControlName="reciverUserName" type="text" class="form-control" />
+            <small class="form-text text-danger"
+                   *ngIf="frmCreateMessage.controls['reciverUserName'].hasError('required') && frmCreateMessage.controls['reciverUserName'].touched">
+              {{"Required"|translate}}
+            </small>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="sendMessage()">{{"Send"|translate}}</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{"Close"|translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+

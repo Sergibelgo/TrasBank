@@ -45,6 +45,7 @@ import { CreateAccountComponent } from './Components/dash/dash-board/accounts-in
 import { UtilsEffects } from './state/effects/utils.effects';
 import { MessagesEffects } from './state/effects/messages.effects';
 import { MessageComponent } from './Components/dash/dash-board/messages/message/message.component';
+import { CreateMessageComponent } from './Components/dash/dash-board/messages/create-message/create-message.component';
 
 
 @NgModule({
@@ -75,7 +76,8 @@ import { MessageComponent } from './Components/dash/dash-board/messages/message/
     MessagesComponent,
     ProfileComponent,
     CreateAccountComponent,
-    MessageComponent
+    MessageComponent,
+    CreateMessageComponent
   ],
   imports: [
     BrowserModule,

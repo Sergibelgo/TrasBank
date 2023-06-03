@@ -21,7 +21,7 @@
           <a class="nav-link text-white"[ngClass]="{'pulse':readed$|async}" href="javascript:void(0)" [title]="'Messages'|translate" (click)="changeIndex(3)"><i class="lni lni-envelope"></i> <span class="ms-2 d-md-none d-lg-inline">{{'Messages'|translate}}</span></a>
         </li>
         <li class="d-md-none d-lg-block">
-          <app-dropdown-menu></app-dropdown-menu>
+          <app-dropdown-menu [username]="username"></app-dropdown-menu>
         </li>
         <li class="d-md-block d-lg-none">
           <app-dropdown-menu [dropType]="'dropstart'"></app-dropdown-menu>

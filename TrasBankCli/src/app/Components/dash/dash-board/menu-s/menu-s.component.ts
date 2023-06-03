@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { setIndex } from '../../../../state/actions/utils.actions';
 import { selectNotReaded } from '../../../../state/selectors/messages.selectors';
 import { Observable } from 'rxjs';
+import { selectUserName } from '../../../../state/selectors/user.selectors';
 declare var $: any;
 
 @Component({
@@ -12,9 +13,11 @@ declare var $: any;
 })
 export class MenuSComponent {
 
-  readed$: Observable<boolean>
+  readed$: Observable<boolean>;
+  username$: Observable<string | undefined>;
   constructor(private store: Store<any>) {
-    this.readed$ = this.store.select(selectNotReaded)
+    this.readed$ = this.store.select(selectNotReaded);
+    this.username$ = this.store.select(selectUserName);
   }
   showMenu() {
     $("#container").removeClass("d-none").addClass("d-block")

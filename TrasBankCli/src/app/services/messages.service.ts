@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { url } from './base-service.service';
+import { MessageCreateDTO } from '../Models/messageCreateDTO/message-create-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,22 @@ export class MessagesService {
     } else {
       let data = await result.text();
       throw Error(data);
+    }
+  }
+  async sendMessage(jwt: string, message: MessageCreateDTO) {
+    let result = await fetch(`${this.urlBase}`, {
+      method: "POST",
+      body: JSON.stringify(message),
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": `Bearer ${jwt}`
+      }
+    });
+    if (result.ok) {
+      return message;
+    } else {
+      let data = await result.json();
+      throw Error(data.error);
     }
   }
 }

@@ -12,4 +12,8 @@ export const selectUser = createSelector(
   selectUserFeature,
   (state: UserState) => state.user
 )
+export const selectUserName = createSelector(
+  selectUserFeature,
+  (state: UserState) => state.user?.FirstName
+)
 

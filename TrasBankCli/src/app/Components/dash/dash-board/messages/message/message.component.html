@@ -13,11 +13,11 @@
         </div>
         <div>
           <label for="body">{{"Message"|translate}} </label>
-          <input readonly [value]="message.Body" id="body" class="form-control" />
+          <textarea readonly id="body" class="form-control">{{message.Body}}</textarea>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{"Close"|translate}}</button>
       </div>
     </div>
   </div>

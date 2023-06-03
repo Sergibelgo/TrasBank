@@ -1,7 +1,7 @@
 <div class="container min-vh-50">
   <div class="row justify-content-between mb-3">
-    <button class="btn btn-primary col-2"><i class="lni lni-reload" [title]="'Reload'|translate"></i><span class="ms-3 d-none d-lg-inline">{{"Reload"|translate}}</span></button>
-    <button class="btn btn-primary col-2 text-center"><i class="lni lni-pencil" [title]="'Create'|translate"></i><span class="ms-3 d-none d-lg-inline">{{"Create"|translate}}</span></button>
+    <button class="btn btn-primary col-2" id="reloadButton" (click)="reload($event)"><i class="lni lni-reload" [title]="'Reload'|translate"></i><span class="ms-3 d-none d-lg-inline">{{"Reload"|translate}}</span></button>
+    <button class="btn btn-primary col-2 text-center" (click)="createMessage()" ><i class="lni lni-pencil" [title]="'Create'|translate"></i><span class="ms-3 d-none d-lg-inline">{{"Create"|translate}}</span></button>
   </div>
   <table datatable [dtOptions]="dtOptions" class="row-border hover table" id="datatableId" [dtTrigger]="dtTrigger" (window:resize)="updateDataTable()">
     <thead>
@@ -39,6 +39,7 @@
   </table>
 </div>
 <app-message></app-message>
+<app-create-message></app-create-message>
 <ng-template #cross>
   <i class="lni lni-cross-circle"><span class="d-none">0</span></i>
 </ng-template>

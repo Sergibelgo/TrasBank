@@ -59,7 +59,8 @@ export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     },
   };
-  modalTransaction: Transaction = { Ammount: 0, Concept: "", Date: new Date(), Id: "", NameOther: "", TipeTransaction: "" }
+  modalTransaction: Transaction = { Ammount: 0, Concept: "", Date: new Date(), Id: "", NameOther: "", TipeTransaction: "" };
+  saveCheck: boolean = false;
 
   constructor(private store: Store<any>, private translateService: TranslateService) {
     this.userInfo$ = this.store.select(selectUser).pipe(val => val)
@@ -70,13 +71,12 @@ export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
         return { Id: item.Id, Name: item.Name }
       })
     });
-    this.accountActive$ = this.store.select(selectAccountActive).pipe(val => val).subscribe(val => this.accountActive = val);
+    this.accountActive$ = this.store.select(selectAccountActive).pipe(val => val).subscribe(val => { this.accountActive = val; this.saveCheck = new Date(val.SaveUntil) > new Date() });
     this.jwt$ = this.store.select(selectJWT).pipe(val => val).subscribe(val => this.jwt = val ?? "");
     this.transactions$ = this.store.select(selectTransactions).pipe(val => val).subscribe(val => { this.transactions = val; this.loadEvents(val) });
   }
   ngAfterViewInit(): void {
     let calendar = this.calendarComponent?.getApi() as Calendar;
-
   }
   ngOnDestroy(): void {
     this.accountActive$.unsubscribe();
