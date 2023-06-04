@@ -9,6 +9,7 @@ import { errorAlert, successAlert, toast } from '../../../Utils';
 import { TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 import { TransactionDto } from '../../../../Models/transactionDTO/transaction-dto';
+import { setLoad } from '../../../../state/actions/utils.actions';
 declare var $: any;
 
 @Component({
@@ -58,10 +59,12 @@ export class TransactionsMakeComponent {
         text: this.translate.instant("Are you sure of the transaction")+"?"
       }).then((res) => {
         if (res.isConfirmed) {
+          this.store.dispatch(setLoad({ load: true }));
           let values = this.frmTransaction.value;
           let transaction: TransactionDto = { AccountReciverId: values.otherAccounts, AccountSenderId: values.account, Concept: values.concept, Quantity: values.ammount };
           this.service.makeTransaction(transaction, this.jwt).then(() => {
-            successAlert(this.translate.instant("Transaction done"))
+            successAlert(this.translate.instant("Transaction done"));
+            this.frmTransaction.reset()
           }).catch((err) => {
             errorAlert(err);
           });

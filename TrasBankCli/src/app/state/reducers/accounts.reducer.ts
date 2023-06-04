@@ -1,7 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 import { AccountState } from '../../Models/accountState/account-state';
-import { addAccount, resetAccounts, setAccounts, setActive, setAll, setTransactions } from '../actions/accounts.actions';
+import { addAccount, resetAccounts, setAccounts, setActive, setAll, setTransactions, updateAccountsName } from '../actions/accounts.actions';
 import { Account } from '../../Models/Account/account';
+import { aC } from '@fullcalendar/core/internal-common';
 
 const generateAll = (accounts: Account[]) => {
   let balance = 0;
@@ -52,6 +53,12 @@ export const accountsReducer = createReducer(
     let accounts = [...state.accounts];
     accounts.push(action.account);
     return { ...state, accounts: accounts}
+  }),
+  on(updateAccountsName, (state, action) => {
+    let accounts = [...state.accounts];
+    let index = accounts.findIndex(item => item.Id == action.account.Id)
+    accounts[index] = { ...accounts[index], Name: action.account.Name }
+    return { ...state, accounts: accounts }
   })
 
 );

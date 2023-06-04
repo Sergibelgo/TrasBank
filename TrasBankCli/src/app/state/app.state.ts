@@ -11,6 +11,8 @@ import { UtilsState } from "../Models/utilsStatus/utils-state";
 import { utilsReducer } from "./reducers/utils.reducer";
 import { MessagesState } from "../Models/messagesState/messages-state";
 import { messagesReducer } from "./reducers/messages.reducer";
+import { LoanState } from "../Models/loansState/loan-state";
+import { loansReducer } from "./reducers/loans.reducer";
 
 export interface AppState {
   user: UserState,
@@ -18,7 +20,8 @@ export interface AppState {
   workers: WorkerState,
   accounts: AccountState,
   utils: UtilsState,
-  messages: MessagesState
+  messages: MessagesState,
+  loans: LoanState
 }
 
 export const ROOT_REDUCERS: ActionReducerMap<AppState> = {
@@ -27,5 +30,6 @@ export const ROOT_REDUCERS: ActionReducerMap<AppState> = {
   workers: workerReducer,
   accounts: accountsReducer,
   utils: utilsReducer,
-  messages:messagesReducer
+  messages: messagesReducer,
+  loans: loansReducer
 }

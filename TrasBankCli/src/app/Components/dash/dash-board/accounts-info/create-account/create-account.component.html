@@ -7,7 +7,7 @@
       </div>
       <div class="modal-body">
         <form [formGroup]="frmCreateAccount">
-          <div>
+          <div class="form-outline mb-4">
             <label for="accountName">{{"Name"|translate}} </label>
             <input [(ngModel)]="newAccount.accountName"
                    id="accountName"
@@ -19,7 +19,7 @@
               {{"Required"|translate}}
             </small>
           </div>
-          <div>
+          <div class="form-outline mb-4">
             <label for="type">{{"Type of account"|translate}} </label>
             <select class="form-select"
                     [(ngModel)]="newAccount.accountType"
@@ -33,7 +33,7 @@
               {{"Required"|translate}}
             </small>
           </div>
-          <div *ngIf="newAccount.accountType==2">
+          <div class="form-outline mb-4" *ngIf="newAccount.accountType==2">
             <label for="date">{{"Save until"|translate}} </label>
             <input type="date"
                    [(ngModel)]="newAccount.saveUntil"

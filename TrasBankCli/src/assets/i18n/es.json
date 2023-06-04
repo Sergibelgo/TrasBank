@@ -74,6 +74,9 @@
   "Body": "Cuerpo",
   "Reciver username": "Nombre de usuario del destinatario",
   "Create": "Crear",
-  "Reload": "Actualizar"
+  "Reload": "Recargar",
+  "Update": "Actualizar",
+  "Update account name": "Actualizar nombre de la cuenta",
+  "Close": "Cerrar"
 
 }

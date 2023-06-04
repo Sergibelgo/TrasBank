@@ -12,6 +12,7 @@ import { Transaction } from '../../../../Models/Transaction/transaction';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from '../../../../Models/User/user';
+import esLocale from '@fullcalendar/core/locales/es';
 declare var $: any;
 
 @Component({
@@ -21,21 +22,20 @@ declare var $: any;
 })
 export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('calendar') calendarComponent: FullCalendarComponent | undefined;
-  jwt$: Subscription;
+  jwt$: Subscription = new Subscription();;
   jwt: string = "";
-  userInfo$: Subscription;
+  userInfo$: Subscription = new Subscription();;
   userInfo: User | null = { Age: new Date(), Email: "", FirstName: "", Income: 0, LastName: "", Username: "" };
   accountsBasicInfo?: { Id: string, Name: string }[];
-  accountActive$: Subscription;
+  accountActive$: Subscription = new Subscription();;
   accountActive: Account = { Balance: 0, Id: "", Name: "", SaveUntil: new Date(), Status: "", Type: "" }
-  accounts$: Subscription;
+  accounts$: Subscription = new Subscription();;
   accounts?: Account[];
-  transactions$: Subscription;
+  transactions$: Subscription = new Subscription();
   transactions: Transaction[] = [];
   calendarOptions: CalendarOptions = {
     initialView: 'listMonth',
     plugins: [listPlugin, dayGridPlugin],
-    locale: this.translateService.currentLang,
     editable: true,
     themeSystem: "bootstrap5",
     eventClick: (info) => this.showTransactionInfo(info),
@@ -44,7 +44,7 @@ export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
       var renderedEvents = $('.fc-list-table  tr');
       var reorderedEvents = [];
       var blockEvents: any = $('<tbody></tbody>');
-      renderedEvents.map(function (key:any, event:any) {
+      renderedEvents.map(function (key: any, event: any) {
         if ($(event).hasClass('fc-list-day')) {
           if (blockEvents) {
             reorderedEvents.unshift(blockEvents.children());
@@ -63,17 +63,7 @@ export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
   saveCheck: boolean = false;
 
   constructor(private store: Store<any>, private translateService: TranslateService) {
-    this.userInfo$ = this.store.select(selectUser).pipe(val => val)
-      .subscribe(val => this.userInfo = val);
-    this.accounts$ = this.store.select(selectAccounts).pipe(val => val).subscribe((val) => {
-      this.accounts = val;
-      this.accountsBasicInfo = val.map((item) => {
-        return { Id: item.Id, Name: item.Name }
-      })
-    });
-    this.accountActive$ = this.store.select(selectAccountActive).pipe(val => val).subscribe(val => { this.accountActive = val; this.saveCheck = new Date(val.SaveUntil) > new Date() });
-    this.jwt$ = this.store.select(selectJWT).pipe(val => val).subscribe(val => this.jwt = val ?? "");
-    this.transactions$ = this.store.select(selectTransactions).pipe(val => val).subscribe(val => { this.transactions = val; this.loadEvents(val) });
+
   }
   ngAfterViewInit(): void {
     let calendar = this.calendarComponent?.getApi() as Calendar;
@@ -86,6 +76,17 @@ export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
     this.jwt$.unsubscribe();
   }
   ngOnInit(): void {
+    this.userInfo$ = this.store.select(selectUser).pipe(val => val)
+      .subscribe(val => this.userInfo = val);
+    this.accounts$ = this.store.select(selectAccounts).pipe(val => val).subscribe((val) => {
+      this.accounts = val;
+      this.accountsBasicInfo = val.map((item) => {
+        return { Id: item.Id, Name: item.Name }
+      })
+    });
+    this.accountActive$ = this.store.select(selectAccountActive).pipe(val => val).subscribe(val => { this.accountActive = val; this.saveCheck = new Date(val.SaveUntil) > new Date() });
+    this.jwt$ = this.store.select(selectJWT).pipe(val => val).subscribe(val => this.jwt = val ?? "");
+    this.transactions$ = this.store.select(selectTransactions).pipe(val => val).subscribe(val => { this.transactions = val; this.loadEvents(val) });
     this.store.dispatch(loadAccounts({ jwt: this.jwt }));
     this.store.dispatch(loadTransactions({ jwt: this.jwt, accountId: "" }));
 
@@ -104,12 +105,10 @@ export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
   transFormTranToEvent(transactions: Transaction[]) {
     let events = transactions.map(item => {
       let color;
-      if (item.TipeTransaction == "Add" || item.TipeTransaction == "Loan Approved") {
+      if (item.Ammount > 0) {
         color = "green";
-      } else if (item.TipeTransaction == "Draw") {
+      } else if (item.Ammount < 0) {
         color = "red";
-      } else {
-        color = "purple"
       }
       return { title: item.Concept ?? this.translateService.instant(item.TipeTransaction), date: item.Date, backgroundColor: color, id: item.Id, display: "auto", Type: this.translateService.instant(item.TipeTransaction), Other: item.NameOther, Ammount: item.Ammount }
     });
@@ -118,7 +117,7 @@ export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
   loadEvents(val: Transaction[]) {
     let events = this.transFormTranToEvent(val);
     this.calendarOptions.events = events;
-    this.calendarOptions.locale = this.translateService.currentLang;
+    this.calendarOptions.locale = this.translateService.currentLang == "es" ? esLocale : this.translateService.currentLang;
   }
   showTransactionInfo(info: any) {
     let trans: Transaction = {
@@ -134,6 +133,9 @@ export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   showCreateAccount() {
     $("#ModalAccount").modal("show");
+  }
+  showUpdateAccount() {
+    $("#ModalUpdate").modal("show");
   }
 
 }

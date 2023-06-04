@@ -96,7 +96,7 @@ namespace APITrassBank.Services
 
         public async Task UpdateName(string name, string id, string idSelf)
         {
-            var user = await _contextDB.Proyecto_Customers.Where(x => x.AppUser.Id.ToString() == idSelf).FirstOrDefaultAsync() ?? throw new ArgumentException();
+            var user = await _contextDB.Proyecto_Customers.Where(x => x.AppUser.Id == idSelf).FirstOrDefaultAsync() ?? throw new ArgumentException();
             var account = await _contextDB.Proyecto_Accounts.Include(x => x.Customer).Where(x => x.Id.ToString() == id).FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
             if (account.Customer.Id.ToString() != user.Id.ToString())
             {

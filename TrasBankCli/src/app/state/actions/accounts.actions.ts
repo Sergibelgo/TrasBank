@@ -12,5 +12,6 @@ export const loadTransactions = createAction("[Transactions] load transactions",
 export const setTransactions = createAction("[Transactions] set transactions", props<{ transactions: Transaction[] }>());
 export const tryCreateAccount = createAction("[Accounts] Create new", props<{ account: AccountDTO, jwt: string }>());
 export const resetAccounts = createAction("[Accounts] reset accounts");
-export const addAccount = createAction("[Accounts] add account", props < {account:Account}>())
+export const addAccount = createAction("[Accounts] add account", props<{ account: Account }>());
+export const updateAccountsName = createAction("[Accounts] update account name", props < {account:Account}>())
 

@@ -38,7 +38,6 @@ import { DropdownMenuComponent } from './Components/dash/dash-board/menu-l/dropd
 import { AccountsEffects } from './state/effects/accounts.effects';
 import { ModalTransactionComponent } from './Components/dash/dash-board/accounts-info/modal-transaction/modal-transaction.component';
 import { TransactionsMakeComponent } from './Components/dash/dash-board/transactions-make/transactions-make.component';
-import { LoansMakeComponent } from './Components/dash/dash-board/loans-make/loans-make.component';
 import { MessagesComponent } from './Components/dash/dash-board/messages/messages.component';
 import { ProfileComponent } from './Components/dash/dash-board/profile/profile.component';
 import { CreateAccountComponent } from './Components/dash/dash-board/accounts-info/create-account/create-account.component';
@@ -46,7 +45,9 @@ import { UtilsEffects } from './state/effects/utils.effects';
 import { MessagesEffects } from './state/effects/messages.effects';
 import { MessageComponent } from './Components/dash/dash-board/messages/message/message.component';
 import { CreateMessageComponent } from './Components/dash/dash-board/messages/create-message/create-message.component';
-
+import { UpdateAccountNameModalComponent } from './Components/dash/dash-board/accounts-info/update-account-name-modal/update-account-name-modal.component';
+import { LoansEffects } from './state/effects/loans.effects';
+import { LoansComponent } from './Components/dash/dash-board/loans/loans.component';
 
 @NgModule({
   declarations: [
@@ -72,12 +73,13 @@ import { CreateMessageComponent } from './Components/dash/dash-board/messages/cr
     DropdownMenuComponent,
     ModalTransactionComponent,
     TransactionsMakeComponent,
-    LoansMakeComponent,
     MessagesComponent,
     ProfileComponent,
     CreateAccountComponent,
     MessageComponent,
-    CreateMessageComponent
+    CreateMessageComponent,
+    UpdateAccountNameModalComponent,
+    LoansComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +97,7 @@ import { CreateMessageComponent } from './Components/dash/dash-board/messages/cr
       }
     }),
     StoreModule.forRoot(ROOT_REDUCERS),
-    EffectsModule.forRoot([UserEffects, EnumsEffects, WorkerEffects, AccountsEffects, UtilsEffects, MessagesEffects]),
+    EffectsModule.forRoot([UserEffects, EnumsEffects, WorkerEffects, AccountsEffects, UtilsEffects, MessagesEffects, LoansEffects]),
     StoreDevtoolsModule.instrument({ name:"Test" })
   ],
   providers: [],

@@ -6,7 +6,7 @@
           <button type="button" class="btn btn-primary" (click)="showCreateAccount()"><i class="lni lni-plus"></i></button>
         </span>
         <span class="input-group-text">
-          <button type="button" class="btn btn-primary"><i class="lni lni-pencil"></i></button>
+          <button type="button" class="btn btn-primary" (click)="showUpdateAccount()" [attr.disabled]="accountActive.Id==''? true : null"><i class="lni lni-pencil"></i></button>
         </span>
         <select class="form-select text-center" (change)="actTransactions($event)">
           <option value="">{{"All"|translate}}</option>
@@ -15,11 +15,11 @@
 
       </div>
     </div>
-    <div class="col-12 col-md-6 d-flex flex-column">
-      <h2 class="text-end text-nowrap">{{"Total Balance"|translate}}: {{accountActive.Balance}} </h2>
-      <h2 class="text-end text-nowrap">{{"Account Status"|translate}}: {{accountActive.Status|translate}}</h2>
-      <h2 class="text-end text-nowrap">{{"Account Type"|translate}}: {{accountActive.Type|translate}}</h2>
-      <h2 class="text-end text-nowrap"*ngIf="saveCheck" >{{"Save until"|translate}}: {{accountActive.SaveUntil|date}}</h2>
+    <div class="col-12 col-md-6 col-12 d-flex flex-column">
+      <h2 class="text-end">{{"Total Balance"|translate}}: {{accountActive.Balance}} </h2>
+      <h2 class="text-end">{{"Account Status"|translate}}: {{accountActive.Status|translate}}</h2>
+      <h2 class="text-end">{{"Account Type"|translate}}: {{accountActive.Type|translate}}</h2>
+      <h2 class="text-end"*ngIf="saveCheck" >{{"Save until"|translate}}: {{accountActive.SaveUntil|date}}</h2>
     </div>
   </div>
 
@@ -31,3 +31,4 @@
 </div>
 <app-modal-transaction [transaction]="modalTransaction"></app-modal-transaction>
 <app-create-account></app-create-account>
+<app-update-account-name-modal></app-update-account-name-modal>

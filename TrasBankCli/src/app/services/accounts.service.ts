@@ -47,4 +47,23 @@ export class AccountsService {
     }
     return dataResult;
   }
+  async updateAccountName(name: string, id: string,jwt:string) {
+    let result = await fetch(`${this.urlAccounts}${id}`, {
+      method: "PUT",
+      body: JSON.stringify(name),
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": `Bearer ${jwt}`
+      }
+    });
+    
+    if (!result.ok) {
+      let dataResult = await result.json();
+      if (dataResult.error != undefined) {
+        throw Error(dataResult.error);
+      } else {
+        throw Error(dataResult);
+      }
+    }
+  }
 }

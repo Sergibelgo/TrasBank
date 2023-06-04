@@ -1,0 +1,49 @@
+<div class="container min-vh-50">
+  <div class="row">
+    <div class="col-12 col-md-6">
+
+    </div>
+    <div class="col-12 col-md-6">
+      <table datatable [dtOptions]="dtOptions" class="row-border hover table" id="datatableId" [dtTrigger]="dtTrigger" (window:resize)="updateDataTable()">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>{{"Type of loan"|translate}}</th>
+            <th>{{"Ammount"|translate}}</th>
+            <th>{{"Loan Status"|translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+
+            <td class="d-none">
+            </td>
+            <td colspan="4">
+              <button type="button" class="btn btn-primary w-100"> add</button>
+            </td>
+            <td class="d-none">
+            </td>
+            <td class="d-none">
+            </td>
+          </tr>
+          <tr *ngFor="let loan of loans">
+            <td>
+              {{loan.Id}}
+            </td>
+            <td>
+              {{loan.LoanType}}
+            </td>
+            <td>
+              {{loan.Ammount}}
+            </td>
+            <td>
+              {{loan.LoanStatus}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+  </div>
+  
+</div>

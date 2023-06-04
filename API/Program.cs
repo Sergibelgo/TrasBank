@@ -25,6 +25,7 @@ namespace APITrassBank
                     {
                         policy.AllowAnyHeader();
                         policy.AllowAnyOrigin();
+                        policy.AllowAnyMethod();
                     });
 
             });

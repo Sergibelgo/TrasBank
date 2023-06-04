@@ -9,6 +9,7 @@ import { alertLoading, successAlert } from '../../Utils';
 import { selectIndex, selectLoading, selectSuccess } from '../../../state/selectors/utils.selectors';
 import { TranslateService } from '@ngx-translate/core';
 import { loadMessages } from '../../../state/actions/messages.actions';
+import { loadLoans } from '../../../state/actions/loans.actions';
 declare var $: any;
 
 @Component({
@@ -29,21 +30,21 @@ export class DashBoardComponent implements OnInit, OnDestroy {
 
   }
   ngOnInit(): void {
-    this.user$ = this.store.select(selectUser).pipe((data) => data).subscribe((val) => this.user = val);
-    this.jwt$ = this.store.select(selectJWT).pipe(data => data).subscribe(val => this.jwt = val);
-    this.index$ = this.store.select(selectIndex).pipe(data => data).subscribe(val => this.index = val);
-    this.loading$ = this.store.select(selectLoading).pipe(val => val).subscribe(val => this.loading(val));
-    this.success$ = this.store.select(selectSuccess).pipe(val => val).subscribe(val => this.success(val));
     if (this.jwt == "") {
       if (localStorage.getItem("userTokenIdentification") == undefined) {
         this.router.navigate(["login"]);
       } else {
         this.store.dispatch(setUserJWT({ userJWT: localStorage.getItem("userTokenIdentification") as string }))
-
       }
     }
+    this.user$ = this.store.select(selectUser).pipe((data) => data).subscribe((val) => this.user = val);
+    this.jwt$ = this.store.select(selectJWT).pipe(data => data).subscribe(val => this.jwt = val);
+    this.index$ = this.store.select(selectIndex).pipe(data => data).subscribe(val => this.index = val);
+    this.loading$ = this.store.select(selectLoading).pipe(val => val).subscribe(val => this.loading(val));
+    this.success$ = this.store.select(selectSuccess).pipe(val => val).subscribe(val => this.success(val));
     this.store.dispatch(loadUser({ jwt: this.jwt as string }));
     this.store.dispatch(loadMessages({ jwt: this.jwt }));
+    this.store.dispatch(loadLoans({ jwt: this.jwt }));
   }
   ngOnDestroy(): void {
     this.user$.unsubscribe();
