@@ -1,9 +1,10 @@
 <div class="container min-vh-50">
   <div class="row">
-    <div class="col-12 col-md-6">
-
-    </div>
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-sm-6">a</div>
+    <div class="col-6 d-none d-md-block">b</div>
+  </div>
+  <div class="row">
+    <div class="col-12">
       <table datatable [dtOptions]="dtOptions" class="row-border hover table" id="datatableId" [dtTrigger]="dtTrigger" (window:resize)="updateDataTable()">
         <thead>
           <tr>
@@ -14,18 +15,6 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-
-            <td class="d-none">
-            </td>
-            <td colspan="4">
-              <button type="button" class="btn btn-primary w-100"> add</button>
-            </td>
-            <td class="d-none">
-            </td>
-            <td class="d-none">
-            </td>
-          </tr>
           <tr *ngFor="let loan of loans">
             <td>
               {{loan.Id}}
@@ -43,7 +32,5 @@
         </tbody>
       </table>
     </div>
-    
   </div>
-  
 </div>

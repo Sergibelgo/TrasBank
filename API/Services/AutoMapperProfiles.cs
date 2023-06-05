@@ -31,7 +31,8 @@ namespace APITrassBank.Services
                 .ForMember(dto => dto.LoanId, ent => ent.MapFrom(x => x.Loan.Id))
                 ;
             CreateMap<Customer,CustomerSelfDTO>()
-                .ForMember(dto=>dto.Email,ent=>ent.MapFrom(x=>x.AppUser.Email));
+                .ForMember(dto=>dto.Email,ent=>ent.MapFrom(x=>x.AppUser.Email))
+                .ForMember(dto=>dto.UserName,ent=>ent.MapFrom(x=>x.AppUser.UserName));
 
         }
     }

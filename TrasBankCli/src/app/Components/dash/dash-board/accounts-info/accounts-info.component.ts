@@ -25,7 +25,7 @@ export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
   jwt$: Subscription = new Subscription();;
   jwt: string = "";
   userInfo$: Subscription = new Subscription();;
-  userInfo: User | null = { Age: new Date(), Email: "", FirstName: "", Income: 0, LastName: "", Username: "" };
+  userInfo: User | null = { Age: new Date(), Email: "", FirstName: "", Income: 0, LastName: "", UserName: "",Address:"" };
   accountsBasicInfo?: { Id: string, Name: string }[];
   accountActive$: Subscription = new Subscription();;
   accountActive: Account = { Balance: 0, Id: "", Name: "", SaveUntil: new Date(), Status: "", Type: "" }

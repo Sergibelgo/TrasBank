@@ -8,5 +8,7 @@
         public decimal Income { get; set; }
         public IEnumerable<AccountList> Accounts { get; set; }
         public DateTime Age { get; set; }
+        public string Address { get; set; }
+        public string UserName { get; set; }
     }
 }

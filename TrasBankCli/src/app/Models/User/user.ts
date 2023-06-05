@@ -3,9 +3,10 @@ import { Account } from "../Account/account";
 export interface User {
   FirstName: string;
   LastName: string;
-  Username: string;
+  UserName: string;
   Email: string;
   Income: number;
   Age: Date;
+  Address: string;
   }
 

@@ -48,6 +48,8 @@ import { CreateMessageComponent } from './Components/dash/dash-board/messages/cr
 import { UpdateAccountNameModalComponent } from './Components/dash/dash-board/accounts-info/update-account-name-modal/update-account-name-modal.component';
 import { LoansEffects } from './state/effects/loans.effects';
 import { LoansComponent } from './Components/dash/dash-board/loans/loans.component';
+import { ShowCardComponent } from './Components/dash/dash-board/loans/show-card/show-card.component';
+import { LoanFormComponent } from './Components/dash/dash-board/loans/loan-form/loan-form.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,9 @@ import { LoansComponent } from './Components/dash/dash-board/loans/loans.compone
     MessageComponent,
     CreateMessageComponent,
     UpdateAccountNameModalComponent,
-    LoansComponent
+    LoansComponent,
+    ShowCardComponent,
+    LoanFormComponent
   ],
   imports: [
     BrowserModule,
