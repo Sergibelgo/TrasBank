@@ -51,6 +51,7 @@ export class DashBoardComponent implements OnInit, OnDestroy {
     this.jwt$.unsubscribe();
     this.index$.unsubscribe();
     this.loading$.unsubscribe();
+    this.success$.unsubscribe();
   }
 
   loading(value: boolean) {

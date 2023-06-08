@@ -1,17 +1,17 @@
 import { createReducer, on } from '@ngrx/store';
 import { Enumsstate } from '../../Models/enumsState/enumsstate';
-import { setAccountTypes, setTransactionTypes, setWorkingStatuses } from '../actions/enums.actions';
+import { setAccountTypes, setLoanTypes, setTransactionTypes, setWorkingStatuses } from '../actions/enums.actions';
 import { state } from '@angular/animations';
 
 
 
 
 export const initialState: Enumsstate = {
-  AccountStatuses: [{ Id: 0, Name: "" }],
-  LoanTypes: [{ Id: 0, Name: "" }],
-  TransactionTypes: [{ Id: 0, Name: "" }],
-  WorkerStatuses: [{ Id: 0, Name: "" }],
-  WorkingStatuses: [{ Id: 0, Name: "" }],
+  AccountStatuses: [],
+  LoanTypes: [],
+  TransactionTypes: [],
+  WorkerStatuses: [],
+  WorkingStatuses: [],
   AccountTypes:[]
 };
 
@@ -25,5 +25,8 @@ export const enumsReducer = createReducer(
   }),
   on(setAccountTypes, (state, action) => {
     return { ...state, AccountTypes: action.AccountTypes }
+  }),
+  on(setLoanTypes, (state, action) => {
+    return { ...state, LoanTypes:action.LoanTypes }
   })
 );

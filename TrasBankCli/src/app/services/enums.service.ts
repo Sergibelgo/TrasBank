@@ -32,4 +32,12 @@ export class EnumsService {
     }
     return data;
   }
+  async getLoansTypes() {
+    let result = await fetch(`${this.baseUrl}LoanTypes`);
+    var data = await result.json();
+    if (!result.ok) {
+      throw Error(data);
+    }
+    return data;
+  }
 }

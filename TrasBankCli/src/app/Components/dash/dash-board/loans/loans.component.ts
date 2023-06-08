@@ -30,7 +30,7 @@ export class LoansComponent implements OnInit, OnDestroy, AfterViewInit {
     StartDate: new Date(),
     TotalInstallments: 0
   }
-  option: boolean =false;
+
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective | undefined;
 
@@ -79,12 +79,6 @@ export class LoansComponent implements OnInit, OnDestroy, AfterViewInit {
   clickHandler(data:any) {
 
   }
-  changeStatus(check: boolean) {
-    this.option = check;
-    if (!check) {
-      this.updateDataTable();
-    }
-  }
   updateDataTable() {
     this.dtElement?.dtInstance.then((dtInstance: DataTables.Api) => {
       // Destroy the table first
@@ -95,4 +89,5 @@ export class LoansComponent implements OnInit, OnDestroy, AfterViewInit {
       this.dtTrigger.next(undefined);
     });
   }
+
 }

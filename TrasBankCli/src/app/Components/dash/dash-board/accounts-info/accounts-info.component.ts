@@ -110,7 +110,7 @@ export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
       } else if (item.Ammount < 0) {
         color = "red";
       }
-      return { title: item.Concept ?? this.translateService.instant(item.TipeTransaction), date: item.Date, backgroundColor: color, id: item.Id, display: "auto", Type: this.translateService.instant(item.TipeTransaction), Other: item.NameOther, Ammount: item.Ammount }
+      return { title: `${item.Concept ?? this.translateService.instant(item.TipeTransaction)} - ${Math.abs(item.Ammount) } EUR`, date: item.Date, backgroundColor: color, id: item.Id, display: "auto", Type: this.translateService.instant(item.TipeTransaction), Other: item.NameOther, Ammount: item.Ammount }
     });
     return events;
   }

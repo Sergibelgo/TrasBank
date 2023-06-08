@@ -50,6 +50,7 @@ import { LoansEffects } from './state/effects/loans.effects';
 import { LoansComponent } from './Components/dash/dash-board/loans/loans.component';
 import { ShowCardComponent } from './Components/dash/dash-board/loans/show-card/show-card.component';
 import { LoanFormComponent } from './Components/dash/dash-board/loans/loan-form/loan-form.component';
+import { LoanPreviewComponent } from './Components/dash/dash-board/loans/loan-preview/loan-preview.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { LoanFormComponent } from './Components/dash/dash-board/loans/loan-form/
     UpdateAccountNameModalComponent,
     LoansComponent,
     ShowCardComponent,
-    LoanFormComponent
+    LoanFormComponent,
+    LoanPreviewComponent
   ],
   imports: [
     BrowserModule,
