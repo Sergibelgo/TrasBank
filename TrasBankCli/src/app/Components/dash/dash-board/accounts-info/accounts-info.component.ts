@@ -115,9 +115,12 @@ export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
     return events;
   }
   loadEvents(val: Transaction[]) {
-    let events = this.transFormTranToEvent(val);
-    this.calendarOptions.events = events;
-    this.calendarOptions.locale = this.translateService.currentLang == "es" ? esLocale : this.translateService.currentLang;
+    if (val != null && val.length > 0) {
+      let events = this.transFormTranToEvent(val);
+      this.calendarOptions.events = events;
+      this.calendarOptions.locale = this.translateService.currentLang == "es" ? esLocale : this.translateService.currentLang;
+    }
+    
   }
   showTransactionInfo(info: any) {
     let trans: Transaction = {

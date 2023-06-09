@@ -16,7 +16,7 @@ export class AccountsService {
         "Authorization": `Bearer ${jwt}`
       }
     });
-    let dataResult = await result.json();
+    let dataResult = result.ok ? await result.json() : await result.text();
     if (!result.ok) {
       if (dataResult.error != undefined) {
         throw Error(dataResult.error);

@@ -18,33 +18,35 @@ declare var $: any;
   styleUrls: ['./dash-board.component.css']
 })
 export class DashBoardComponent implements OnInit, OnDestroy {
-  user$!: Subscription;
+  user$: Subscription = new Subscription();
   user: User | null = null;
-  jwt$!: Subscription;
+  jwt$: Subscription = new Subscription();
   jwt: string = "";
-  index$!: Subscription;
+  index$: Subscription = new Subscription();
   index: number = 0;
-  loading$!: Subscription;
-  success$!: Subscription;
+  loading$: Subscription = new Subscription();
+  success$: Subscription = new Subscription();
   constructor(private store: Store<any>, private router: Router, private transService: TranslateService) {
-
+    this.jwt$ = this.store.select(selectJWT).pipe(data => data).subscribe(val => this.jwt = val);
   }
   ngOnInit(): void {
-    if (this.jwt == "") {
-      if (localStorage.getItem("userTokenIdentification") == undefined) {
-        this.router.navigate(["login"]);
-      } else {
-        this.store.dispatch(setUserJWT({ userJWT: localStorage.getItem("userTokenIdentification") as string }))
-      }
+    if (this.jwt==null||this.jwt == "") {
+      this.router.navigate(["login"]);
+      //if (localStorage.getItem("userTokenIdentification") == undefined) {
+      //  this.router.navigate(["login"]);
+      //} else {
+      //  this.store.dispatch(setUserJWT({ userJWT: localStorage.getItem("userTokenIdentification") as string }))
+      //}
+    } else {
+      this.user$ = this.store.select(selectUser).pipe((data) => data).subscribe((val) => this.user = val);
+      this.index$ = this.store.select(selectIndex).pipe(data => data).subscribe(val => this.index = val);
+      this.loading$ = this.store.select(selectLoading).pipe(val => val).subscribe(val => this.loading(val));
+      this.success$ = this.store.select(selectSuccess).pipe(val => val).subscribe(val => this.success(val));
+      this.store.dispatch(loadUser({ jwt: this.jwt as string }));
+      this.store.dispatch(loadMessages({ jwt: this.jwt }));
+      this.store.dispatch(loadLoans({ jwt: this.jwt }));
     }
-    this.user$ = this.store.select(selectUser).pipe((data) => data).subscribe((val) => this.user = val);
-    this.jwt$ = this.store.select(selectJWT).pipe(data => data).subscribe(val => this.jwt = val);
-    this.index$ = this.store.select(selectIndex).pipe(data => data).subscribe(val => this.index = val);
-    this.loading$ = this.store.select(selectLoading).pipe(val => val).subscribe(val => this.loading(val));
-    this.success$ = this.store.select(selectSuccess).pipe(val => val).subscribe(val => this.success(val));
-    this.store.dispatch(loadUser({ jwt: this.jwt as string }));
-    this.store.dispatch(loadMessages({ jwt: this.jwt }));
-    this.store.dispatch(loadLoans({ jwt: this.jwt }));
+    
   }
   ngOnDestroy(): void {
     this.user$.unsubscribe();

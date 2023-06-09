@@ -23,15 +23,12 @@ export class TransactionsService {
         "Authorization": `Bearer ${jwt}`
       }
     });
-    let dataResult = await result.json();
     if (!result.ok) {
-      if (dataResult.error != undefined) {
-        throw Error(dataResult.error);
-      } else {
-        throw Error(dataResult);
-      }
+      return await result.text();
 
     }
+    let dataResult = await result.json();
+    
     return dataResult;
   }
   async getUserAccounts(jwt: string, otherUser: string) {
