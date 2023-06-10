@@ -16,6 +16,7 @@
             <th>{{"Type of loan"|translate}}</th>
             <th>{{"Ammount"|translate}}</th>
             <th>{{"Loan Status"|translate}}</th>
+            <th>{{"Loan description"|translate}}</th>
           </tr>
         </thead>
         <tbody>
@@ -32,9 +33,11 @@
             <td>
               {{loan.LoanStatus}}
             </td>
+            <td>{{loan.LoanName}}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 </div>
+<app-show-card></app-show-card>

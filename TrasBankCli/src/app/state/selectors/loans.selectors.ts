@@ -12,3 +12,7 @@ export const selectActiveLoan = createSelector(
   selectLoanFeature,
   (state: LoanState) => state.activeLoan
 )
+export const selectScoring = createSelector(
+  selectLoanFeature,
+  (state:LoanState)=>state.scoringForm
+)

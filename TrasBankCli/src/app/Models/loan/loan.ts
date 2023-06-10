@@ -11,4 +11,5 @@ export interface Loan {
   RemainingAmmount: number;
   LoanStatus: string;
   LoanType: string;
+  LoanName: string;
 }

@@ -1,16 +1,14 @@
 <h2 class="section-title mb-4">Loan preview</h2>
 <div class="card w-100" >
   <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <h5 class="card-title">{{"Preview of the loan"|translate}}</h5>
+    <p class="card-text">{{"Here you will see a preview of the conditions for the loan"|translate}}</p>
   </div>
   <ul class="list-group list-group-flush">
-    <li class="list-group-item">An item</li>
-    <li class="list-group-item">A second item</li>
-    <li class="list-group-item">A third item</li>
+    <li class="list-group-item">{{"Description of loan"|translate}}: {{scoring.Name}}</li>
+    <li class="list-group-item">{{"Requested amount"|translate}}: {{scoring.Ammount|currency:'EUR':''}}&#8364;</li>
+    <li class="list-group-item">{{"Percentage"|translate}}: {{percentage}}%</li>
+    <li class="list-group-item">{{"Amount to return"|translate}}: {{totalAmmount|currency:'EUR':''}}&#8364;</li>
+    <li class="list-group-item">{{"Installments per month"|translate}}: {{totalAmmount/scoring.TotalInstallments|currency:'EUR':''}}&#8364;</li>
   </ul>
-  <div class="card-body">
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
-  </div>
 </div>

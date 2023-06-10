@@ -5,6 +5,8 @@ import { selectActiveLoan, selectLoans } from '../../../../state/selectors/loans
 import { Loan } from '../../../../Models/loan/loan';
 import { DataTableDirective } from 'angular-datatables';
 import { TranslateService } from '@ngx-translate/core';
+import { setActiveLoan } from '../../../../state/actions/loans.actions';
+declare var $: any;
 
 @Component({
   selector: 'app-loans',
@@ -15,21 +17,6 @@ export class LoansComponent implements OnInit, OnDestroy, AfterViewInit {
   
   loans$: Subscription = new Subscription();
   loans: Loan[] = [];
-  activeLoan$: Subscription = new Subscription();
-  activeLoan: Loan = {
-    Ammount: 0,
-    CustomerId: "",
-    CustomerName: "",
-    EndDate: new Date(),
-    Id: "",
-    InterestRate: 0,
-    LoanStatus: "",
-    LoanType: "",
-    RemainingAmmount: 0,
-    RemainingInstallments: 0,
-    StartDate: new Date(),
-    TotalInstallments: 0
-  }
 
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective | undefined;
@@ -42,11 +29,9 @@ export class LoansComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   ngOnDestroy(): void {
     this.loans$.unsubscribe();
-    this.activeLoan$.unsubscribe();
   }
   ngOnInit(): void {
     this.loans$ = this.store.select(selectLoans).subscribe(val => this.loans = val);
-    this.activeLoan$ = this.store.select(selectActiveLoan).subscribe(val => this.activeLoan = val);
     this.dtOptions = {
       columnDefs: [
         {
@@ -55,7 +40,7 @@ export class LoansComponent implements OnInit, OnDestroy, AfterViewInit {
           searchable: false
         }
       ],
-      order: [[3, "asc"], [2, 'desc']],
+      order: [[3, "desc"], [2, 'desc']],
       responsive: true,
       lengthChange: false,
       pageLength: 10,
@@ -77,7 +62,8 @@ export class LoansComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
   clickHandler(data:any) {
-
+    this.store.dispatch(setActiveLoan({ id: data[0] }));
+    $("#ModalActiveLoan").modal("show");
   }
   updateDataTable() {
     this.dtElement?.dtInstance.then((dtInstance: DataTables.Api) => {
