@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subject, Subscription } from 'rxjs';
 import { Message } from '../../../../Models/message/message';
@@ -14,7 +14,7 @@ declare var $: any;
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.css']
 })
-export class MessagesComponent implements AfterViewInit, OnInit {
+export class MessagesComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective | undefined;
 
@@ -22,19 +22,24 @@ export class MessagesComponent implements AfterViewInit, OnInit {
 
   dtTrigger: Subject<any> = new Subject();
 
-  messages$: Subscription;
+  messages$: Subscription=new Subscription();
   messages: Message[] = [];
-  jwt$: Subscription;
+  jwt$: Subscription=new Subscription();
   jwt = "";
 
   constructor(private store: Store<any>, private trans: TranslateService) {
+    
+  }
+    ngOnDestroy(): void {
+      this.messages$.unsubscribe();
+      this.jwt$.unsubscribe();
+    }
+  ngOnInit(): void {
     this.jwt$ = this.store.select(selectJWT).subscribe(val => this.jwt = val);
     this.messages$ = this.store.select(selectMessages).pipe(val => val).subscribe((val) => {
       this.messages = val;
       this.updateDataTable();
     });
-  }
-  ngOnInit(): void {
     this.dtOptions = {
       columnDefs: [
         {

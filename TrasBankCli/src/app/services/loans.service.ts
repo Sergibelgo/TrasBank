@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { url } from './base-service.service';
 import { Scoring } from '../Models/scoring/scoring';
+import { PaymentDTO } from '../Models/paymentDTO/payment-dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoansService {
   baseUrl = `${url}Loans/`;
-  scoringUrl = `${url}Scorings/`
+  scoringUrl = `${url}Scorings/`;
+  
   constructor() { }
   async loadLoansUser(jwt: string) {
     let result = await fetch(`${this.baseUrl}self`, {
@@ -78,4 +80,5 @@ export class LoansService {
     }
     return data;
   }
+ 
 }

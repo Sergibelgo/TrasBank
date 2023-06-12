@@ -51,6 +51,15 @@ import { LoansComponent } from './Components/dash/dash-board/loans/loans.compone
 import { ShowCardComponent } from './Components/dash/dash-board/loans/show-card/show-card.component';
 import { LoanFormComponent } from './Components/dash/dash-board/loans/loan-form/loan-form.component';
 import { LoanPreviewComponent } from './Components/dash/dash-board/loans/loan-preview/loan-preview.component';
+import { LoginWorkerComponent } from './Components/login-worker/login-worker.component';
+import { WorkerDashComponent } from './Components/dash/worker-dash/worker-dash.component';
+import { ClientsInfoComponent } from './Components/dash/worker-dash/clients-info/clients-info.component';
+import { ClientInfoComponent } from './Components/dash/worker-dash/client-info/client-info.component';
+import { LoansManagerComponent } from './Components/dash/worker-dash/loans-manager/loans-manager.component';
+import { MenuLWComponent } from './Components/dash/worker-dash/menu-l/menu-l.component';
+import { MenuSWComponent } from './Components/dash/worker-dash/menu-s/menu-s.component';
+import { DropdownMenuWComponent } from './Components/dash/worker-dash/menu-l/dropdown-menu/dropdown-menu.component';
+
 
 @NgModule({
   declarations: [
@@ -85,7 +94,15 @@ import { LoanPreviewComponent } from './Components/dash/dash-board/loans/loan-pr
     LoansComponent,
     ShowCardComponent,
     LoanFormComponent,
-    LoanPreviewComponent
+    LoanPreviewComponent,
+    LoginWorkerComponent,
+    WorkerDashComponent,
+    ClientsInfoComponent,
+    ClientInfoComponent,
+    LoansManagerComponent,
+    MenuLWComponent,
+    MenuSWComponent,
+    DropdownMenuWComponent
   ],
   imports: [
     BrowserModule,

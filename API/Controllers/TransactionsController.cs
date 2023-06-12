@@ -63,7 +63,7 @@ namespace APITrassBank.Controllers
             }
             return Ok(JsonConvert.SerializeObject(result));
         }
-        [HttpPost("AddorRemoveMoney{id}")]
+        [HttpPost("AddorRemoveMoney/{id}")]
         [Authorize(Roles = "Worker,ATM")]
         public async Task<IActionResult> AddorRemoveMoney(string id, [FromBody] TransactionAddMoneyDTO model)
         {

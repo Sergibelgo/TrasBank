@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { resetUser } from '../../../../state/actions/auth.actions';
 import { Router } from '@angular/router';
@@ -12,6 +12,7 @@ import { resetMessages } from '../../../../state/actions/messages.actions';
   styleUrls: ['./logout-button.component.css']
 })
 export class LogoutButtonComponent {
+  @Input() check: boolean = true;
   constructor(private store: Store<any>, private router: Router) {
 
   }
@@ -21,6 +22,11 @@ export class LogoutButtonComponent {
     this.store.dispatch(resetUtils())
     this.store.dispatch(resetMessages())
     localStorage.removeItem("userTokenIdentification");
-    this.router.navigate(["login"]);
+    if (this.check) {
+      this.router.navigate(["login"]);
+    } else {
+      this.router.navigate(["loginWorker"]);
+    }
+   
   }
 }

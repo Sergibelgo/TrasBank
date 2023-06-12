@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { resetUser,  setUser, setUserJWT } from '../actions/auth.actions';
+import { resetUser,  setUser, setUserJWT, updateUserInfo } from '../actions/auth.actions';
 import { UserState } from '../../Models/userState/user-state';
 
 
@@ -19,6 +19,9 @@ export const userReducer = createReducer(
     return { ...state, user: action.user }
   }), on(resetUser, (state, action) => {
     return initialState
+  }),
+  on(updateUserInfo, (state, action) => {
+    return { ...state, user: action.user }
   })
   
 );

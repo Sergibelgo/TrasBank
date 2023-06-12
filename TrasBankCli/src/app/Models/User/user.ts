@@ -8,5 +8,6 @@ export interface User {
   Income: number;
   Age: Date;
   Address: string;
+  Id: string;
   }
 

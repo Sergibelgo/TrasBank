@@ -32,6 +32,14 @@ namespace APITrassBank.Controllers
             var customers = await _customerService.GetCustomersAsync();
             return Ok(JsonConvert.SerializeObject(customers));
         }
+        [HttpGet("customerWorkersSelf")]
+        [Authorize(Roles = "Admin,Worker")]
+        public async Task<IActionResult> GetSelfCustomers()
+        {
+            var idSelf = httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;
+            var customers = await _customerService.GetCustomersSelfAsync(idSelf);
+            return Ok(JsonConvert.SerializeObject(customers));
+        }
 
         // GET api/<CustomersController>/5
         [HttpGet("{id}")]

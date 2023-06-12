@@ -8,4 +8,5 @@ export const tryRegister = createAction("[User register] Try register", props<{ 
 export const loadUser = createAction("[User info] Load info", props < {jwt:string}>());
 export const setUser = createAction("[User info] set info", props<{ user: User }>());
 export const resetUser = createAction("[User info] reset info");
+export const updateUserInfo = createAction("[User info] Update info", props < {user:User}>())
 

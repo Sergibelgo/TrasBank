@@ -25,7 +25,7 @@ export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
   jwt$: Subscription = new Subscription();;
   jwt: string = "";
   userInfo$: Subscription = new Subscription();;
-  userInfo: User | null = { Age: new Date(), Email: "", FirstName: "", Income: 0, LastName: "", UserName: "",Address:"" };
+  userInfo: User | null = { Age: new Date(), Email: "", FirstName: "", Income: 0, LastName: "", UserName: "", Address: "", Id: "" };
   accountsBasicInfo?: { Id: string, Name: string }[];
   accountActive$: Subscription = new Subscription();;
   accountActive: Account = { Balance: 0, Id: "", Name: "", SaveUntil: new Date(), Status: "", Type: "" }
@@ -76,8 +76,10 @@ export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
     this.jwt$.unsubscribe();
   }
   ngOnInit(): void {
+
     this.userInfo$ = this.store.select(selectUser).pipe(val => val)
       .subscribe(val => this.userInfo = val);
+
     this.accounts$ = this.store.select(selectAccounts).pipe(val => val).subscribe((val) => {
       this.accounts = val;
       this.accountsBasicInfo = val.map((item) => {
@@ -87,8 +89,11 @@ export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
     this.accountActive$ = this.store.select(selectAccountActive).pipe(val => val).subscribe(val => { this.accountActive = val; this.saveCheck = new Date(val.SaveUntil) > new Date() });
     this.jwt$ = this.store.select(selectJWT).pipe(val => val).subscribe(val => this.jwt = val ?? "");
     this.transactions$ = this.store.select(selectTransactions).pipe(val => val).subscribe(val => { this.transactions = val; this.loadEvents(val) });
-    this.store.dispatch(loadAccounts({ jwt: this.jwt }));
-    this.store.dispatch(loadTransactions({ jwt: this.jwt, accountId: "" }));
+    if (this.jwt != "") {
+      this.store.dispatch(loadAccounts({ jwt: this.jwt }));
+      this.store.dispatch(loadTransactions({ jwt: this.jwt, accountId: "" }));
+    }
+
 
   }
   actTransactions(event: Event) {
@@ -110,7 +115,7 @@ export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
       } else if (item.Ammount < 0) {
         color = "red";
       }
-      return { title: `${item.Concept ?? this.translateService.instant(item.TipeTransaction)} - ${Math.abs(item.Ammount) } EUR`, date: item.Date, backgroundColor: color, id: item.Id, display: "auto", Type: this.translateService.instant(item.TipeTransaction), Other: item.NameOther, Ammount: item.Ammount }
+      return { title: `${item.Concept ?? this.translateService.instant(item.TipeTransaction)} - ${Math.abs(item.Ammount)} EUR`, date: item.Date, backgroundColor: color, id: item.Id, display: "auto", Type: this.translateService.instant(item.TipeTransaction), Other: item.NameOther, Ammount: item.Ammount }
     });
     return events;
   }
@@ -120,7 +125,7 @@ export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
       this.calendarOptions.events = events;
       this.calendarOptions.locale = this.translateService.currentLang == "es" ? esLocale : this.translateService.currentLang;
     }
-    
+
   }
   showTransactionInfo(info: any) {
     let trans: Transaction = {

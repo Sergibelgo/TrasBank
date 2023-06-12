@@ -1,0 +1,40 @@
+<div class="container min-vh-50">
+  <div class="row">
+    <div class="col-12 overflow-auto">
+      <table datatable [dtOptions]="dtOptions" class="row-border hover table " id="datatableId" [dtTrigger]="dtTrigger" (window:resize)="updateDataTable()">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>{{"First Name"|translate}}</th>
+            <th>{{"Last Name"|translate}}</th>
+            <th>{{"Email"|translate}}</th>
+            <th>{{"Username"|translate}}</th>
+            <th>{{"Income"|translate}}</th>
+            <th>{{"Birthday"|translate}}</th>
+            <th>{{"Address"|translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>
+              {{user.Id}}
+            </td>
+            <td>
+              {{user.FirstName}}
+            </td>
+            <td>
+              {{user.LastName}}
+            </td>
+            <td>
+              {{user.Email}}
+            </td>
+            <td>{{user.UserName}}</td>
+            <td>{{user.Income}}</td>
+            <td>{{user.Age}}</td>
+            <td>{{user.Address}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

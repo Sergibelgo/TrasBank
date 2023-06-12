@@ -53,6 +53,22 @@ namespace APITrassBank.Controllers
             var response = JsonConvert.SerializeObject(list);
             return Ok(response);
         }
+        [HttpGet("ByCustomerId/{id}")]
+        [Authorize(Roles ="Worker")]
+        public async Task<IActionResult> GetAllSelf(string id)
+        {
+            IEnumerable<AccountResponseDTO> list;
+            try
+            {
+                list = await _accountsService.GetByUserId(id);
+            }
+            catch
+            {
+                return StatusCode(500, "Couldnt connect to the server");
+            }
+            var response = JsonConvert.SerializeObject(list);
+            return Ok(response);
+        }
 
         // GET api/<AccountsController>/5
         [HttpGet("{id}")]

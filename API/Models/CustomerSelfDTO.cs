@@ -10,5 +10,6 @@
         public DateTime Age { get; set; }
         public string Address { get; set; }
         public string UserName { get; set; }
+        public string Id { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { setIndex } from '../../../../state/actions/utils.actions';
 import { Observable, Subscription } from 'rxjs';
@@ -14,7 +14,8 @@ import { selectUserName } from '../../../../state/selectors/user.selectors';
 export class MenuLComponent implements OnInit, OnDestroy {
   readed$: Observable<boolean>;
   username$: Subscription = new Subscription()
-    username: string | undefined;
+  username: string | undefined;
+  @Input() checkM: boolean = true;
   constructor(private store: Store<any>) {
     this.readed$ = this.store.select(selectNotReaded);
   }

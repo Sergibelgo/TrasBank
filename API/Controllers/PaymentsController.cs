@@ -68,7 +68,7 @@ namespace APITrassBank.Controllers
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(JsonConvert.SerializeObject(ex.Message));
             }
             catch (Exception ex)
             {
@@ -76,9 +76,9 @@ namespace APITrassBank.Controllers
             }
             return Ok(JsonConvert.SerializeObject(result));
         }
-        [HttpPost("MakePayment/{id}")]
+        [HttpPost("MakePayment/worker")]
         [Authorize(Roles = "Admin,Worker")]
-        public async Task<IActionResult> MakePayment(string id, [FromBody] PaymentCreateDTO model)
+        public async Task<IActionResult> MakePaymentWorker([FromBody] PaymentCreateDTO model)
         {
             if (!ModelState.IsValid)
             {

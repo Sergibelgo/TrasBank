@@ -16,6 +16,7 @@ namespace APITrassBank.Services
         Task<LoanResponseDTO> GetById(string id);
         Task<IEnumerable<LoanResponseDTO>> GetByUserId(string idSelf);
         Task<IEnumerable<LoanApprovedResponseDTO>> GetByUserIdApproved(string idSelf);
+        Task<IEnumerable<LoanResponseDTO>> GetLoansToBe(string idSelf);
     }
     public class LoansService : ILoansService
     {
@@ -143,6 +144,19 @@ namespace APITrassBank.Services
             return await _contextDB.Proyecto_Loans
                 .Where(x => x.LoanStatusId == 2)
                 .Select(x => new LoanApprovedResponseDTO() { Id = x.Id, Name = x.LoanName })
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<LoanResponseDTO>> GetLoansToBe(string idSelf)
+        {
+            return await _contextDB.Proyecto_Loans
+                .Include(x => x.Customer)
+                .ThenInclude(x => x.AppUser)
+                .Include(x => x.LoanType)
+                .Include(x => x.LoanStatus)
+                .Where(x=>x.Customer.Worker.AppUser.Id==idSelf)
+                .Where(x=>x.LoanStatus.Id==1)
+                .Select(x=>_mapper.Map<LoanResponseDTO>(x))
                 .ToListAsync();
         }
     }

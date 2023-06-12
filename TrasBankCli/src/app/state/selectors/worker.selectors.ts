@@ -9,3 +9,11 @@ export const selectWorkersPublicInfo = createSelector(
   selectWorkerFeature,
   (state: WorkerState) => state.workersPublicInfo
 );
+export const selectCustomers = createSelector(
+  selectWorkerFeature,
+  (state:WorkerState)=>state.customers
+)
+export const selectPendingLoans = createSelector(
+  selectWorkerFeature,
+  (state: WorkerState) => state.loansPending
+)

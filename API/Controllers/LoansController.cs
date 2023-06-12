@@ -66,6 +66,15 @@ namespace APITrassBank.Controllers
             return Ok(response);
 
         }
+        [HttpGet("ByUserId/{id}")]
+        [Authorize(Roles ="Worker")]
+        public async Task<IActionResult> GetSelfLoans(string id)
+        {
+            IEnumerable<LoanResponseDTO> loans = await _loansService.GetByUserId(id);
+            var response = JsonConvert.SerializeObject(loans);
+            return Ok(response);
+
+        }
         [HttpGet("selfAproved")]
         public async Task<IActionResult> GetSelfLoansApproved()
         {
@@ -118,6 +127,14 @@ namespace APITrassBank.Controllers
                 return StatusCode(500, ex.Message);
             }
             return Ok();
+        }
+        [HttpGet("LoansWaitingSelf")]
+        [Authorize(Roles ="Worker")]
+        public async Task<IActionResult> ListLoansToBe()
+        {
+            var idSelf = httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;
+            var loans = await _loansService.GetLoansToBe(idSelf);
+            return Ok(JsonConvert.SerializeObject(loans));
         }
     }
 }

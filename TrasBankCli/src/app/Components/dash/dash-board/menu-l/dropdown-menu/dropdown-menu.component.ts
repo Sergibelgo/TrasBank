@@ -10,6 +10,7 @@ import { setIndex } from '../../../../../state/actions/utils.actions';
 export class DropdownMenuComponent {
   @Input() dropType: string = "dropdown"
   @Input() username: string | null | undefined = null;
+  @Input() checkM: boolean = true;
   constructor(private store: Store<any>) {
 
   }

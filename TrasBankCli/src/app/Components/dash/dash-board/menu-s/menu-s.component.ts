@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { setIndex } from '../../../../state/actions/utils.actions';
 import { selectNotReaded } from '../../../../state/selectors/messages.selectors';
@@ -12,7 +12,7 @@ declare var $: any;
   styleUrls: ['./menu-s.component.css']
 })
 export class MenuSComponent {
-
+  @Input() checkM: boolean=true;
   readed$: Observable<boolean>;
   username$: Observable<string | undefined>;
   constructor(private store: Store<any>) {

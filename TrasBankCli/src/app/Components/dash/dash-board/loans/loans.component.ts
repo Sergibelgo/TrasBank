@@ -31,7 +31,7 @@ export class LoansComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loans$.unsubscribe();
   }
   ngOnInit(): void {
-    this.loans$ = this.store.select(selectLoans).subscribe(val => this.loans = val);
+    this.loans$ = this.store.select(selectLoans).subscribe(val => { this.loans = val; this.updateDataTable() });
     this.dtOptions = {
       columnDefs: [
         {
