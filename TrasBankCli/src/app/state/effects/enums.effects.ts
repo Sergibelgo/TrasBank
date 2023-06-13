@@ -30,6 +30,14 @@ export class EnumsEffects {
         .catch((error) => ({ type: "[Errors] Set Error", error }))
     )
   ))
+  accountStatuses$ = createEffect(() => this.actions$.pipe(
+    ofType("[Enums] load AccountStatuses"),
+    mergeMap(
+      () => this.enumsService.getAccountStatuses()
+        .then((AccountStatuses) => ({ type: "[Enums] Set AccountStatuses", AccountStatuses }))
+        .catch((error) => ({ type: "[Errors] Set Error", error }))
+    )
+  ))
   loanTypes$ = createEffect(() => this.actions$.pipe(
     ofType("[Enums] load LoanTypes"),
     mergeMap(

@@ -25,8 +25,8 @@ export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
   jwt$: Subscription = new Subscription();;
   jwt: string = "";
   userInfo$: Subscription = new Subscription();;
-  userInfo: User | null = { Age: new Date(), Email: "", FirstName: "", Income: 0, LastName: "", UserName: "", Address: "", Id: "" };
-  accountsBasicInfo?: { Id: string, Name: string }[];
+  userInfo: User = { Age: new Date(), Email: "", FirstName: "", Income: 0, LastName: "", UserName: "", Address: "", Id: "" };
+  accountsBasicInfo: { Id: string, Name: string }[]=[];
   accountActive$: Subscription = new Subscription();;
   accountActive: Account = { Balance: 0, Id: "", Name: "", SaveUntil: new Date(), Status: "", Type: "" }
   accounts$: Subscription = new Subscription();;
@@ -65,9 +65,7 @@ export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private store: Store<any>, private translateService: TranslateService) {
 
   }
-  ngAfterViewInit(): void {
-    let calendar = this.calendarComponent?.getApi() as Calendar;
-  }
+ 
   ngOnDestroy(): void {
     this.accountActive$.unsubscribe();
     this.userInfo$.unsubscribe();
@@ -93,8 +91,9 @@ export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
       this.store.dispatch(loadAccounts({ jwt: this.jwt }));
       this.store.dispatch(loadTransactions({ jwt: this.jwt, accountId: "" }));
     }
-
-
+  }
+  ngAfterViewInit(): void {
+    let calendar = this.calendarComponent?.getApi() as Calendar;
   }
   actTransactions(event: Event) {
     let id = $(event.target).val();
@@ -123,6 +122,9 @@ export class AccountsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
     if (val != null && val.length > 0) {
       let events = this.transFormTranToEvent(val);
       this.calendarOptions.events = events;
+      this.calendarOptions.locale = this.translateService.currentLang == "es" ? esLocale : this.translateService.currentLang;
+    } else {
+      this.calendarOptions.events = {};
       this.calendarOptions.locale = this.translateService.currentLang == "es" ? esLocale : this.translateService.currentLang;
     }
 

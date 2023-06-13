@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Loan } from '../../../../../Models/loan/loan';
 import { Store } from '@ngrx/store';
@@ -10,9 +10,10 @@ import { PaymentsService } from '../../../../../services/payments.service';
 import { errorAlert, successAlert } from '../../../../Utils';
 import { TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
-import { loadLoans } from '../../../../../state/actions/loans.actions';
+import { loadLoans, loadLoansByUserId } from '../../../../../state/actions/loans.actions';
 import { selectJWT } from '../../../../../state/selectors/user.selectors';
 import { loadAccounts } from '../../../../../state/actions/accounts.actions';
+import { setIndex } from '../../../../../state/actions/utils.actions';
 declare var $: any;
 
 @Component({
@@ -21,6 +22,7 @@ declare var $: any;
   styleUrls: ['./show-card.component.css']
 })
 export class ShowCardComponent implements OnInit, OnDestroy {
+  @Input() checkW:string | null = null;
   actieLoan$: Subscription = new Subscription();
   activeLoan: Loan = {
     Ammount: 0,
@@ -46,6 +48,7 @@ export class ShowCardComponent implements OnInit, OnDestroy {
     LoanId: "",
     NumberInstallments: 1
   }
+
   constructor(private store: Store<any>, private service: PaymentsService, private trans: TranslateService) {
 
   }
@@ -69,11 +72,15 @@ export class ShowCardComponent implements OnInit, OnDestroy {
         showCancelButton: true
       }).then((val) => {
         if (val.isConfirmed) {
-          this.service.makePayment(this.jwt, this.payment).then(
+          this.service.makePayment(this.jwt, this.payment, this.checkW).then(
             val => {
               successAlert(this.trans.instant("Payment done"));
-              this.store.dispatch(loadLoans({ jwt: this.jwt }))
-              this.store.dispatch(loadAccounts({ jwt: this.jwt }));
+              if (this.checkW = null) {
+                this.store.dispatch(loadLoans({ jwt: this.jwt }))
+                this.store.dispatch(loadAccounts({ jwt: this.jwt }));
+              } else {
+                this.store.dispatch(setIndex({index:0}))
+              }
               $("#ModalActiveLoan").modal("hide")
             }
           ).catch(

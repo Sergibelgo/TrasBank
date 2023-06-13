@@ -16,3 +16,7 @@ export const selectLoanTypes = createSelector(
   selectEnumFeature,
   (state: Enumsstate) => state.LoanTypes
 )
+export const selectAccountStatuses = createSelector(
+  selectEnumFeature,
+  (state:Enumsstate)=>state.AccountStatuses
+)

@@ -14,7 +14,7 @@ namespace APITrassBank.Services
         Task<Customer> CreateCustomer(CustomerRegisterDTO model);
         Task<Customer> GetCustomerAsync(string id);
         Task<IEnumerable<Customer>> GetCustomersAsync();
-        Task<IEnumerable<CustomerSelfDTO>> GetCustomersSelfAsync(string idSelf);
+        Task<IEnumerable<CustomerSelfDTO>> GetCustomersSelfWorkerAsync(string idSelf);
         Task<CustomerSelfDTO> GetSelfAsync(string id);
         Task<bool> IsValidModel(CustomerEditDTO model);
         Task<Customer> UpdateCustomer(Customer user, CustomerEditDTO model);
@@ -212,7 +212,7 @@ namespace APITrassBank.Services
             }
         }
 
-        public async Task<IEnumerable<CustomerSelfDTO>> GetCustomersSelfAsync(string idSelf)
+        public async Task<IEnumerable<CustomerSelfDTO>> GetCustomersSelfWorkerAsync(string idSelf)
         {
             var customers = await _contextDB.Proyecto_Customers.Include(customer => customer.AppUser)
                                                  .Include(customer => customer.Worker)

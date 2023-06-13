@@ -1,0 +1,42 @@
+<div class="container min-vh-50">
+  <div class="row">
+    <div class="col-12 overflow-auto">
+      <table datatable [dtOptions]="dtOptions2" class="row-border hover table " id="datatableIdAccounts" [dtTrigger]="dtTrigger2" (window:resize)="updateDataTable()">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>{{"Name"|translate}}</th>
+            <th>{{"Balance"|translate}}</th>
+            <th>{{"Account Status"|translate}}</th>
+            <th>{{"Type of account"|translate}}</th>
+            <th>{{"Actions"|translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let account of accounts">
+            <td>
+              {{account.Id}}
+            </td>
+            <td>
+              {{account.Name}}
+            </td>
+            <td>
+              {{account.Balance}}
+            </td>
+            <td>
+              {{account.Status|translate}}
+            </td>
+            <td>{{account.Type|translate}}</td>
+            <td>
+            <div class="d-flex flex-nowrap">
+              <button class="btn btn-primary" (click)="modal(true,account.Id)"><i class="lni lni-pencil"><span class="ms-2">{{"Edit"|translate}}</span></i></button>
+              <button class="ms-2 btn btn-secondary" (click)="modal(false,account.Id)"><i class="lni lni-coin"><span class="ms-2">{{"Transfer"|translate}}</span></i></button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<app-modal-edit-account-worker [option]="optionModal" [id]="idModal"></app-modal-edit-account-worker>

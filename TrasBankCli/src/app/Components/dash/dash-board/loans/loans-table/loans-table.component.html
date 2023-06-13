@@ -1,0 +1,29 @@
+<table datatable [dtOptions]="dtOptions" class="row-border hover table" id="datatableId" [dtTrigger]="dtTrigger" (window:resize)="updateDataTable()">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>{{"Loan type"|translate}}</th>
+      <th>{{"Amount"|translate}}</th>
+      <th>{{"Loan status"|translate}}</th>
+      <th>{{"Short loan description"|translate}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let loan of loans">
+      <td>
+        {{loan.Id}}
+      </td>
+      <td>
+        {{loan.LoanType}}
+      </td>
+      <td>
+        {{loan.Ammount}}
+      </td>
+      <td>
+        {{loan.LoanStatus|translate}}
+      </td>
+      <td>{{loan.LoanName}}</td>
+    </tr>
+  </tbody>
+</table>
+<app-show-card [checkW]="checkW"></app-show-card>

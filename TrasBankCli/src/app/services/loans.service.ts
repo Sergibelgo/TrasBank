@@ -9,7 +9,7 @@ import { PaymentDTO } from '../Models/paymentDTO/payment-dto';
 export class LoansService {
   baseUrl = `${url}Loans/`;
   scoringUrl = `${url}Scorings/`;
-  
+
   constructor() { }
   async loadLoansUser(jwt: string) {
     let result = await fetch(`${this.baseUrl}self`, {
@@ -43,9 +43,9 @@ export class LoansService {
     if (!result.ok) {
       if (data.error != undefined) {
         throw Error(data.error);
-      } else if(data.errors != undefined) {
+      } else if (data.errors != undefined) {
         let errData = Object.entries(data.errors);
-        let err=errData.map(val => val.join(" : "));
+        let err = errData.map(val => val.join(" : "));
         throw Error(err.join(","))
       }
       else {
@@ -80,5 +80,56 @@ export class LoansService {
     }
     return data;
   }
- 
+  async getByCustomerId(jwt: string, id: string) {
+    let result = await fetch(`${this.baseUrl}ByUserId/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": `Bearer ${jwt}`
+      }
+    })
+    var data = await result.json();
+    if (!result.ok) {
+      if (data.error != undefined) {
+        throw Error(data.error);
+      } else if (data.errors != undefined) {
+        let errData = Object.entries(data.errors);
+        let err = errData.map(val => val.join(" : "));
+        throw Error(err.join(","))
+      }
+      else {
+        throw Error(data);
+      }
+
+    }
+    return data;
+  }
+  async changeLoanStatus(jwt: string, id: string, check: boolean) {
+    let url = check ? `${this.baseUrl}Aprove` : `${this.baseUrl}Denied`;
+    let result = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(id),
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": `Bearer ${jwt}`
+      }
+    })
+
+    if (!result.ok) {
+      var data = await result.json();
+      if (data.error != undefined) {
+        throw Error(data.error);
+      } else if (data.errors != undefined) {
+        let errData = Object.entries(data.errors);
+        let err = errData.map(val => val.join(" : "));
+        throw Error(err.join(","))
+      }
+      else {
+        throw Error(data);
+      }
+
+    }
+    return true;
+  }
+
 }

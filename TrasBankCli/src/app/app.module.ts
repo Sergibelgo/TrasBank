@@ -59,7 +59,10 @@ import { LoansManagerComponent } from './Components/dash/worker-dash/loans-manag
 import { MenuLWComponent } from './Components/dash/worker-dash/menu-l/menu-l.component';
 import { MenuSWComponent } from './Components/dash/worker-dash/menu-s/menu-s.component';
 import { DropdownMenuWComponent } from './Components/dash/worker-dash/menu-l/dropdown-menu/dropdown-menu.component';
-
+import { LoansTableComponent } from './Components/dash/dash-board/loans/loans-table/loans-table.component';
+import { AccountsInfoWorkerComponent } from './Components/dash/worker-dash/client-info/accounts-info-worker/accounts-info-worker.component';
+import { TransactionsInfoWorkerComponent } from './Components/dash/worker-dash/client-info/transactions-info-worker/transactions-info-worker.component';
+import { ModalEditAccountWorkerComponent } from './Components/dash/worker-dash/client-info/accounts-info-worker/modal-edit-account-worker/modal-edit-account-worker.component';
 
 @NgModule({
   declarations: [
@@ -102,7 +105,11 @@ import { DropdownMenuWComponent } from './Components/dash/worker-dash/menu-l/dro
     LoansManagerComponent,
     MenuLWComponent,
     MenuSWComponent,
-    DropdownMenuWComponent
+    DropdownMenuWComponent,
+    LoansTableComponent,
+    AccountsInfoWorkerComponent,
+    TransactionsInfoWorkerComponent,
+    ModalEditAccountWorkerComponent
   ],
   imports: [
     BrowserModule,
@@ -128,5 +135,5 @@ import { DropdownMenuWComponent } from './Components/dash/worker-dash/menu-l/dro
 })
 export class AppModule { }
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http);
+  return new TranslateHttpLoader(http,'./assets/i18n/','.json');
 }

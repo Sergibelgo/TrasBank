@@ -95,7 +95,7 @@ namespace APITrassBank.Controllers
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(JsonConvert.SerializeObject(ex.Message));
             }
             catch (Exception ex)
             {

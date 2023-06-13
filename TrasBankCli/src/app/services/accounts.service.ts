@@ -66,4 +66,54 @@ export class AccountsService {
       }
     }
   }
+  async getByCustomerId(jwt: string,id:string) {
+    let result = await fetch(`${this.urlAccounts}ByCustomerId/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": `Bearer ${jwt}`
+      }
+    })
+    var data = await result.json();
+    if (!result.ok) {
+      if (data.error != undefined) {
+        throw Error(data.error);
+      } else if (data.errors != undefined) {
+        let errData = Object.entries(data.errors);
+        let err = errData.map(val => val.join(" : "));
+        throw Error(err.join(","))
+      }
+      else {
+        throw Error(data);
+      }
+
+    }
+    return data;
+  }
+  async updateAccountStatus(jwt: string, id: string, status: number) {
+    let result = await fetch(`${this.urlAccounts}Status/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(status),
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": `Bearer ${jwt}`
+      }
+    })
+    
+    if (!result.ok) {
+      var data = await result.json();
+      if (data.error != undefined) {
+        throw Error(data.error);
+      } else if (data.errors != undefined) {
+        let errData = Object.entries(data.errors);
+        let err = errData.map(val => val.join(" : "));
+        throw Error(err.join(","))
+      }
+      else {
+        throw Error(data);
+      }
+
+    }
+    return true;
+  }
 }

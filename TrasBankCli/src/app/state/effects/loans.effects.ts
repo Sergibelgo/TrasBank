@@ -14,6 +14,13 @@ export class LoansEffects {
     )
   )
   );
+  loadLoansByUserId$ = createEffect(() => this.actions$.pipe(
+    ofType("[Loans] Load loans by user id"),
+    mergeMap((action: any) => this.loansService.getByCustomerId(action.jwt, action.id)
+      .then((loans) => ({ type: "[Loans] Set loans", loans }))
+      .catch((error) => ({ type: "[Errors] Set Error", error }))
+    )
+  ))
   constructor(
     private actions$: Actions,
     private loansService: LoansService

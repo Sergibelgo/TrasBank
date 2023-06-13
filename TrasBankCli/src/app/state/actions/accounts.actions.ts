@@ -10,8 +10,10 @@ export const setAccounts = createAction("[Accounts] Set accounts", props<{ accou
 export const setAll = createAction("[Accounts] Set active all", props<{ accounts: Account[] }>())
 export const loadTransactions = createAction("[Transactions] load transactions", props<{ accountId: string, jwt: string }>());
 export const setTransactions = createAction("[Transactions] set transactions", props<{ transactions: Transaction[] }>());
+export const loadTransactionsByUserId = createAction("[Transactions] Load transactions by user id", props<{jwt:string,id:string}>())
 export const tryCreateAccount = createAction("[Accounts] Create new", props<{ account: AccountDTO, jwt: string }>());
 export const resetAccounts = createAction("[Accounts] reset accounts");
 export const addAccount = createAction("[Accounts] add account", props<{ account: Account }>());
-export const updateAccountsName = createAction("[Accounts] update account name", props < {account:Account}>())
+export const updateAccountsName = createAction("[Accounts] update account name", props<{ account: Account }>())
+export const loadAccountsByUserId = createAction("[Accounts] Load accounts by user id", props<{jwt:string,id:string}>())
 

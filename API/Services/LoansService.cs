@@ -135,7 +135,7 @@ namespace APITrassBank.Services
                 .ThenInclude(x => x.AppUser)
                 .Include(x => x.LoanType)
                 .Include(x => x.LoanStatus)
-                .Where(x => x.Customer.AppUser.Id == idSelf)
+                .Where(x => x.Customer.AppUser.Id == idSelf || x.Customer.Id.ToString() == idSelf)
                 .Select(x => _mapper.Map<LoanResponseDTO>(x)).ToListAsync();
         }
 

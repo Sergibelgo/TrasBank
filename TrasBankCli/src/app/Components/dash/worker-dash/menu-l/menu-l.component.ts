@@ -13,17 +13,13 @@ import { selectUserName } from '../../../../state/selectors/user.selectors';
 })
 export class MenuLWComponent implements OnInit, OnDestroy {
   readed$: Observable<boolean>;
-  username$: Subscription = new Subscription()
-  username: string | undefined;
   @Input() checkM: boolean = true;
   constructor(private store: Store<any>) {
     this.readed$ = this.store.select(selectNotReaded);
   }
   ngOnDestroy(): void {
-    this.username$.unsubscribe()
     }
   ngOnInit(): void {
-    this.username$ = this.store.select(selectUserName).subscribe(val=>this.username=val);
     }
   changeIndex(index: number) {
     this.store.dispatch(setIndex({ index: index }));

@@ -14,10 +14,8 @@ declare var $: any;
 export class MenuSWComponent {
   @Input() checkM: boolean=true;
   readed$: Observable<boolean>;
-  username$: Observable<string | undefined>;
   constructor(private store: Store<any>) {
     this.readed$ = this.store.select(selectNotReaded);
-    this.username$ = this.store.select(selectUserName);
   }
   showMenu() {
     $("#container").removeClass("d-none").addClass("d-block")

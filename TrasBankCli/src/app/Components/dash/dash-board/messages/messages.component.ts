@@ -57,7 +57,7 @@ export class MessagesComponent implements AfterViewInit, OnInit, OnDestroy {
       lengthChange: false,
       pageLength: 10,
       language: {
-        url: this.trans.currentLang == "es" ? `/assets/i18n/datatables.es.json` : `/assets/i18n/datatables.en.json`
+        url: this.trans.currentLang == "es" ? `assets/i18n/datatables.es.json` : `assets/i18n/datatables.en.json`
       },
       rowCallback: (row: Node, data: any[] | Object, index: number) => {
         const self = this;
@@ -90,7 +90,7 @@ export class MessagesComponent implements AfterViewInit, OnInit, OnDestroy {
       // Destroy the table first
       dtInstance.destroy();
       // Change Language
-      this.dtOptions.language = { url: this.trans.currentLang == "es" ? `/assets/i18n/datatables.es.json` : `/assets/i18n/datatables.en.json` }
+      this.dtOptions.language = { url: this.trans.currentLang == "es" ? `assets/i18n/datatables.es.json` : `assets/i18n/datatables.en.json` }
       // Call the dtTrigger to rerender again
       this.dtTrigger.next(undefined);
     });

@@ -48,7 +48,7 @@ namespace APITrassBank
                 .ThenInclude(x => x.Customer)
                 .Include(x => x.TransactionType)
                 .Include(x => x.OtherInvolved)
-                .Where(x => x.Account.Customer.AppUser.Id == id)
+                .Where(x => x.Account.Customer.AppUser.Id == id|| x.Account.Customer.Id.ToString()==id)
                 .Select(x => _mapper.Map<TransactionResponseDTO>(x))
                 .ToListAsync();
         }

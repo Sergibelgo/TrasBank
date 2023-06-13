@@ -171,6 +171,26 @@ namespace APITrassBank.Controllers
             }
             return Ok("Name changed");
         }
+        // GET api/<AccountsController>/5
+        [HttpPut("Status/{id}")]
+        [Authorize(Roles = "Admin,Worker")]
+        public async Task<IActionResult> UpdateAccountStatus(string id, [FromBody] int status)
+        {
+
+            try
+            {
+                 await _accountsService.ChangeStatus(id,status);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return NotFound();
+            }
+            catch
+            {
+                return StatusCode(500, "Couldnt connect to the server");
+            }
+            return Ok();
+        }
         [HttpPost("GetByUserName")]
         public async Task<IActionResult> GetByUserName([FromBody] string username)
         {

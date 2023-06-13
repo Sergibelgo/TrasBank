@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -7,9 +8,12 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent {
-  constructor(private translate: TranslateService) {
+  constructor(private translate: TranslateService,private router:Router) {
   }
   useLanguage(language: string): void {
     this.translate.use(language);
+  }
+  goToWL() {
+    this.router.navigate(["loginWorker"]);
   }
 }

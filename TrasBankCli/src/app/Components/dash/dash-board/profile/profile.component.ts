@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { User } from '../../../../Models/User/user';
 import { Store } from '@ngrx/store';
@@ -15,7 +15,8 @@ declare var $: any;
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit,OnDestroy {
+export class ProfileComponent implements OnInit, OnDestroy {
+  @Input() editable: boolean = true;
   user$: Subscription=new Subscription();
   user: User = { Age: new Date(), Email: "", FirstName: "", Income: 0, LastName: "", UserName: "", Address: "" ,Id:""}
   userUpdate: User = this.user;

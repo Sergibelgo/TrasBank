@@ -4,7 +4,7 @@
       <form class="form-floating">
         <div class="row mb-3">
           <div class="col">
-            <label for="userUpdatename" class="form-label">{{"UserName"|translate}}</label>
+            <label for="userUpdatename" class="form-label">{{"Username"|translate}}</label>
             <input type="text" readonly id="userUpdatename" name="userUpdatename" class="form-control" [(ngModel)]="userUpdate.UserName" />
           </div>
           <div class="col">
@@ -32,7 +32,10 @@
             <input type="number" readonly class="form-control" id="income" name="income" [(ngModel)]="userUpdate.Income" />
           </div>
         </div>
-        <div *ngIf="check;then button;else buttons"></div>
+        <div *ngIf="editable">
+          <div *ngIf="check;then button;else buttons"></div>
+        </div>
+        
       </form>
     </div>
   </div>

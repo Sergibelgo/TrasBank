@@ -37,7 +37,7 @@ namespace APITrassBank.Controllers
         public async Task<IActionResult> GetSelfCustomers()
         {
             var idSelf = httpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid).Value;
-            var customers = await _customerService.GetCustomersSelfAsync(idSelf);
+            var customers = await _customerService.GetCustomersSelfWorkerAsync(idSelf);
             return Ok(JsonConvert.SerializeObject(customers));
         }
 

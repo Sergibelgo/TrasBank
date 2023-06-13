@@ -41,6 +41,10 @@
             <input readonly [value]="activeLoan.RemainingInstallments" id="RemainingInstallments" class="form-control" />
           </div>
           <div>
+            <label for="quantityPerInstallment">{{"Amount per installment"|translate}} </label>
+            <input readonly [value]="(activeLoan.RemainingAmmount/activeLoan.RemainingInstallments)|currency:'':''" id="quantityPerInstallment" class="form-control" />
+          </div>
+          <div>
             <label for="startDate">{{"Start date"|translate}} </label>
             <input readonly [value]="activeLoan.StartDate|date" id="startDate" class="form-control" />
           </div>
@@ -51,12 +55,12 @@
           <div class="mt-2">
             <div class="row">
               <div class="col">
-                <select class="form-select text-center"[(ngModel)]="payment.AccountId">
+                <select class="form-select text-center" [(ngModel)]="payment.AccountId">
                   <option *ngFor="let account of accountsBasicInfo" class="text-break" [value]="account.Id">{{account.Name}}</option>
                 </select>
               </div>
               <div class="col">
-                <input type="number" class="form-control" [(ngModel)]="payment.NumberInstallments"/>
+                <input type="number" class="form-control" [(ngModel)]="payment.NumberInstallments" />
               </div>
               <div class="col">
                 <button class="btn btn-primary" (click)="makePayment()">{{"Pay installments"|translate}}</button>

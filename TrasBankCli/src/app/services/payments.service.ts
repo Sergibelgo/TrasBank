@@ -7,8 +7,8 @@ import { url } from './base-service.service';
 })
 export class PaymentsService {
   paymentsUrl = `${url}Payments/`;
-  async makePayment(jwt: string, payment: PaymentDTO) {
-    let result = await fetch(`${this.paymentsUrl}MakePayment`, {
+  async makePayment(jwt: string, payment: PaymentDTO,checkW:string|null="") {
+    let result = await fetch(`${this.paymentsUrl}MakePayment${checkW??""}`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",

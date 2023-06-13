@@ -40,4 +40,12 @@ export class EnumsService {
     }
     return data;
   }
+  async getAccountStatuses() {
+    let result = await fetch(`${this.baseUrl}AccountStatuses`);
+    var data = await result.json();
+    if (!result.ok) {
+      throw Error(data);
+    }
+    return data.map((val: { Id: number,Description:string }) => { return { Id: val.Id, Name: val.Description } });
+  }
 }

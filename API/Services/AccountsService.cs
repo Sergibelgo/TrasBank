@@ -7,6 +7,7 @@ namespace APITrassBank.Services
 {
     public interface IAccountsService
     {
+        Task ChangeStatus(string id, int status);
         Task<AccountResponseDTO> Create(AccountCreateDTO model, string idSelf);
         Task<Account> CreateMain(Customer customer);
         Task<IEnumerable<AccountResponseDTO>> GetAll();
@@ -90,8 +91,13 @@ namespace APITrassBank.Services
         public async Task<IEnumerable<AccountResponseDTO>> GetByUserId(string userId)
         {
 
-            return await _contextDB.Proyecto_Accounts.Include(x => x.Customer).ThenInclude(x => x.AppUser).Include(x => x.AccountStatus).Include(x => x.AccountType).Where(x => x.Customer.AppUser.Id == userId)
-                                            .Select(x => _mapper.Map<AccountResponseDTO>(x)).ToListAsync();
+            return await _contextDB.Proyecto_Accounts
+                .Include(x => x.Customer)
+                .ThenInclude(x => x.AppUser)
+                .Include(x => x.AccountStatus)
+                .Include(x => x.AccountType)
+                .Where(x => x.Customer.AppUser.Id == userId || x.Customer.Id.ToString()==userId)            
+                .Select(x => _mapper.Map<AccountResponseDTO>(x)).ToListAsync();
         }
 
         public async Task UpdateName(string name, string id, string idSelf)
@@ -118,6 +124,14 @@ namespace APITrassBank.Services
                 .Where(x => x.Customer.AppUser.UserName == username)
                 .Select(x => _mapper.Map<AccountByUsernameDTO>(x))
                 .ToListAsync();
+        }
+
+        public async Task ChangeStatus(string id, int status)
+        {
+            var account=await _contextDB.Proyecto_Accounts.Where(x=>x.Id.ToString()==id).FirstOrDefaultAsync()??throw new ArgumentOutOfRangeException();
+            var statusCheck = await _contextDB.Proyecto_AccountStatuses.Where(x=>x.Id==status).FirstOrDefaultAsync()??throw new ArgumentOutOfRangeException();
+            account.AccountStatusId = status;
+            await _contextDB.SaveChangesAsync();
         }
     }
 }

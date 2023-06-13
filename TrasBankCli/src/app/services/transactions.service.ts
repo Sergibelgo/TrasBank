@@ -62,4 +62,54 @@ export class TransactionsService {
       throw new Error(data)
     }
   }
+  async getByCustomerId(jwt: string, id: string) {
+    let result = await fetch(`${this.urlAccounts}ByUserId/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": `Bearer ${jwt}`
+      }
+    })
+    var data = await result.json();
+    if (!result.ok) {
+      if (data.error != undefined) {
+        throw Error(data.error);
+      } else if (data.errors != undefined) {
+        let errData = Object.entries(data.errors);
+        let err = errData.map(val => val.join(" : "));
+        throw Error(err.join(","))
+      }
+      else {
+        throw Error(data);
+      }
+
+    }
+    return data;
+  }
+  async AddorRemoveMoney(jwt: string, id: string, info: {quantity:number,concept:string}) {
+    let result = await fetch(`${this.urlAccounts}AddorRemoveMoney/${id}`, {
+      method: "POST",
+      body:JSON.stringify(info),
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": `Bearer ${jwt}`
+      }
+    })
+    
+    if (!result.ok) {
+      var data = await result.json();
+      if (data.error != undefined) {
+        throw Error(data.error);
+      } else if (data.errors != undefined) {
+        let errData = Object.entries(data.errors);
+        let err = errData.map(val => val.join(" : "));
+        throw Error(err.join(","))
+      }
+      else {
+        throw Error(data);
+      }
+
+    }
+    return data;
+  }
 }

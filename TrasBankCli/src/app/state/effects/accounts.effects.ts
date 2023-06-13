@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { EMPTY } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { map, exhaustMap, catchError, mergeMap, switchMap } from 'rxjs/operators';
 import { AccountsService } from '../../services/accounts.service';
 import { TransactionsService } from '../../services/transactions.service';
@@ -29,7 +29,20 @@ export class AccountsEffects {
       .catch((error) => ({ type: "[Errors] Set Error", error }))
     )
   ))
-
+  loadAccountsByCustomerId$ = createEffect(() => this.actions$.pipe(
+    ofType("[Accounts] Load accounts by user id"),
+    mergeMap((action: any) => this.accountsService.getByCustomerId(action.jwt, action.id)
+      .then((accounts) => ({ type: "[Accounts] Set accounts", accounts }))
+      .catch((error) => ({ type: "[Errors] Set Error", error }))
+    )
+  ))
+  loadTransactionsByCustomerId$ = createEffect(() => this.actions$.pipe(
+    ofType("[Transactions] Load transactions by user id"),
+    mergeMap((action: any) => this.transactionsService.getByCustomerId(action.jwt, action.id)
+      .then((transactions) => ({ type: "[Transactions] set transactions", transactions }))
+      .catch((error) => ({ type: "[Errors] Set Error", error }))
+    )
+  ))
   constructor(
     private actions$: Actions,
     private accountsService: AccountsService,

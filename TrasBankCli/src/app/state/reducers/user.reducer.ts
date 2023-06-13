@@ -7,8 +7,8 @@ import { UserState } from '../../Models/userState/user-state';
 
 export const initialState: UserState = {
   userJWT: "",
-  user: null
-};
+  user: { Age: new Date(), Email: "", FirstName: "", Income: 0, LastName: "", UserName: "", Address: "", Id: "" }
+}
 
 export const userReducer = createReducer(
   initialState,

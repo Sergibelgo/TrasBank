@@ -31,10 +31,10 @@
             <td>{{loan.InterestRate}}</td>
             <td>{{loan.TotalInstallments}}</td>
             <td>{{loan.LoanName}}</td>
-            <td>
+            <td class="notClick">
                 <div class="d-flex flex-nowrap">
-                  <button type="button" (click)="aprove(loan.Id)" class="btn btn-primary"><i class="lni lni-checkmark"><span class="d-none d-md-inline ms-2">{{"Approve"|translate}}</span></i></button>
-                  <button type="button" (click)="deny(loan.Id)" class="btn btn-secondary ms-2"><i class="lni lni-close"><span class="d-none d-md-inline ms-2">{{"Deny"|translate}}</span></i></button>
+                  <button type="button" (click)="submit(loan.Id,true)" class="btn btn-primary"><i class="lni lni-checkmark"><span class="d-none d-md-inline ms-2">{{"Approve"|translate}}</span></i></button>
+                  <button type="button" (click)="submit(loan.Id,false)" class="btn btn-secondary ms-2"><i class="lni lni-close"><span class="d-none d-md-inline ms-2">{{"Deny"|translate}}</span></i></button>
               </div>
               
             </td>

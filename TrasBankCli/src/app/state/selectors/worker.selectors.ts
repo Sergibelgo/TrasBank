@@ -17,3 +17,7 @@ export const selectPendingLoans = createSelector(
   selectWorkerFeature,
   (state: WorkerState) => state.loansPending
 )
+export const selectActiveUser = createSelector(
+  selectWorkerFeature,
+  (state: WorkerState) => state.activeUser
+)
