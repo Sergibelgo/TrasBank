@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="col-12 col-md-6 col-12 d-flex flex-column">
-      <h2 class="text-end">{{"Total Balance"|translate}}: {{accountActive.Balance}} </h2>
+      <h2 class="text-end">{{"Total Balance"|translate}}: {{accountActive.Balance|currency:'':''}} </h2>
       <h2 class="text-end">{{"Account Status"|translate}}: {{accountActive.Status|translate}}</h2>
       <h2 class="text-end">{{"Account Type"|translate}}: {{accountActive.Type|translate}}</h2>
       <h2 class="text-end"*ngIf="saveCheck" >{{"Save until"|translate}}: {{accountActive.SaveUntil|date}}</h2>

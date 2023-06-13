@@ -49,10 +49,8 @@ export class FormRegisterComponent implements OnInit, OnDestroy {
     this.workers$.unsubscribe();
   }
   ngOnInit(): void {
-    if (this.workingStatuses?.length == 1) {
       this.store.dispatch(loadWorkingStatuses());
-    }
-    if (this.workers?.length == 1) {
+    if (this.workers==null ||this.workers?.length == 1) {
       this.store.dispatch(loadPublicInfo());
     }
   }

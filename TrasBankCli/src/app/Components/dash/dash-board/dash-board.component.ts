@@ -5,8 +5,8 @@ import { User } from '../../../Models/User/user';
 import { selectJWT, selectUser } from '../../../state/selectors/user.selectors';
 import { loadUser, setUserJWT } from '../../../state/actions/auth.actions';
 import { Router } from '@angular/router';
-import { alertLoading, successAlert } from '../../Utils';
-import { selectIndex, selectLoading, selectSuccess } from '../../../state/selectors/utils.selectors';
+import { alertLoading, errorAlert, successAlert } from '../../Utils';
+import { selectError, selectIndex, selectLoading, selectSuccess } from '../../../state/selectors/utils.selectors';
 import { TranslateService } from '@ngx-translate/core';
 import { loadMessages } from '../../../state/actions/messages.actions';
 import { loadLoans } from '../../../state/actions/loans.actions';
@@ -26,6 +26,7 @@ export class DashBoardComponent implements OnInit, OnDestroy {
   index: number = 0;
   loading$: Subscription = new Subscription();
   success$: Subscription = new Subscription();
+  error$: Subscription = new Subscription();
   constructor(private store: Store<any>, private router: Router, private transService: TranslateService) {
     this.jwt$ = this.store.select(selectJWT).pipe(data => data).subscribe(val => this.jwt = val);
   }
@@ -45,6 +46,7 @@ export class DashBoardComponent implements OnInit, OnDestroy {
       this.store.dispatch(loadUser({ jwt: this.jwt as string }));
       this.store.dispatch(loadMessages({ jwt: this.jwt }));
       this.store.dispatch(loadLoans({ jwt: this.jwt }));
+      this.error$ = this.store.select(selectError).subscribe(val => { this.showError(val) })
     }
     
   }
@@ -70,5 +72,9 @@ export class DashBoardComponent implements OnInit, OnDestroy {
 
     }
   }
-
+  showError(val: string) {
+    if (val != "") {
+      errorAlert(val)
+    }
+  }
 }

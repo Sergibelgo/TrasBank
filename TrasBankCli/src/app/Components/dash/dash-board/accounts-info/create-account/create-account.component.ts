@@ -45,7 +45,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
   submit() {
     if (this.frmCreateAccount.valid) {
       this.store.dispatch(setLoad({ load: true }))
-      this.store.dispatch(tryCreateAccount({ account: { ...this.newAccount }, jwt: this.jwt }));
+      this.store.dispatch(tryCreateAccount({ account: { ...this.newAccount }, jwt: this.jwt }))
     }
   }
   getToday() {
