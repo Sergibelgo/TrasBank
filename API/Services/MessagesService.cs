@@ -22,7 +22,13 @@ namespace APITrassBank.Services
             _contextDB = contextDB;
             _userService = userService;
         }
-
+        /// <summary>
+        /// Creates a new message
+        /// </summary>
+        /// <param name="idSelf">Id of app user creator</param>
+        /// <param name="model">DTO with info for new message</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">If sender or reciver are not found</exception>
         public async Task Create(string idSelf, MessageCreateDTO model)
         {
             var user = await _userService.GetUser(idSelf) ?? throw new ArgumentException("User loged not valid");
@@ -51,7 +57,11 @@ namespace APITrassBank.Services
             }
 
         }
-
+        /// <summary>
+        /// Get all messages related to app user id
+        /// </summary>
+        /// <param name="id">Id of app user</param>
+        /// <returns>List of messages</returns>
         public async Task<IEnumerable<MessageDTO>> GetMessages(string id)
         {
             var messages = await _contextDB.Proyecto_Messages.Include(m => m.User).Where(m => m.Reciver.Id == id).Select(m => new MessageDTO
@@ -66,7 +76,13 @@ namespace APITrassBank.Services
             }).ToListAsync();
             return messages;
         }
-
+        /// <summary>
+        /// Change message read status to 1
+        /// </summary>
+        /// <param name="idSelf">Id of reciver</param>
+        /// <param name="id">Id of message</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">If message is not found</exception>
         public async Task ReadMessage(string idSelf, string id)
         {
             var message = await _contextDB.Proyecto_Messages

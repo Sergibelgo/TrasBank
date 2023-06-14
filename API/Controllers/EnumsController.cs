@@ -5,6 +5,9 @@ using Newtonsoft.Json;
 
 namespace APITrassBank.Controllers
 {
+    /// <summary>
+    /// Class controler to return all enums of the database as {'id':x ,'name':""} json
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class EnumsController : ControllerBase

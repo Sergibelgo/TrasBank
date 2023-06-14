@@ -1,3 +1,12 @@
+/**
+ * Component that displays all loans related to a person.
+ * If checkW is null it uses the store user id
+ * else it needs an id to check for loans
+ *
+ * Example usage:
+ * <app...></...>
+ * <app-loans-table [checkW]="userId"></...>
+ */
 import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject, Subscription } from 'rxjs';

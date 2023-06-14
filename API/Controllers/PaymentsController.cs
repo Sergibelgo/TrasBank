@@ -7,6 +7,9 @@ using System.Security.Claims;
 
 namespace APITrassBank.Controllers
 {
+    /// <summary>
+    /// Class Controler for all payments related
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class PaymentsController : ControllerBase
@@ -19,6 +22,10 @@ namespace APITrassBank.Controllers
             _httpContext = httpContextAccessor.HttpContext;
             _paymentsService = paymentsService;
         }
+        /// <summary>
+        /// Endpoint for workers to get all payments
+        /// </summary>
+        /// <returns>List of all payments done</returns>
         [HttpGet]
         [Authorize(Roles = "Admin,Worker")]
         public async Task<IActionResult> Get()
@@ -34,6 +41,10 @@ namespace APITrassBank.Controllers
             }
             return Ok(JsonConvert.SerializeObject(result));
         }
+        /// <summary>
+        /// Endpoint for customer to get all their payments dones
+        /// </summary>
+        /// <returns>List of payments by customer</returns>
         [HttpGet("self")]
         public async Task<IActionResult> GetSelfPayments()
         {
@@ -49,6 +60,11 @@ namespace APITrassBank.Controllers
             }
             return Ok(JsonConvert.SerializeObject(result));
         }
+        /// <summary>
+        /// Endpoint to make a new payment
+        /// </summary>
+        /// <param name="model">DTO for new payment</param>
+        /// <returns>200 if created, 404 if loan is not found, 400 if bad model or 500 if server error</returns>
         [HttpPost("MakePayment")]
         public async Task<IActionResult> MakePayment([FromBody] PaymentCreateDTO model)
         {
@@ -76,6 +92,11 @@ namespace APITrassBank.Controllers
             }
             return Ok(JsonConvert.SerializeObject(result));
         }
+        /// <summary>
+        /// Endpoint for workers to make a payment from a customer
+        /// </summary>
+        /// <param name="model">DTO for new payment</param>
+        /// <returns>200 if created, 404 if loan not found, 500 otherwise</returns>
         [HttpPost("MakePayment/worker")]
         [Authorize(Roles = "Admin,Worker")]
         public async Task<IActionResult> MakePaymentWorker([FromBody] PaymentCreateDTO model)

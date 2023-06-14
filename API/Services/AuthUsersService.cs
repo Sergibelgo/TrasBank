@@ -24,6 +24,11 @@ namespace APITrassBank.Services
             jwt_Key = configuration.GetSection("Jwt")["Key"];
             jwt_Audience = configuration.GetSection("Jwt")["Audience"];
         }
+        /// <summary>
+        /// JWT Generator for user login
+        /// </summary>
+        /// <param name="user">User from where to generate the JWT</param>
+        /// <returns>JWT</returns>
         public async Task<string> GenerateJWT(IdentityUser user)
         {
             var roles = await _userManager.GetRolesAsync(user);

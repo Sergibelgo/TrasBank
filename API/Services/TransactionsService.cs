@@ -29,7 +29,12 @@ namespace APITrassBank
             _enumsService = enumsService;
             _messagesService = messagesService;
         }
-
+        /// <summary>
+        /// Get all transaction of an account
+        /// </summary>
+        /// <param name="idSelf">Id of user</param>
+        /// <param name="id">Id of account</param>
+        /// <returns>List of transactions</returns>
         public async Task<IEnumerable<TransactionResponseDTO>> GetSelf(string idSelf, string id)
         {
             return await _contextDB.Proyecto_Transactions
@@ -41,6 +46,11 @@ namespace APITrassBank
                  .Select(x => _mapper.Map<TransactionResponseDTO>(x))
                  .ToListAsync();
         }
+        /// <summary>
+        /// Get all transacctions done by user with his id
+        /// </summary>
+        /// <param name="id">Id of customer</param>
+        /// <returns>List of transactions</returns>
         public async Task<IEnumerable<TransactionResponseDTO>> GetByUserId(string id)
         {
             return await _contextDB.Proyecto_Transactions
@@ -52,7 +62,16 @@ namespace APITrassBank
                 .Select(x => _mapper.Map<TransactionResponseDTO>(x))
                 .ToListAsync();
         }
-
+        /// <summary>
+        /// Method that adds or remove money from an account
+        /// </summary>
+        /// <param name="quantity">Quantity of operation</param>
+        /// <param name="idSelf">Id user doing the operation</param>
+        /// <param name="idAccount">Id of account</param>
+        /// <param name="concept">Concept of the operation</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">If user or account not found</exception>
+        /// <exception cref="ArgumentException">If founds are insufficient</exception>
         public async Task AddorRemoveMoney(decimal quantity, string idSelf, string idAccount, string concept = "")
         {
             var user = await _contextDB.Users.Where(x => x.Id == idSelf).FirstOrDefaultAsync() ?? throw new ArgumentOutOfRangeException();
@@ -78,7 +97,14 @@ namespace APITrassBank
             await _contextDB.SaveChangesAsync();
             scope.Complete();
         }
-
+        /// <summary>
+        /// Method to transfer money from an account to another
+        /// </summary>
+        /// <param name="model">DTO with necesary info</param>
+        /// <param name="idSelf">Id user doing the transfer</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">If either user or account is not found</exception>
+        /// <exception cref="ArgumentException">If account is the same, the account is not enabled, is saving account with not required dates or is invalid quantity</exception>
         public async Task TransferTo(TransferMoneyDTO model, string idSelf)
         {
             var user = await _contextDB.Users

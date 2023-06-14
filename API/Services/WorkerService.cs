@@ -27,16 +27,31 @@ namespace APITrassBank.Services
             this.userManager = userManager;
             _enums = enums;
         }
+        /// <summary>
+        /// Get all workers
+        /// </summary>
+        /// <returns>List of workers</returns>
         public async Task<IEnumerable<Worker>> GetWorkers()
         {
             var list = await _contextDB.Proyecto_Workers.Include(worker => worker.AppUser).Select(worker => worker).ToListAsync();
             return list;
         }
+        /// <summary>
+        /// Get worker by id
+        /// </summary>
+        /// <param name="Id">Id of worker</param>
+        /// <returns>Worker or null</returns>
         public async Task<Worker> GetWorker(string Id)
         {
             var worker = await _contextDB.Proyecto_Workers.Where(worker => worker.Id.ToString() == Id).FirstOrDefaultAsync();
             return worker;
         }
+        /// <summary>
+        /// Update the information of the worker
+        /// </summary>
+        /// <param name="model">DTO</param>
+        /// <param name="id">Id of worker</param>
+        /// <returns>Worker updated</returns>
         public async Task<Worker> UpdateWorker(WorkerEditDTO model, string id)
         {
             var OldWorker = await _contextDB.Proyecto_Workers.Include(worker => worker.AppUser).Where(worker => worker.Id.ToString() == id).FirstOrDefaultAsync();
@@ -55,6 +70,11 @@ namespace APITrassBank.Services
             await _contextDB.SaveChangesAsync();
             return result;
         }
+        /// <summary>
+        /// Creates a new worker
+        /// </summary>
+        /// <param name="model">DTO</param>
+        /// <returns>new Worker or null if couldnt be created</returns>
         public async Task<Worker> NewWorker(WorkerRegisterDTO model)
         {
             using var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
@@ -96,7 +116,10 @@ namespace APITrassBank.Services
                 return null;
             }
         }
-
+        /// <summary>
+        /// Get list of worker to list item
+        /// </summary>
+        /// <returns>list of {Email:string,Name:string}</returns>
         public async Task<IEnumerable<WorkersMailsDTO>> GetWorkersMail()
         {
             return await _contextDB.Proyecto_Workers

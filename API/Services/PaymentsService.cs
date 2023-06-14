@@ -22,17 +22,31 @@ namespace APITrassBank.Services
             _contextDB = contextDB;
             _mapper = mapper;
         }
-
+        /// <summary>
+        /// Get all payments
+        /// </summary>
+        /// <returns>List of payments</returns>
         public async Task<IEnumerable<Payment>> GetAll()
         {
             return await _contextDB.Proyecto_Payments.Include(x => x.Loan).ToListAsync();
         }
-
+        /// <summary>
+        /// Get payments by user id
+        /// </summary>
+        /// <param name="idSelf">Id of user</param>
+        /// <returns>List of payments</returns>
         public async Task<IEnumerable<PaymentResponseDTO>> GetById(string idSelf)
         {
             return await _contextDB.Proyecto_Payments.Include(x => x.Loan).Select(x => _mapper.Map<PaymentResponseDTO>(x)).ToListAsync();
         }
-
+        /// <summary>
+        /// Create a new payment
+        /// </summary>
+        /// <param name="model">DTO with necesary info for new payment</param>
+        /// <param name="idSelf">Id of user making it</param>
+        /// <returns>New payment</returns>
+        /// <exception cref="ArgumentOutOfRangeException"> If any parameter is not found</exception>
+        /// <exception cref="ArgumentException">If model is not valid</exception>
         public async Task<PaymentResponseDTO> Make(PaymentCreateDTO model, string idSelf = null)
         {
             var loan = await _contextDB.Proyecto_Loans.Include(x => x.LoanStatus)

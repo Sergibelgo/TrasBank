@@ -1,3 +1,8 @@
+/**
+ * Component that show a link to disconnect from account and reset state.
+ * If check is true it sends to the login of user
+ * else it sends to the login of worker
+ */
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { resetUser } from '../../../../state/actions/auth.actions';

@@ -36,6 +36,10 @@ namespace APITrassBank.Services
             _accountsService = accountsService;
             _mapper = mapper;
         }
+        /// <summary>
+        /// Get all customers from db
+        /// </summary>
+        /// <returns>List of customers</returns>
         public async Task<IEnumerable<Customer>> GetCustomersAsync()
         {
             var customers = await _contextDB.Proyecto_Customers.Include(customer => customer.AppUser)
@@ -44,6 +48,11 @@ namespace APITrassBank.Services
                                                 .Select(customer => customer).ToListAsync();
             return customers;
         }
+        /// <summary>
+        /// Get customer by id
+        /// </summary>
+        /// <param name="id">Id of customer</param>
+        /// <returns>Customer or null</returns>
         public async Task<Customer> GetCustomerAsync(string id)
         {
             var customer = await _contextDB.Proyecto_Customers
@@ -55,6 +64,11 @@ namespace APITrassBank.Services
                                                 .FirstOrDefaultAsync();
             return customer;
         }
+        /// <summary>
+        /// Get self information about customer
+        /// </summary>
+        /// <param name="id">Id of app user</param>
+        /// <returns>Customer</returns>
         public async Task<CustomerSelfDTO> GetSelfAsync(string id)
         {
             var customer = await _contextDB.Proyecto_Customers
@@ -73,6 +87,13 @@ namespace APITrassBank.Services
             customer.Accounts = accounts;
             return customer;
         }
+        /// <summary>
+        /// Method to create a new customer
+        /// </summary>
+        /// <param name="model">DTO for new customer</param>
+        /// <returns>New customer</returns>
+        /// <exception cref="Exception">Db error</exception>
+        /// <exception cref="ArgumentException">Invalid model</exception>
         public async Task<Customer> CreateCustomer(CustomerRegisterDTO model)
         {
             var worker = await _contextDB.Proyecto_Workers.Where(worker => worker.AppUser.NormalizedEmail == model.WorkerEmail.ToUpper()).FirstOrDefaultAsync();
@@ -137,7 +158,11 @@ namespace APITrassBank.Services
                 throw new ArgumentException(ex.Message);
             }
         }
-
+        /// <summary>
+        /// Check if the DTO for edit model is valid
+        /// </summary>
+        /// <param name="model">DTO to edit customer</param>
+        /// <returns>true or false</returns>
         public async Task<bool> IsValidModel(CustomerEditDTO model)
         {
             if (model == null)
@@ -161,7 +186,12 @@ namespace APITrassBank.Services
             }
             return true;
         }
-
+        /// <summary>
+        /// Update customer information
+        /// </summary>
+        /// <param name="customer">Customer to edit</param>
+        /// <param name="model">DTO with info to edit</param>
+        /// <returns>Updated Customer</returns>
         public async Task<Customer> UpdateCustomer(Customer customer, CustomerEditDTO model)
         {
 
@@ -188,6 +218,12 @@ namespace APITrassBank.Services
                 return null;
             }
         }
+        /// <summary>
+        /// Method to update yourself as a customer
+        /// </summary>
+        /// <param name="model">DTO edit info</param>
+        /// <param name="customer">Customer to edit</param>
+        /// <returns>Updated customer</returns>
         public async Task<Customer> UpdateSelf(CustomerEditSelfDTO model, Customer customer)
         {
             using var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
@@ -211,7 +247,11 @@ namespace APITrassBank.Services
                 return null;
             }
         }
-
+        /// <summary>
+        /// Get all customer info by worker id
+        /// </summary>
+        /// <param name="idSelf">Id of login</param>
+        /// <returns>List of customer</returns>
         public async Task<IEnumerable<CustomerSelfDTO>> GetCustomersSelfWorkerAsync(string idSelf)
         {
             var customers = await _contextDB.Proyecto_Customers.Include(customer => customer.AppUser)

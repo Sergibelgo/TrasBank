@@ -5,6 +5,9 @@ using System.Security.Claims;
 
 namespace APITrassBank.Controllers
 {
+    /// <summary>
+    /// Class controller for transactions related
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class TransactionsController : ControllerBase
@@ -17,6 +20,11 @@ namespace APITrassBank.Controllers
             _transactionsService = transactionsService;
             _httpContext = httpContextAccessor.HttpContext;
         }
+        /// <summary>
+        /// Endpoint to customer to get all transaction for account id
+        /// </summary>
+        /// <param name="id">Id of account</param>
+        /// <returns>List of all transactions</returns>
         [HttpGet("self/{id}")]
         public async Task<IActionResult> Get(string id)
         {
@@ -33,6 +41,10 @@ namespace APITrassBank.Controllers
             return Ok(JsonConvert.SerializeObject(result));
 
         }
+        /// <summary>
+        /// Endpoint to get all transactions of self, independent of account
+        /// </summary>
+        /// <returns>List of transactions</returns>
         [HttpGet("self/all")]
         public async Task<IActionResult> GetAllSelf()
         {
@@ -48,6 +60,11 @@ namespace APITrassBank.Controllers
             }
             return Ok(JsonConvert.SerializeObject(result));
         }
+        /// <summary>
+        /// Endpoint for workers to get all transactions done by customer
+        /// </summary>
+        /// <param name="id">Id of customers</param>
+        /// <returns>List of transaction</returns>
         [HttpGet("ByUserId/{id}")]
         [Authorize(Roles = "Admin,Worker")]
         public async Task<IActionResult> GetByUserId(string id)
@@ -63,6 +80,12 @@ namespace APITrassBank.Controllers
             }
             return Ok(JsonConvert.SerializeObject(result));
         }
+        /// <summary>
+        /// Endpoint for workers to add or remove money from account
+        /// </summary>
+        /// <param name="id">Id account</param>
+        /// <param name="model">DTO info for new transaction</param>
+        /// <returns>200 if done,404 if account not found,400 if bad model 500 otherwise</returns>
         [HttpPost("AddorRemoveMoney/{id}")]
         [Authorize(Roles = "Worker,ATM")]
         public async Task<IActionResult> AddorRemoveMoney(string id, [FromBody] TransactionAddMoneyDTO model)
@@ -91,6 +114,11 @@ namespace APITrassBank.Controllers
             }
             return Ok();
         }
+        /// <summary>
+        /// Endpoint for customers to make transactions
+        /// </summary>
+        /// <param name="model">DTO for new Transaction</param>
+        /// <returns>200 if done, 404 if other acount not found, 400 if bad model, 500 otherwise</returns>
         [HttpPost("Transfer")]
         public async Task<IActionResult> TransferMoney([FromBody] TransferMoneyDTO model)
         {

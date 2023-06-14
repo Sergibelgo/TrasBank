@@ -1,3 +1,12 @@
+/**
+ * Modal to show information about a loan.
+ * If checkW is null it will use the stored loanId
+ * else it needs to be a loan id to work
+ *
+ * Example Usage:
+ * <app-...></...>
+ * <app-show-card [checkW]="loanId"></...>
+ */
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Loan } from '../../../../../Models/loan/loan';
@@ -22,7 +31,7 @@ declare var $: any;
   styleUrls: ['./show-card.component.css']
 })
 export class ShowCardComponent implements OnInit, OnDestroy {
-  @Input() checkW:string | null = null;
+  @Input() checkW: string | null = null;
   actieLoan$: Subscription = new Subscription();
   activeLoan: Loan = {
     Ammount: 0,
@@ -72,20 +81,20 @@ export class ShowCardComponent implements OnInit, OnDestroy {
         showCancelButton: true
       }).then((val) => {
         if (val.isConfirmed) {
-          this.service.makePayment(this.jwt, this.payment, this.checkW).then(
-            val => {
+          this.service.makePayment(this.jwt, this.payment, this.checkW)
+            .then(val => {
               successAlert(this.trans.instant("Payment done"));
               if (this.checkW = null) {
                 this.store.dispatch(loadLoans({ jwt: this.jwt }))
                 this.store.dispatch(loadAccounts({ jwt: this.jwt }));
               } else {
-                this.store.dispatch(setIndex({index:0}))
+                this.store.dispatch(setIndex({ index: 0 }))
               }
               $("#ModalActiveLoan").modal("hide")
             }
-          ).catch(
-            val => errorAlert(val)
-          );
+            ).catch(
+              val => errorAlert(val)
+            );
         }
       })
 

@@ -8,6 +8,9 @@ using Newtonsoft.Json;
 
 namespace APITrassBank.Controllers
 {
+    /// <summary>
+    /// Class controler for workers related
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class WorkersController : ControllerBase
@@ -21,6 +24,10 @@ namespace APITrassBank.Controllers
             this.contextAccessor = contextAccessor;
         }
         // GET: api/<WorkersController>
+        /// <summary>
+        /// Endpoint for workers to get all workers information
+        /// </summary>
+        /// <returns>List of workers</returns>
         [HttpGet]
         [Authorize(Roles = "Admin,Worker")]
         public async Task<IActionResult> Get()
@@ -30,6 +37,11 @@ namespace APITrassBank.Controllers
         }
 
         // GET api/<WorkersController>/5
+        /// <summary>
+        /// Endpoint for workers to get info of worker by id
+        /// </summary>
+        /// <param name="id">Id of worker</param>
+        /// <returns>200 with info or 404 not found</returns>
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin,Worker")]
         public async Task<IActionResult> Get(string id)
@@ -43,6 +55,11 @@ namespace APITrassBank.Controllers
         }
 
         // POST api/<WorkersController>
+        /// <summary>
+        /// Endpoint for admin to create a new Worker
+        /// </summary>
+        /// <param name="model">DTO for new Worker</param>
+        /// <returns>201 if created, 400 if bad model</returns>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Post([FromBody] WorkerRegisterDTO model)
@@ -60,6 +77,12 @@ namespace APITrassBank.Controllers
         }
 
         // PUT api/<WorkersController>/5
+        /// <summary>
+        /// Endpoint to workers to update info
+        /// </summary>
+        /// <param name="id">Id of worker</param>
+        /// <param name="model">DTO new info</param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin,Worker")]
         public async Task<IActionResult> Put(string id, [FromBody] WorkerEditDTO model)
@@ -75,6 +98,10 @@ namespace APITrassBank.Controllers
             }
             return Ok(JsonConvert.SerializeObject(respuesta));
         }
+        /// <summary>
+        /// Endpoint to get worker information to select one from a list
+        /// </summary>
+        /// <returns>List of {Id:number,Name:String}</returns>
         [HttpGet("GetWorkersMail")]
         [AllowAnonymous]
         public async Task<IActionResult> GetWorkersMail()
