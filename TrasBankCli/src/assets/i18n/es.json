@@ -131,5 +131,9 @@
   "Payment done": "Pago realizado",
   "Preview of the loan": "Vista previa del prestamo",
   "Loan form": "Formulario solicitud",
-  "Message sended succesfully": "Mensaje enviado correctamente"
+  "Message sended succesfully": "Mensaje enviado correctamente",
+  "Working": "Empleado",
+  "Unemployed": "Desempleado",
+  "Pending loans": "Prestamos pendientes",
+  "Customers": "Clientes"
 }

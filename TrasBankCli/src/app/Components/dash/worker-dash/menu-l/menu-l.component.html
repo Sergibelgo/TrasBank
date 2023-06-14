@@ -9,10 +9,10 @@
       <!-- Icons -->
       <ul class="navbar-nav d-flex flex-row me-1">
         <li class="nav-item me-3 me-lg-0">
-          <a class="nav-link text-white" href="javascript:void(0)" [title]="'Accounts'|translate" (click)="changeIndex(0)"><i class="lni lni-customer"></i> <span class="ms-2 d-md-none d-lg-inline">{{"Customers"|translate}}</span></a>
+          <a class="nav-link text-white" href="javascript:void(0)" [title]="'Customers'|translate" (click)="changeIndex(0)"><i class="lni lni-customer"></i> <span class="ms-2 d-md-none d-lg-inline">{{"Customers"|translate}}</span></a>
         </li>
         <li class="nav-item me-3 me-lg-0">
-          <a class="nav-link text-white" href="javascript:void(0)" [title]="'Loans'|translate" (click)="changeIndex(2)"><i class="lni lni-question-circle"></i> <span class="ms-2 d-md-none d-lg-inline">{{"Pending loans"|translate}}</span></a>
+          <a class="nav-link text-white" href="javascript:void(0)" [title]="'Pending loans'|translate" (click)="changeIndex(2)"><i class="lni lni-question-circle"></i> <span class="ms-2 d-md-none d-lg-inline">{{"Pending loans"|translate}}</span></a>
         </li>
         <li class="nav-item me-3 me-lg-0">
           <a class="nav-link text-white"[ngClass]="{'pulse':readed$|async}" href="javascript:void(0)" [title]="'Messages'|translate" (click)="changeIndex(3)"><i class="lni lni-envelope"></i> <span class="ms-2 d-md-none d-lg-inline">{{'Messages'|translate}}</span></a>

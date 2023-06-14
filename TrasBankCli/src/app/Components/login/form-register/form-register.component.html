@@ -92,7 +92,7 @@
     </div>
     <div class="form-outline mb-4">
       <select class="form-select" id="workStatusId" formControlName="workStatusId" name="workStatusId">
-        <option *ngFor="let status of workingStatuses" [value]="status.Id">{{status.Name}}</option>
+        <option *ngFor="let status of workingStatuses" [value]="status.Id">{{status.Name|translate}}</option>
       </select>
       <label for="workStatusId" class="form-label">{{"Select working status"|translate}}</label>
       <small class="form-text text-danger"

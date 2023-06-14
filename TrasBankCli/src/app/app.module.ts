@@ -128,7 +128,7 @@ import { ModalEditAccountWorkerComponent } from './Components/dash/worker-dash/c
     }),
     StoreModule.forRoot(ROOT_REDUCERS),
     EffectsModule.forRoot([UserEffects, EnumsEffects, WorkerEffects, AccountsEffects, UtilsEffects, MessagesEffects, LoansEffects]),
-    StoreDevtoolsModule.instrument({ name:"Test" })
+    //StoreDevtoolsModule.instrument({ name:"Test" })
   ],
   providers: [],
   bootstrap: [AppComponent]

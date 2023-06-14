@@ -1,5 +1,8 @@
 <div class="container min-vh-50">
   <div class="row">
+    <button class="btn btn-primary col-2" id="reloadButton" (click)="reload($event)"><i class="lni lni-reload" [title]="'Reload'|translate"></i><span class="ms-3 d-none d-lg-inline">{{"Reload"|translate}}</span></button>
+  </div>
+  <div class="row">
     <div class="col-12 overflow-auto">
       <table datatable [dtOptions]="dtOptions" class="row-border hover table " id="datatableId" [dtTrigger]="dtTrigger" (window:resize)="updateDataTable()">
         <thead>

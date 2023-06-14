@@ -9,7 +9,7 @@ import { selectJWT } from '../../../../state/selectors/user.selectors';
 import { selectCustomers } from '../../../../state/selectors/worker.selectors';
 import { setIndex } from '../../../../state/actions/utils.actions';
 import { setUser } from '../../../../state/actions/auth.actions';
-
+declare var $: any;
 @Component({
   selector: 'app-clients-info',
   templateUrl: './clients-info.component.html',
@@ -78,5 +78,12 @@ export class ClientsInfoComponent implements OnInit, OnDestroy, AfterViewInit {
       // Call the dtTrigger to rerender again
       this.dtTrigger.next(undefined);
     });
+  }
+  reload(event: Event) {
+    this.store.dispatch(loadCustomers({ jwt: this.jwt }));
+    $("#reloadButton").attr("disabled", true);
+    setTimeout(() => {
+      $("#reloadButton").attr("disabled", false)
+    }, 3000)
   }
 }
