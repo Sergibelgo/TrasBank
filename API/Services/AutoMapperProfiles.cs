@@ -24,12 +24,15 @@ namespace APITrassBank.Services
             CreateMap<Transaction, TransactionResponseDTO>()
                 .ForMember(dto => dto.TipeTransaction, ent => ent.MapFrom(x => x.TransactionType.Name))
                 .ForMember(dto => dto.NameOther, ent => ent.MapFrom(x => (x.OtherInvolved.UserName)))
-                .ForMember(dto => dto.AccountOtherId, ent => ent.MapFrom(x => x.OtherInvolved.Id))
+                .ForMember(dto => dto.AccountName, ent => ent.MapFrom(x => x.Account.AccountName))
                 ;
             CreateMap<Account, AccountByUsernameDTO>();
             CreateMap<Payment, PaymentResponseDTO>()
                 .ForMember(dto => dto.LoanId, ent => ent.MapFrom(x => x.Loan.Id))
                 ;
+            CreateMap<Customer,CustomerSelfDTO>()
+                .ForMember(dto=>dto.Email,ent=>ent.MapFrom(x=>x.AppUser.Email))
+                .ForMember(dto=>dto.UserName,ent=>ent.MapFrom(x=>x.AppUser.UserName));
 
         }
     }

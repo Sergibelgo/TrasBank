@@ -5,6 +5,9 @@ using Newtonsoft.Json;
 
 namespace APITrassBank.Controllers
 {
+    /// <summary>
+    /// Class controler to return all enums of the database as {'id':x ,'name':""} json
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class EnumsController : ControllerBase
@@ -47,6 +50,13 @@ namespace APITrassBank.Controllers
         public async Task<IActionResult> GetWorkerStatuses()
         {
             var response = await _enumsService.GetWorkerStatusesAsync();
+            return Ok(JsonConvert.SerializeObject(response));
+        }
+        [HttpGet("AccountTypes")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAccountTypes()
+        {
+            var response = await _enumsService.GetAccountTypesAsync();
             return Ok(JsonConvert.SerializeObject(response));
         }
     }

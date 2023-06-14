@@ -1,0 +1,37 @@
+<div class="container min-vh-50">
+  <div class="row">
+    <div class="col-12 overflow-auto">
+      <table datatable [dtOptions]="dtOptions2" class="row-border hover table " id="datatableIdtransactions" [dtTrigger]="dtTrigger2" (window:resize)="updateDataTable()">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>{{"Concept"|translate}}</th>
+            <th>{{"Amount"|translate}}</th>
+            <th>{{"Date"|translate}}</th>
+            <th>{{"Other involved"|translate}}</th>
+            <th>{{"Tipe of transaction"|translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transaction of transactions">
+            <td>
+              {{transaction.Id}}
+            </td>
+            <td>
+              {{transaction.Concept}}
+            </td>
+            <td>
+              {{transaction.Ammount}}
+            </td>
+            <td>
+              {{transaction.Date|date}}
+            </td>
+            <td>{{transaction.NameOther}}</td>
+            <td>{{transaction.TipeTransaction|translate}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

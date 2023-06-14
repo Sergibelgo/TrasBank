@@ -1,0 +1,34 @@
+<div class="container w-75">
+  <div class="row mb-3">
+    <div class="col-12 col-md-6">
+      <div class="input-group">
+        <span class="input-group-text">
+          <button type="button" class="btn btn-primary" (click)="showCreateAccount()"><i class="lni lni-plus"></i></button>
+        </span>
+        <span class="input-group-text">
+          <button type="button" class="btn btn-primary" (click)="showUpdateAccount()" [attr.disabled]="accountActive.Id==''? true : null"><i class="lni lni-pencil"></i></button>
+        </span>
+        <select class="form-select text-center" (change)="actTransactions($event)">
+          <option value="">{{"All"|translate}}</option>
+          <option *ngFor="let account of accountsBasicInfo" [value]="account.Id">{{account.Name}}</option>
+        </select>
+
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-12 d-flex flex-column">
+      <h2 class="text-end">{{"Total Balance"|translate}}: {{accountActive.Balance|currency:'':''}} </h2>
+      <h2 class="text-end">{{"Account Status"|translate}}: {{accountActive.Status|translate}}</h2>
+      <h2 class="text-end">{{"Account Type"|translate}}: {{accountActive.Type|translate}}</h2>
+      <h2 class="text-end"*ngIf="saveCheck" >{{"Save until"|translate}}: {{accountActive.SaveUntil|date}}</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="pt-5 col-12 ">
+      <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+    </div>
+  </div>
+</div>
+<app-modal-transaction [transaction]="modalTransaction"></app-modal-transaction>
+<app-create-account></app-create-account>
+<app-update-account-name-modal></app-update-account-name-modal>

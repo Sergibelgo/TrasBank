@@ -1,0 +1,78 @@
+<div class="modal fade" id="ModalActiveLoan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{activeLoan.LoanName}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label for="id">{{"Id"|translate}} </label>
+          <input readonly [value]="activeLoan.Id" id="id" class="form-control" />
+        </div>
+        <div>
+          <label for="ammount">{{"Requested amount"|translate}} </label>
+          <input readonly [value]="activeLoan.Ammount" id="ammount" class="form-control" />
+        </div>
+        <div>
+          <label for="interestrate">{{"Percentage"|translate}} </label>
+          <input readonly [value]="activeLoan.InterestRate" id="interestrate" class="form-control" />
+        </div>
+        <div>
+          <label for="LoanType">{{"Loan type"|translate}} </label>
+          <input readonly [value]="activeLoan.LoanType|translate" id="LoanType" class="form-control" />
+        </div>
+        <div>
+          <label for="TotalInstallments">{{"Total installments"|translate}} </label>
+          <input readonly [value]="activeLoan.TotalInstallments" id="TotalInstallments" class="form-control" />
+        </div>
+        <div>
+          <label for="LoanStatus">{{"Loan status"|translate}} </label>
+          <input readonly [value]="activeLoan.LoanStatus|translate" id="LoanStatus" class="form-control" />
+        </div>
+        <div *ngIf="activeLoan.LoanStatus=='Aproved'">
+          <div>
+            <label for="remainingammount">{{"Remaining amount"|translate}} </label>
+            <input readonly [value]="activeLoan.RemainingAmmount" id="remainingammount" class="form-control" />
+          </div>
+          <div>
+            <label for="RemainingInstallments">{{"Remaining installments"|translate}} </label>
+            <input readonly [value]="activeLoan.RemainingInstallments" id="RemainingInstallments" class="form-control" />
+          </div>
+          <div>
+            <label for="quantityPerInstallment">{{"Amount per installment"|translate}} </label>
+            <input readonly [value]="(activeLoan.RemainingAmmount/activeLoan.RemainingInstallments)|currency:'':''" id="quantityPerInstallment" class="form-control" />
+          </div>
+          <div>
+            <label for="startDate">{{"Start date"|translate}} </label>
+            <input readonly [value]="activeLoan.StartDate|date" id="startDate" class="form-control" />
+          </div>
+          <div>
+            <label for="endDate">{{"End date"|translate}} </label>
+            <input readonly [value]="activeLoan.EndDate|date" id="endDate" class="form-control" />
+          </div>
+          <div class="mt-2">
+            <div class="row">
+              <div class="col">
+                <select class="form-select text-center" [(ngModel)]="payment.AccountId">
+                  <option *ngFor="let account of accountsBasicInfo" class="text-break" [value]="account.Id">{{account.Name}}</option>
+                </select>
+              </div>
+              <div class="col">
+                <input type="number" class="form-control" [(ngModel)]="payment.NumberInstallments" />
+              </div>
+              <div class="col">
+                <button class="btn btn-primary" (click)="makePayment()">{{"Pay installments"|translate}}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{"Close"|translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+

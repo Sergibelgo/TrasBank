@@ -8,6 +8,9 @@ using System.Security.Claims;
 
 namespace APITrassBank.Controllers
 {
+    /// <summary>
+    /// Class controller to all account buisness related
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class AccountsController : ControllerBase
@@ -21,6 +24,10 @@ namespace APITrassBank.Controllers
             _httpContext = contextAccessor.HttpContext;
         }
         // GET: api/<AccountsController>
+        /// <summary>
+        /// Endpoint for workers that returns all the accounts on the DB
+        /// </summary>
+        /// <returns>JSON with all accounts or 500 if the db couldnt be connected</returns>
         [HttpGet]
         [Authorize(Roles = "Admin,Worker")]
         public async Task<IActionResult> Get()
@@ -37,6 +44,10 @@ namespace APITrassBank.Controllers
             var response = JsonConvert.SerializeObject(list);
             return Ok(response);
         }
+        /// <summary>
+        /// Endpoint for customers to get all of their accounts
+        /// </summary>
+        /// <returns>JSON with all of the customer accounts or 500 if the db could be connected</returns>
         [HttpGet("self")]
         public async Task<IActionResult> GetAllSelf()
         {
@@ -53,8 +64,34 @@ namespace APITrassBank.Controllers
             var response = JsonConvert.SerializeObject(list);
             return Ok(response);
         }
+        /// <summary>
+        /// Endpoint for workers to get all accounts associated with a customer id
+        /// </summary>
+        /// <param name="id">Id of the customer</param>
+        /// <returns>JSON with all accounts of the customer or 500 if db couldnt be connected</returns>
+        [HttpGet("ByCustomerId/{id}")]
+        [Authorize(Roles ="Worker")]
+        public async Task<IActionResult> GetAllByUserId(string id)
+        {
+            IEnumerable<AccountResponseDTO> list;
+            try
+            {
+                list = await _accountsService.GetByUserId(id);
+            }
+            catch
+            {
+                return StatusCode(500, "Couldnt connect to the server");
+            }
+            var response = JsonConvert.SerializeObject(list);
+            return Ok(response);
+        }
 
         // GET api/<AccountsController>/5
+        /// <summary>
+        /// Endpoint for workers to get the information of an account by the id
+        /// </summary>
+        /// <param name="id">Id of the account</param>
+        /// <returns>JSON with the information of the account, 404 if no account is found or 500 if db couldnt be connected</returns>
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin,Worker")]
         public async Task<IActionResult> GetById(string id)
@@ -76,6 +113,12 @@ namespace APITrassBank.Controllers
             var response = JsonConvert.SerializeObject(account);
             return Ok(response);
         }
+        /// <summary>
+        /// Endpoint for customers to get information about one of his account
+        /// </summary>
+        /// <param name="id"> Id of the account</param>
+        /// <returns>JSON with the information, 404 if not account found, 403 if account doesnt 
+        /// belong to customer or 500 if db couldnt be connected</returns>
         [HttpPost("self/ById")]
         public async Task<IActionResult> GetByIdAndSelf([FromBody] string id)
         {
@@ -98,6 +141,11 @@ namespace APITrassBank.Controllers
         }
 
         // POST api/<AccountsController>
+        /// <summary>
+        /// Endpoint for customers to create a new account
+        /// </summary>
+        /// <param name="model">DTO of account with information to create a new one</param>
+        /// <returns>201 if created,400 if model is not valid, 403 if user is not customer or 500 if db couldn't be connected </returns>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AccountCreateDTO model)
         {
@@ -116,6 +164,10 @@ namespace APITrassBank.Controllers
             {
                 return Forbid();
             }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(JsonConvert.SerializeObject(ex.Message));
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, JsonConvert.SerializeObject(ex.Message));
@@ -125,6 +177,12 @@ namespace APITrassBank.Controllers
         }
 
         // PUT api/<AccountsController>/5
+        /// <summary>
+        /// Endpoint to update the name of an account of yourself
+        /// </summary>
+        /// <param name="id">Id of the account to update</param>
+        /// <param name="name">New name</param>
+        /// <returns>200 if changed,400 if name not valid,404 if id not found, 403 if account doesnt belong to customer or 500 if db couldnt be connected</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(string id, [FromBody] string name)
         {
@@ -151,6 +209,37 @@ namespace APITrassBank.Controllers
             }
             return Ok("Name changed");
         }
+        // GET api/<AccountsController>/5
+        /// <summary>
+        /// Endpoint for workes to change the status of an account
+        /// </summary>
+        /// <param name="id">Id of the account</param>
+        /// <param name="status">Id of the new status</param>
+        /// <returns>200 if changed, 404 if id not found or 500 if db couldnt be connected</returns>
+        [HttpPut("Status/{id}")]
+        [Authorize(Roles = "Admin,Worker")]
+        public async Task<IActionResult> UpdateAccountStatus(string id, [FromBody] int status)
+        {
+
+            try
+            {
+                 await _accountsService.ChangeStatus(id,status);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return NotFound();
+            }
+            catch
+            {
+                return StatusCode(500, "Couldnt connect to the server");
+            }
+            return Ok();
+        }
+        /// <summary>
+        /// Endpoint to get account id and name by customer username
+        /// </summary>
+        /// <param name="username">Username of the customer</param>
+        /// <returns>JSON with all accounts name and id, 400 if name not valid, 404 if no user is found or 500 if db couldnt be connected</returns>
         [HttpPost("GetByUserName")]
         public async Task<IActionResult> GetByUserName([FromBody] string username)
         {

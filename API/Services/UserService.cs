@@ -27,15 +27,28 @@ namespace APITrassBank.Services
             _userManager = userManager;
             _roleManager = roleManager;
         }
+        /// <summary>
+        /// Get all app users
+        /// </summary>
+        /// <returns>List of the users</returns>
         public async Task<IEnumerable<IdentityUser>> GetUsers()
         {
             return await _userManager.Users.ToListAsync();
         }
+        /// <summary>
+        /// Get user by id
+        /// </summary>
+        /// <param name="id">Id of user</param>
+        /// <returns>User</returns>
         public async Task<IdentityUser> GetUser(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
             return user;
         }
+        /// <summary>
+        /// Generates all basic like enums on the db if doesnt exists
+        /// </summary>
+        /// <returns></returns>
         public async Task GenerateBasics()
         {
             if (!(await _roleManager.Roles.AnyAsync()))
@@ -113,6 +126,12 @@ namespace APITrassBank.Services
             }
             await _contextDB.SaveChangesAsync();
         }
+        /// <summary>
+        /// Try to log in a user with username or email and password
+        /// </summary>
+        /// <param name="model">DTO of username or email and password</param>
+        /// <returns>User</returns>
+        /// <exception cref="Exception">If user credentials where not valid</exception>
         public async Task<IdentityUser> LogIn(UserLoginDTO model)
         {
             IdentityUser user;
@@ -135,6 +154,12 @@ namespace APITrassBank.Services
             }
             return user;
         }
+        /// <summary>
+        /// Changes the password of an user
+        /// </summary>
+        /// <param name="model">DTO for password change</param>
+        /// <param name="id">Id of the user</param>
+        /// <returns>Boolean representing change success</returns>
         public async Task<bool> ChangePassword(UserPasswordDTO model, string id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -145,7 +170,11 @@ namespace APITrassBank.Services
             var result = await _userManager.ChangePasswordAsync(user, model.OldPass, model.NewPass);
             return result.Succeeded;
         }
-
+        /// <summary>
+        /// Get user by username
+        /// </summary>
+        /// <param name="userName">Username</param>
+        /// <returns>User</returns>
         public async Task<IdentityUser> GetUserByUserName(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);

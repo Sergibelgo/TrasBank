@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row mb-3">
+    <h2>{{"Personal information"|translate}}</h2>
+    <div class="col-12">
+      <app-profile [editable]="false"></app-profile>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <h2>{{"Accounts information"|translate}}</h2>
+    <div class="col">
+      <app-accounts-info-worker></app-accounts-info-worker>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <h2>{{"Loans information"|translate}}</h2>
+    <div class="col">
+      <app-loans-table [checkW]="'/worker'"></app-loans-table>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <h2>{{"Transaction information"|translate}}</h2>
+    <div class="col">
+      <app-transactions-info-worker></app-transactions-info-worker>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,21 @@
+div{
+    z-index:10;
+}
+#container nav{
+    min-width:150px
+}
+#menuButton {
+  position: fixed;
+  top: 3%;
+  left: 3%;
+  z-index: 10;
+  border: 2px solid #FCE500;
+}
+#close {
+  position: fixed;
+  top: 3%;
+  right: 3%;
+  z-index: 10;
+  border: 2px solid #FCE500;
+}
+

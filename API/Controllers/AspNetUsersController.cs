@@ -11,6 +11,9 @@ using System.Security.Claims;
 
 namespace APITrassBank.Controllers
 {
+    /// <summary>
+    /// Class controler for all auth related operations
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class AspNetUsersController : ControllerBase
@@ -26,6 +29,10 @@ namespace APITrassBank.Controllers
             _httpContext = accessor.HttpContext;
         }
         // GET: api/<AspNetUsersController>
+        /// <summary>
+        /// Endpoint for admin to get all app users information
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Get()
@@ -35,6 +42,11 @@ namespace APITrassBank.Controllers
         }
 
         // GET api/<AspNetUsersController>/5
+        /// <summary>
+        /// Endpoint for admin to get a user information by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Get(string id)
@@ -43,7 +55,11 @@ namespace APITrassBank.Controllers
             var response = JsonConvert.SerializeObject(user);
             return Ok(response);
         }
-
+        /// <summary>
+        /// Endpoint to login
+        /// </summary>
+        /// <param name="model">DTO for username and password</param>
+        /// <returns>JSON with JWT, 400 if model is invalid or not valid credential</returns>
         [HttpPost("Login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] UserLoginDTO model)
@@ -68,18 +84,20 @@ namespace APITrassBank.Controllers
                 return BadRequest(JsonConvert.SerializeObject("Username, Email or password invalid"));
             }
             var jwt = await _authService.GenerateJWT(user);
-            return Ok(new
-            {
-                AccessToken = jwt
-            });
+            return Ok(JsonConvert.SerializeObject(jwt));
         }
-        [HttpGet("GenerarBasicos")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Borrar()
-        {
-            await _userService.GenerateBasics();
-            return Ok();
-        }
+        //[HttpGet("GenerarBasicos")]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> Borrar()
+        //{
+        //    await _userService.GenerateBasics();
+        //    return Ok();
+        //}
+        /// <summary>
+        /// Endpoint for users to change the password
+        /// </summary>
+        /// <param name="model">DTO for old password and new password</param>
+        /// <returns>200 if changed 400 if not valid</returns>
         [HttpPost("ChangePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] UserPasswordDTO model)
         {

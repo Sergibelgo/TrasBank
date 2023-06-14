@@ -1,0 +1,15 @@
+<app-menu-lW [checkM]="false"></app-menu-lW>
+<app-menu-sW [checkM]="false"></app-menu-sW>
+<div class="mt-100"></div>
+<div *ngIf="index==0">
+  <app-clients-info></app-clients-info>
+</div>
+<div *ngIf="index==1">
+  <app-client-info></app-client-info>
+</div>
+<div *ngIf="index==2">
+  <app-loans-manager></app-loans-manager>
+</div>
+<div *ngIf="index==3">
+  <app-messages></app-messages>
+</div>

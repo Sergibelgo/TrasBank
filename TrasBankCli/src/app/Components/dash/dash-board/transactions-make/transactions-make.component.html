@@ -1,0 +1,77 @@
+<div class="container w-75">
+  <div class="row">
+    <form [formGroup]="frmTransaction" autocomplete="off">
+      <div class="form-outline mb-4">
+        <label class="form-label" for="account">{{"Sender account"|translate}}</label>
+        <select class="form-select"
+                id="account"
+                name="account"
+                
+                formControlName="account">
+          <option *ngFor="let item of accounts" [value]="item.Id">{{item.Name}}</option>
+        </select>
+        <small class="form-text text-danger"
+               *ngIf="frmTransaction.controls['account'].hasError('required') && frmTransaction.controls['account'].touched">
+          {{"Required"|translate}}
+        </small>
+      </div>
+
+
+      <div class="form-outline mb-4">
+        <label class="form-label" for="username">{{"Username"|translate}}</label>
+        <div class="input-group">
+          <input type="text" class="form-control"
+                 id="username"
+                 
+                 (input)="clearOtherAccounts()"
+                 name="username"
+                 formControlName="username"
+                 placeholder="Pepito2015" />
+          <span class="input-group-text"><button type="button" class="btn btn-primary" id="check" (click)="getUserAccounts()">{{"Check"|translate}}</button></span>
+        </div>
+        <small class="form-text text-danger"
+               *ngIf="frmTransaction.controls['username'].hasError('required') && frmTransaction.controls['username'].touched">
+          {{"Required"|translate}}
+        </small>
+      </div>
+      <div class="form-outline mb-4">
+        <label class="form-label">{{"Reciver account"|translate}}</label>
+        <select class="form-select"
+                id="otherAccounts"
+                name="otherAccounts"
+                
+                formControlName="otherAccounts">
+          <option *ngFor="let item of otherAccounts" [value]="item.Id"> {{item.AccountName}} </option>
+        </select>
+        <small class="form-text text-danger"
+               *ngIf="frmTransaction.controls['otherAccounts'].hasError('required') && frmTransaction.controls['otherAccounts'].touched">
+          {{"Required"|translate}}
+        </small>
+      </div>
+      <div class="form-outline mb-4">
+        <label class="form-label" for="ammount">
+          {{"Ammount"|translate}}
+        </label>
+        <input class="form-control "
+               type="number"
+               id="ammount"
+               name="ammount"
+               formControlName="ammount" />
+        <small class="form-text text-danger"
+               *ngIf="frmTransaction.controls['ammount'].hasError('required') && frmTransaction.controls['ammount'].touched">
+          {{"Required"|translate}}
+        </small>
+      </div>
+      <div class="form-outline mb-4">
+        <label class="form-label" for="concept">{{"Concept"|translate}}</label>
+        <input class="form-control"
+               type="text"
+               name="concept"
+               id="concept"
+               formControlName="concept"
+               />
+      </div>
+      <button type="button" class="btn btn-primary" (click)="confirm()">{{"Send"|translate}}</button>
+    </form>
+  </div>
+</div>

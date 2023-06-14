@@ -1,0 +1,149 @@
+/* ====== feature css ====== */
+
+.single-feature {
+  text-align: center;
+  padding: 30px 10px;
+}
+
+@media only screen and (min-width: 1400px) {
+  .single-feature {
+    padding: 30px 40px;
+  }
+}
+
+.single-feature .icon {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: rgba(193, 124, 124, 0.48);
+  color: black;
+  margin: auto;
+  margin-bottom: 30px;
+  font-size: 65px;
+  line-height: 1;
+}
+
+.single-feature .content h3 {
+  margin-bottom: 20px;
+}
+
+.single-feature .content p {
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.box-style {
+  border-radius: 39px;
+  background: #fff;
+  -webkit-box-shadow: 0px 0px 59px rgba(214, 214, 214, 0.35);
+  box-shadow: 0px 0px 59px rgba(214, 214, 214, 0.35);
+  padding: 50px 30px 30px;
+  border-bottom: 5px solid;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+@media only screen and (min-width: 1400px) {
+  .box-style {
+    padding: 50px 40px 30px;
+  }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .box-style {
+    padding: 50px 20px 30px;
+  }
+}
+
+.box-style .icon {
+  width: 85px;
+  height: 85px;
+  margin: auto;
+  margin-bottom: 30px;
+  font-size: 70px;
+}
+
+.box-style .content h3 {
+  margin-bottom: 25px;
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .box-style .content h3 {
+    font-size: 22px;
+  }
+}
+
+.box-style .content p {
+  margin-bottom: 30px;
+  font-size: 18px;
+  line-height: 26px;
+}
+
+.box-style .content a {
+  color: #5B657E;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.box-style .content ul li {
+  margin-bottom: 5px;
+}
+
+.box-style .content a.main-btn {
+  padding: 10px 30px;
+  font-size: 18px;
+  font-weight: 400;
+  color: #fff;
+}
+
+  .box-style .content a.main-btn.border-btn {
+    color: #5B657E;
+  }
+
+    .box-style .content a.main-btn.border-btn:hover {
+      color: #5864FF;
+    }
+
+      .box-style .content a.main-btn.border-btn:hover::after {
+        background: rgba(88, 100, 255, 0.2);
+      }
+
+.box-style.color-1 {
+  border-color: #ff92a5;
+}
+
+  .box-style.color-1 .icon {
+    color: #ff92a5;
+  }
+
+  .box-style.color-1 .content a:hover {
+    color: #ff92a5;
+  }
+
+.box-style.color-2 {
+  border-color: #5864FF;
+}
+
+  .box-style.color-2 .icon {
+    color: #5864FF;
+  }
+
+  .box-style.color-2 .content a:hover {
+    color: #5864FF;
+  }
+
+  .box-style.color-2 .content .main-btn:hover {
+    color: #fff;
+  }
+
+.box-style.color-3 {
+  border-color: #b89cfe;
+}
+
+  .box-style.color-3 .icon {
+    color: #b89cfe;
+  }
+
+  .box-style.color-3 .content a:hover {
+    color: #b89cfe;
+  }

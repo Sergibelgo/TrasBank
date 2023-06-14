@@ -8,14 +8,16 @@ namespace APITrassBank
         [Required]
         [TransactionMoneyValidator]
         public decimal Quantity { get; set; }
+        public string Concept { get;set; }
     }
     public class TransferMoneyDTO
     {
         [Required]
         public decimal Quantity { get; set; }
         [Required]
-        public string accountReciverId { get; set; }
+        public string AccountReciverId { get; set; }
         [Required]
-        public string accountSenderId { get; set; }
+        public string AccountSenderId { get; set; }
+        public string Concept { get; set; }
     }
 }

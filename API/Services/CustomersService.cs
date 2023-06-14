@@ -1,5 +1,7 @@
 ﻿using APITrassBank.Context;
 using APITrassBank.Models;
+using AutoMapper;
+using Azure;
 using Entitys.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +14,8 @@ namespace APITrassBank.Services
         Task<Customer> CreateCustomer(CustomerRegisterDTO model);
         Task<Customer> GetCustomerAsync(string id);
         Task<IEnumerable<Customer>> GetCustomersAsync();
+        Task<IEnumerable<CustomerSelfDTO>> GetCustomersSelfWorkerAsync(string idSelf);
+        Task<CustomerSelfDTO> GetSelfAsync(string id);
         Task<bool> IsValidModel(CustomerEditDTO model);
         Task<Customer> UpdateCustomer(Customer user, CustomerEditDTO model);
         Task<Customer> UpdateSelf(CustomerEditSelfDTO model, Customer customer);
@@ -22,14 +26,20 @@ namespace APITrassBank.Services
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IEnumsService _enums;
         private readonly IAccountsService _accountsService;
+        private readonly IMapper _mapper;
 
-        public CustomersService(ContextDB contextDB, UserManager<IdentityUser> userManager, IEnumsService enums, IAccountsService accountsService)
+        public CustomersService(ContextDB contextDB, UserManager<IdentityUser> userManager, IEnumsService enums, IAccountsService accountsService, IMapper mapper)
         {
             _contextDB = contextDB;
             _userManager = userManager;
             _enums = enums;
             _accountsService = accountsService;
+            _mapper = mapper;
         }
+        /// <summary>
+        /// Get all customers from db
+        /// </summary>
+        /// <returns>List of customers</returns>
         public async Task<IEnumerable<Customer>> GetCustomersAsync()
         {
             var customers = await _contextDB.Proyecto_Customers.Include(customer => customer.AppUser)
@@ -38,6 +48,11 @@ namespace APITrassBank.Services
                                                 .Select(customer => customer).ToListAsync();
             return customers;
         }
+        /// <summary>
+        /// Get customer by id
+        /// </summary>
+        /// <param name="id">Id of customer</param>
+        /// <returns>Customer or null</returns>
         public async Task<Customer> GetCustomerAsync(string id)
         {
             var customer = await _contextDB.Proyecto_Customers
@@ -49,13 +64,57 @@ namespace APITrassBank.Services
                                                 .FirstOrDefaultAsync();
             return customer;
         }
+        /// <summary>
+        /// Get self information about customer
+        /// </summary>
+        /// <param name="id">Id of app user</param>
+        /// <returns>Customer</returns>
+        public async Task<CustomerSelfDTO> GetSelfAsync(string id)
+        {
+            var customer = await _contextDB.Proyecto_Customers
+                .Include(a => a.AppUser)
+                .Where(c => c.AppUser.Id == id)
+                .Select(a => _mapper.Map<CustomerSelfDTO>(a))
+                .FirstOrDefaultAsync();
+            var accounts = await _contextDB.Proyecto_Accounts
+                .Where(a => a.Customer.AppUser.Id == id)
+                .Select(a => new AccountList
+                {
+                    Id = a.Id.ToString(),
+                    Name = a.AccountName
+                })
+                .ToListAsync();
+            customer.Accounts = accounts;
+            return customer;
+        }
+        /// <summary>
+        /// Method to create a new customer
+        /// </summary>
+        /// <param name="model">DTO for new customer</param>
+        /// <returns>New customer</returns>
+        /// <exception cref="Exception">Db error</exception>
+        /// <exception cref="ArgumentException">Invalid model</exception>
         public async Task<Customer> CreateCustomer(CustomerRegisterDTO model)
         {
             var worker = await _contextDB.Proyecto_Workers.Where(worker => worker.AppUser.NormalizedEmail == model.WorkerEmail.ToUpper()).FirstOrDefaultAsync();
             var workingStatus = await _enums.GetCustomerWorkingStatusAsync(model.WorkStatusId);
             if (worker is null || workingStatus is null)
             {
-                return null;
+                throw new Exception("Invalid worker or working status");
+            }
+            if (model.Income < 0)
+            {
+                throw new ArgumentException("Invalid income");
+            }
+            if (model.Age.CompareTo(DateTime.Now.AddYears(-150))<0)
+            {
+                throw new ArgumentException("Invalid birthday");
+            }
+            DateTime date = DateTime.Now;
+            date = date.AddYears(-18);
+            if (model.Age.CompareTo(date) > 0)
+            {
+                throw new Exception("The client must be over 18 years old");
             }
             using var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
             try
@@ -90,16 +149,20 @@ namespace APITrassBank.Services
                 else
                 {
                     scope.Dispose();
-                    return null;
+                    throw new ArgumentException(string.Join(" ",response.Errors.Select(x=>x.Description)));
                 }
             }
-            catch
+            catch (Exception ex) 
             {
                 scope.Dispose();
-                return null;
+                throw new ArgumentException(ex.Message);
             }
         }
-
+        /// <summary>
+        /// Check if the DTO for edit model is valid
+        /// </summary>
+        /// <param name="model">DTO to edit customer</param>
+        /// <returns>true or false</returns>
         public async Task<bool> IsValidModel(CustomerEditDTO model)
         {
             if (model == null)
@@ -123,7 +186,12 @@ namespace APITrassBank.Services
             }
             return true;
         }
-
+        /// <summary>
+        /// Update customer information
+        /// </summary>
+        /// <param name="customer">Customer to edit</param>
+        /// <param name="model">DTO with info to edit</param>
+        /// <returns>Updated Customer</returns>
         public async Task<Customer> UpdateCustomer(Customer customer, CustomerEditDTO model)
         {
 
@@ -150,6 +218,12 @@ namespace APITrassBank.Services
                 return null;
             }
         }
+        /// <summary>
+        /// Method to update yourself as a customer
+        /// </summary>
+        /// <param name="model">DTO edit info</param>
+        /// <param name="customer">Customer to edit</param>
+        /// <returns>Updated customer</returns>
         public async Task<Customer> UpdateSelf(CustomerEditSelfDTO model, Customer customer)
         {
             using var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
@@ -172,6 +246,20 @@ namespace APITrassBank.Services
                 scope.Dispose();
                 return null;
             }
+        }
+        /// <summary>
+        /// Get all customer info by worker id
+        /// </summary>
+        /// <param name="idSelf">Id of login</param>
+        /// <returns>List of customer</returns>
+        public async Task<IEnumerable<CustomerSelfDTO>> GetCustomersSelfWorkerAsync(string idSelf)
+        {
+            var customers = await _contextDB.Proyecto_Customers.Include(customer => customer.AppUser)
+                                                 .Include(customer => customer.Worker)
+                                                 .Include(customer => customer.WorkStatus)
+                                                 .Where(customer=>customer.Worker.AppUser.Id==idSelf)
+                                                 .Select(customer => _mapper.Map<CustomerSelfDTO>(customer)).ToListAsync();
+            return customers;
         }
     }
 }

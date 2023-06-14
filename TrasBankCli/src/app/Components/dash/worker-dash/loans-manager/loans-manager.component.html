@@ -1,0 +1,47 @@
+<div class="container min-vh-50">
+  <div class="row">
+    <div class="col-12 overflow-auto">
+      <table datatable [dtOptions]="dtOptions" class="row-border hover table w-100" id="datatableId" [dtTrigger]="dtTrigger" (window:resize)="updateDataTable()">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>{{"Customer name"|translate}}</th>
+            <th>{{"Customer id"|translate}}</th>
+            <th>{{"Amount"|translate}}</th>
+            <th>{{"Interest rate"|translate}}</th>
+            <th>{{"Total installments"|translate}}</th>
+            <th>{{"Short loan description"|translate}}</th>
+            <th>{{"Actions"|translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let loan of loans">
+            <td>
+              {{loan.Id}}
+            </td>
+            <td>
+              {{loan.CustomerName}}
+            </td>
+            <td>
+              {{loan.CustomerId}}
+            </td>
+            <td>
+              {{loan.Ammount}}
+            </td>
+            <td>{{loan.InterestRate}}</td>
+            <td>{{loan.TotalInstallments}}</td>
+            <td>{{loan.LoanName}}</td>
+            <td class="notClick">
+                <div class="d-flex flex-nowrap">
+                  <button type="button" (click)="submit(loan.Id,true)" class="btn btn-primary"><i class="lni lni-checkmark"><span class="d-none d-md-inline ms-2">{{"Approve"|translate}}</span></i></button>
+                  <button type="button" (click)="submit(loan.Id,false)" class="btn btn-secondary ms-2"><i class="lni lni-close"><span class="d-none d-md-inline ms-2">{{"Deny"|translate}}</span></i></button>
+              </div>
+              
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

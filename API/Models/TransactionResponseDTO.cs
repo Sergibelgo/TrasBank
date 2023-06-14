@@ -8,6 +8,7 @@
         public decimal Ammount { get; set; }
         public DateTime Date { get; set; }
         public string NameOther { get; set; } = null;
-        public string AccountOtherId { get; set; } = null;
+        public string AccountName { get; set; } = null;
+        public string Concept { get;set; }
     }
 }

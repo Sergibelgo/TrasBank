@@ -18,6 +18,7 @@ namespace APITrassBank.Services
         Task<WorkerStatus> GetWorkerStatusAsync(int id);
         Task<CustomerWorkingStatus> GetCustomerWorkingStatusAsync(int id);
         Task<IEnumerable<CustomerWorkingStatus>> GetCustomerWorkingStatusesAsync();
+        Task<IEnumerable<AccountType>> GetAccountTypesAsync();
     }
     public class EnumsService : IEnumsService
     {
@@ -35,6 +36,11 @@ namespace APITrassBank.Services
         public async Task<IEnumerable<AccountStatus>> GetAccountStatusesAsync()
         {
             return await _contextDB.Proyecto_AccountStatuses.ToListAsync();
+        }
+
+        public async Task<IEnumerable<AccountType>> GetAccountTypesAsync()
+        {
+            return await _contextDB.Proyecto_AccountTypes.Select(x=>x).ToListAsync();
         }
 
         public async Task<CustomerWorkingStatus> GetCustomerWorkingStatusAsync(int id)

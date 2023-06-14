@@ -1,0 +1,32 @@
+<div class="d-none position-fixed d-md-block w-100 top-0 bg-color">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg  navbar-dark">
+    <!-- Container wrapper -->
+    <div class="container-fluid ms-5 me-5 ">
+      <!-- Navbar brand -->
+      <p class="navbar-brand">TrasBank</p>
+
+      <!-- Icons -->
+      <ul class="navbar-nav d-flex flex-row me-1">
+        <li class="nav-item me-3 me-lg-0">
+          <a class="nav-link text-white" href="javascript:void(0)" [title]="'Customers'|translate" (click)="changeIndex(0)"><i class="lni lni-customer"></i> <span class="ms-2 d-md-none d-lg-inline">{{"Customers"|translate}}</span></a>
+        </li>
+        <li class="nav-item me-3 me-lg-0">
+          <a class="nav-link text-white" href="javascript:void(0)" [title]="'Pending loans'|translate" (click)="changeIndex(2)"><i class="lni lni-question-circle"></i> <span class="ms-2 d-md-none d-lg-inline">{{"Pending loans"|translate}}</span></a>
+        </li>
+        <li class="nav-item me-3 me-lg-0">
+          <a class="nav-link text-white"[ngClass]="{'pulse':readed$|async}" href="javascript:void(0)" [title]="'Messages'|translate" (click)="changeIndex(3)"><i class="lni lni-envelope"></i> <span class="ms-2 d-md-none d-lg-inline">{{'Messages'|translate}}</span></a>
+        </li>
+        <li class="d-md-none d-lg-block">
+          <app-dropdown-menuW [checkM]="checkM"></app-dropdown-menuW>
+        </li>
+        <li class="d-md-block d-lg-none">
+          <app-dropdown-menuW [dropType]="'dropstart'" [checkM]="checkM"></app-dropdown-menuW>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Container wrapper -->
+  </nav>
+  <!-- Navbar -->
+</div>

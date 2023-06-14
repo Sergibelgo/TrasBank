@@ -1,0 +1,13 @@
+import { createAction, createActionGroup, props } from '@ngrx/store';
+import { Enum, LoanType } from '../../Models/enumsState/enumsstate';
+
+export const loadTransactionTypes = createAction("[Enums] load TransactionsTypes");
+export const setTransactionTypes = createAction("[Enums] Set TransactionsTypes", props<{ TransactionsTypes: Enum[] }>());
+export const loadWorkingStatuses = createAction("[Enums] load WorkingStatuses");
+export const setWorkingStatuses = createAction("[Enums] Set WorkingStatuses", props<{ WorkingStatuses: Enum[] }>());
+export const loadAccountTypes = createAction("[Enums] load AccountTypes");
+export const setAccountTypes = createAction("[Enums] Set AccountTypes", props<{ AccountTypes: Enum[] }>());
+export const loadAccountStatuses = createAction("[Enums] load AccountStatuses");
+export const setAccountStatuses = createAction("[Enums] Set AccountStatuses", props<{ AccountStatuses: Enum[] }>());
+export const loadLoanTypes = createAction("[Enums] load LoanTypes");
+export const setLoanTypes = createAction("[Enums] Set LoanTypes", props < {LoanTypes:LoanType[]}>());

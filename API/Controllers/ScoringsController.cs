@@ -5,6 +5,9 @@ using System.Security.Claims;
 
 namespace APITrassBank.Controllers
 {
+    /// <summary>
+    /// Class Controler for scoring related
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ScoringsController : ControllerBase
@@ -17,6 +20,11 @@ namespace APITrassBank.Controllers
             _scoringsService = scoringsService;
             _context = httpContextAccessor.HttpContext;
         }
+        /// <summary>
+        /// Get a scoring result
+        /// </summary>
+        /// <param name="model">DTO for scorings check</param>
+        /// <returns>200 with True or False,400 if bad model or 500</returns>
         [HttpPost("CheckScore")]
         public async Task<IActionResult> GetScoring([FromBody] ScoringCreateDTO model)
         {
@@ -40,6 +48,11 @@ namespace APITrassBank.Controllers
             }
             return Ok(JsonConvert.SerializeObject(result));
         }
+        /// <summary>
+        /// Endpoint to confirm a score and request a new loan
+        /// </summary>
+        /// <param name="model">DTO for new scoring/loan</param>
+        /// <returns>200 if created, 400 if bad model or invalid scoring, 500 otherwise</returns>
         [HttpPost("ConfirmScore")]
         public async Task<IActionResult> ConfirmScoring([FromBody] ScoringCreateDTO model)
         {

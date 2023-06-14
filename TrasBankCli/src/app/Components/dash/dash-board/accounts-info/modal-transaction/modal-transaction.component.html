@@ -1,0 +1,40 @@
+<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{"Transaction"|translate}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-outline mb-4">
+          <label for="id">Id </label>
+          <input readonly [value]="transaction.Id" id="id" class="form-control" />
+        </div>
+        <div class="form-outline mb-4">
+          <label for="type">{{"Type of operation"|translate}} </label>
+          <input readonly [value]="transaction.TipeTransaction" id="type" class="form-control" />
+        </div>
+        <div class="form-outline mb-4">
+          <label for="concept">{{"Concept"|translate}} </label>
+          <input readonly [value]="transaction.Concept" id="concept" class="form-control" />
+        </div>
+        <div class="form-outline mb-4">
+          <label for="ammount">{{"Ammount"|translate}} </label>
+          <input readonly [value]="transaction.Ammount" id="ammount" class="form-control" />
+        </div>
+        <div class="form-outline mb-4">
+          <label for="date">{{"Date"|translate}} </label>
+          <input readonly [value]="transaction.Date.toLocaleDateString(lang,options)" id="date" class="form-control" />
+        </div>
+        <div class="form-outline mb-4">
+          <label for="other">{{"Other Involved"|translate}} </label>
+          <input readonly [value]="transaction.NameOther" id="other" class="form-control" />
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

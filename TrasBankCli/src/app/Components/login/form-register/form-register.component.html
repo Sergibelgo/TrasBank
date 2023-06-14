@@ -1,0 +1,132 @@
+<div class="card-body p-md-5 mx-md-4">
+  <div class="card-title mb-3">
+    <h2>{{'Register'|translate}}</h2>
+  </div>
+  <form [formGroup]="frRegister" autocomplete="off">
+    <div class="form-outline mb-4">
+      <input type="email" class="form-control"
+             id="email"
+             name="email"
+             formControlName="email"
+             placeholder="name@example.com" />
+      <label class="form-label" for="email">{{"Email"|translate}}</label>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['email'].hasError('required') && frRegister.controls['email'].touched">
+        {{"Required"|translate}}
+      </small>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['email'].hasError('email') && frRegister.controls['email'].touched">
+        {{"Email must be valid"|translate}}
+      </small>
+    </div>
+    <div class="form-outline mb-4">
+      <input type="text" class="form-control"
+             id="username"
+             name="username"
+             formControlName="username"
+             placeholder="xXPedroXx" />
+      <label class="form-label" for="username">{{"Username"|translate}}</label>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['username'].hasError('required') && frRegister.controls['username'].touched">
+        {{"Required"|translate}}
+      </small>
+    </div>
+    <div class="form-outline mb-4">
+      <input type="text" class="form-control"
+             id="firstname"
+             name="firstname"
+             formControlName="firstname"
+             placeholder="Manuel" />
+      <label class="form-label" for="firstname">{{"First Name"|translate}}</label>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['firstname'].hasError('required') && frRegister.controls['firstname'].touched">
+        {{"Required"|translate}}
+      </small>
+    </div>
+    <div class="form-outline mb-4">
+      <input type="text" class="form-control"
+             id="lastname"
+             name="lastname"
+             formControlName="lastname"
+             placeholder="Perez Rodriguez" />
+      <label class="form-label" for="lastname">{{"Last Name"|translate}}</label>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['lastname'].hasError('required') && frRegister.controls['lastname'].touched">
+        {{"Required"|translate}}
+      </small>
+    </div>
+    <div class="form-outline mb-4">
+      <input type="text" class="form-control"
+             id="address"
+             name="address"
+             formControlName="address"
+             placeholder="Cº Motril" />
+      <label class="form-label" for="address">{{"Address"|translate}}</label>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['address'].hasError('required') && frRegister.controls['address'].touched">
+        {{"Required"|translate}}
+      </small>
+    </div>
+    <div class="form-outline mb-4">
+      <input type="date" class="form-control"
+             id="age"
+             name="age"
+             formControlName="age" />
+      <label class="form-label" for="age">{{"Birthday"|translate}}</label>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['age'].hasError('required') && frRegister.controls['age'].touched">
+        {{"Required"|translate}}
+      </small>
+    </div>
+    <div class="form-outline mb-4">
+      <input type="number" class="form-control"
+             id="income"
+             name="income"
+             formControlName="income"
+             placeholder="1000" />
+      <label class="form-label" for="income">{{"Income"|translate}}</label>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['income'].hasError('required') && frRegister.controls['income'].touched">
+        {{"Required"|translate}}
+      </small>
+    </div>
+    <div class="form-outline mb-4">
+      <select class="form-select" id="workStatusId" formControlName="workStatusId" name="workStatusId">
+        <option *ngFor="let status of workingStatuses" [value]="status.Id">{{status.Name|translate}}</option>
+      </select>
+      <label for="workStatusId" class="form-label">{{"Select working status"|translate}}</label>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['workStatusId'].hasError('required') && frRegister.controls['workStatusId'].touched">
+        {{"Required"|translate}}
+      </small>
+    </div>
+    <div class="form-outline mb-4">
+      <select class="form-select" id="workerEmail" formControlName="workerEmail" name="workerEmail">
+        <option *ngFor="let worker of workers" [value]="worker.Email">{{worker.Name}}</option>
+      </select>
+      <label for="workerEmail" class="form-label">{{"Select a worker for you"|translate}}</label>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['workerEmail'].hasError('required') && frRegister.controls['workerEmail'].touched">
+        {{"Required"|translate}}
+      </small>
+    </div>
+
+    <div class="form-outline mb-4">
+      <input type="password" id="password" name="password" formControlName="password" placeholder="password" class="form-control" />
+      <label class="form-label" for="password">{{"Password"|translate}}</label>
+      <small class="form-text text-danger"
+             *ngIf="frRegister.controls['password'].hasError('required') && frRegister.controls['password'].touched">
+        {{"Required"|translate}}
+      </small>
+    </div>
+
+    <div class="text-center pt-1 mb-5 pb-1 d-flex flex-column">
+      <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button" (click)="register()">
+        {{'Register'|translate}}
+      </button>
+    </div>
+
+  </form>
+</div>
+
+

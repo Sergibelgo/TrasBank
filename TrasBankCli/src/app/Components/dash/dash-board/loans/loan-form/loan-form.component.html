@@ -1,0 +1,60 @@
+<h2 class="section-title mb-4">{{"Loan form"|translate}}</h2>
+<form class="container-fluid">
+  <div class="form-outline mb-4 row">
+    <div class="col">
+      <label for="Name" class="form-label">{{"Short loan description"|translate}}</label>
+      <input type="text" [(ngModel)]="loanScoring.Name" (focusout)="updateScoringState()" name="Name" class="form-control" />
+    </div>
+  </div>
+  <div class="form-outline mb-4 row">
+    <div class="col">
+      <label for="Ammount" class="form-label">{{"Amount"|translate}}</label>
+      <input type="number" name="Ammount" [(ngModel)]="loanScoring.Ammount" (focusout)="updateScoringState()" class="form-control" />
+    </div>
+    <div class="col">
+      <label for="TotalInstallments" class="form-label">{{"Total installments"|translate}}</label>
+      <input type="number" class="form-control" [(ngModel)]="loanScoring.TotalInstallments" (focusout)="updateScoringState()" name="TotalInstallments" />
+    </div>
+  </div>
+  <div class="form-outline mb-4 row">
+    <div class="col">
+      <label class="form-label" for="LoanTypeId">{{"Loan type"|translate}}</label>
+      <select name="LoanTypeId" class="form-select" [(ngModel)]="loanScoring.LoanTypeId" (change)="resetValues();updateScoringState()">
+        <option *ngFor="let item of loanTypes" [value]="item.Id">{{item.Name|translate}}</option>
+      </select>
+    </div>
+    <div class="col">
+      <label class="form-label" for="TIN_TAE">{{"Interest type"|translate}}</label>
+      <select name="TIN_TAE" [(ngModel)]="loanScoring.TIN_TAE" (change)="updateScoringState()" class="form-select">
+        <option value="1">TIN</option>
+        <option value="2">TAE</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-outline mb-4 row">
+    <div class="col-12">
+      <label for="Expenses" class="form-label">{{"Expenses"|translate}}</label>
+    </div>
+    <div class="container-fluid col-12 mb-4">
+      <div class="row">
+        <div class="col-6">
+          <input type="text" [placeholder]="'Expense description'|translate" class="form-control" [(ngModel)]="expDes" name="Expenses[0][Description]" />
+        </div>
+        <div class="col-6">
+          <input type="number" [placeholder]="'Quantity'|translate" class="form-control" [(ngModel)]="expSpend" name="Expenses[0][Spend]" />
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="form-outline mb-4 row" *ngIf="loanScoring.LoanTypeId==3">
+    <div class="col">
+      <label for="Deposit" class="form-label">{{"Deposit"|translate}}</label>
+      <input type="number" name="Deposit" class="form-control" [(ngModel)]="loanScoring.Deposit" (focusout)="updateScoringState()" />
+    </div>
+  </div>
+  <div class="row mb-4">
+    <button type="button" class="btn btn-primary" (click)="submit()" *ngIf="this.scoringAproved==null">{{"Check"|translate}}</button>
+    <button type="button" class="btn btn-primary" (click)="request()" *ngIf="this.scoringAproved!=null">{{"Request"|translate}}</button>
+  </div>
+</form>
